@@ -1,0 +1,151 @@
+
+
+<style type="text/css">
+label, input[type=radio], input[type=button] { cursor: pointer; }
+.blue { color: blue; }
+.red { color: red; }
+.trial { padding: 15px 10px; }
+.trial p, .trial table { padding-left: 20px; margin: 3px; }
+.trial table { width: 400px; }
+.trial tr td { width: 14%; text-align: center; }
+.trial_number { font-size:1.2em; font-weight: bold; }
+.tab { margin-left: 40px; }
+#unanswered { font-weight: bold; font-size: 2em; color: black; background-color: red; margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+#answered { margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+
+input[type='checkbox'] { display: none; } 
+.wrap-collabsible { margin: 1.2rem 0; } 
+.lbl-toggle { display: block; font-weight: bold; font-family: monospace; font-size: 1.2rem; text-transform: uppercase; text-align: center; padding: 1rem; color: #DDD; background: #2b3e5a; cursor: pointer; border-radius: 7px; transition: all 0.25s ease-out; } 
+.lbl-toggle:hover { color: #FFF; } 
+.lbl-toggle::before { content: ' '; display: inline-block; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid currentColor; vertical-align: middle; margin-right: .7rem; transform: translateY(-2px); transition: transform .2s ease-out; } 
+.toggle:checked+.lbl-toggle::before { transform: rotate(90deg) translateX(-3px); } 
+.collapsible-content { max-height: 0px; overflow: hidden; transition: max-height .25s ease-in-out; } 
+.toggle:checked + .lbl-toggle + .collapsible-content { max-height: 350px; } 
+.toggle:checked+.lbl-toggle { border-bottom-right-radius: 0; border-bottom-left-radius: 0; } 
+.collapsible-content .content-inner { background: rgba(222, 212, 238, 0.521); border-bottom: 1px solid rgba(202, 191, 218, 0.493); border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; padding: .5rem 1rem; } 
+.collapsible-content p { margin-bottom: 0; }
+
+</style>
+
+<h2>Instructions:</h2>
+
+<p>This task will involve reading a line from an unfamiliar text and writing three sentences that relate to it. 
+Using only this text and what you know about the world:</p>
+
+<ul>
+	<li>Write one sentence that is deﬁnitely correct about the situation or event in the line.</li>
+	<li>Write one sentence that might be correct about the situation or event in the line.</li>
+	<li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
+</ul>
+
+<div class="wrap-collabsible"> 
+    <input id="collapsible1" class="toggle" type="checkbox"> 
+    <label for="collapsible1" class="lbl-toggle">Example</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <p> <span class="trial_number">Text:</span>
+                Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                <ul>
+                    <li><strong>Deﬁnitely correct statement:</strong> This building job will be very difficult to complete.</li>
+                    <li><strong>Maybe correct statement:</strong> Dave Hanson worked with an especially large engineering team.</li>
+                    <li><strong>Definitely incorrect statement:</strong> This engineering task will be quite easy for everyone.</li>
+                </ul>
+        </div>
+    </div>
+</div>
+
+<br>
+
+If needed, you can check out our FAQ page for examples and answers to common questions.
+
+<br>
+
+<hr noshade="noshade" />
+
+<p><span class="trial_number">Text:</span>
+	
+	${premise}</p>
+
+<div class="trial count">
+    <p><label for="entailment_basic"><span class="trial_number">Definitely true statement:</span></label> 
+        <span class="score count"><input type="text" id="entailment_basic" name="entailment_basic" size="100" /></span>
+	</p>
+</div>
+<div class="trial count">
+    <p><label for="neutral_basic"><span class="trial_number">Maybe true statement:</span></label> 
+        <span class="score count"><input type="text" id="neutral_basic" name="neutral_basic" size="100" /></span>
+	</p>
+</div>
+<div class="trial count">
+    <p><label for="contradiction_basic"><span class="trial_number">Definitely false statement:</span></label> 
+        <span class="score count"><input type="text" id="contradiction_basic" name="contradiction_basic" size="100" /></span>
+    </p>
+</div>
+
+
+
+<hr noshade="noshade" />
+
+
+
+<div>
+	<p>If you experienced any issues that made this HIT especially difficult, please provide more detail below (optional)</p>
+	<input type="text" id="comments" name="comments" size="100" /></span>
+</div>
+
+<br />
+
+<div id="unanswered">
+	<span>&nbsp;</span> questions (out of 3 total) have been answered. If you submit now, you will not be paid.<br />
+	<input type="button" value="HIGHLIGHT UNANSWERED QUESTIONS" id="highlight-button" />
+</div>
+
+<div id="answered">
+	<span>&nbsp;</span> questions (out of 3 total) have been answered. You are ready to submit.
+</div>
+
+<p><input type="hidden" name="numanswered" id="numanswered" /> <input type="hidden" name="useragent" id="useragent" /></p>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type='text/javascript'>
+	// counter code:
+	total_number = parseInt("3") || Infinity;
+	
+	function answered() {
+		var value = $(this).val();
+		return value.length;
+	}
+	function count() {
+		if ($(this).is('input') && $(this).is(answered))
+			$(this).closest('.trial').css('background','transparent');
+	
+		var num = $('.count input[type="text"]').filter(answered).length;
+	
+		$('#unanswered span, #answered span').text(num);
+		$('#numanswered').val(num);
+	
+		if ( num < total_number ) {
+			$('#unanswered').show();
+			$('#answered').hide();
+		} else {
+			$('#unanswered').hide();
+			$('#answered').show();
+		}
+	}
+	$(count);
+	$('input').bind('change', count);
+	
+	$(function() {
+		$('#useragent').val(navigator.userAgent);
+	});
+	
+	function highlight() {
+		$('.trial.count').each(function() {
+			if (!$(this).find('input').is(answered))
+				$(this).css('background', 'yellow');
+			else
+				$(this).css('background', 'transparent');			
+		});
+	}
+	$('#highlight-button').click(highlight);
+</script>

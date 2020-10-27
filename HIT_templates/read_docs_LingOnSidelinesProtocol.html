@@ -1,0 +1,230 @@
+
+
+<style type="text/css">
+label, input[type=radio], input[type=button] { cursor: pointer; }
+.blue { color: blue; }
+.red { color: red; }
+.trial { padding: 15px 10px; }
+.trial p, .trial table { padding-left: 20px; margin: 3px; }
+.trial table { width: 400px; }
+.trial tr td { width: 14%; text-align: center; }
+.trial_number { font-size:1.2em; font-weight: bold; }
+.tab { margin-left: 40px; }
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+#unanswered { font-weight: bold; font-size: 2em; color: black; background-color: red; margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+#answered { margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+td{padding:0 15px; }
+
+input[type='checkbox'] { display: none; } 
+.wrap-collabsible { margin: 1.2rem 0; } 
+.lbl-toggle { display: block; font-weight: bold; font-family: monospace; font-size: 1.2rem; text-transform: uppercase; text-align: center; padding: 1rem; color: #DDD; background: #2b3e5a; cursor: pointer; border-radius: 7px; transition: all 0.25s ease-out; } 
+.lbl-toggle:hover { color: #FFF; } 
+.lbl-toggle::before { content: ' '; display: inline-block; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid currentColor; vertical-align: middle; margin-right: .7rem; transform: translateY(-2px); transition: transform .2s ease-out; } 
+.toggle:checked+.lbl-toggle::before { transform: rotate(90deg) translateX(-3px); } 
+.collapsible-content { max-height: 0px; overflow: hidden; transition: max-height .25s ease-in-out; } 
+.toggle:checked + .lbl-toggle + .collapsible-content { max-height: 350px; } 
+.toggle:checked+.lbl-toggle { border-bottom-right-radius: 0; border-bottom-left-radius: 0; } 
+.collapsible-content .content-inner { background: rgba(222, 212, 238, 0.521); border-bottom: 1px solid rgba(202, 191, 218, 0.493); border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; padding: .5rem 1rem; } 
+.collapsible-content p { margin-bottom: 0; }
+
+</style>
+
+<h2>Introduction:</h2>
+
+<p>
+    This HIT is just to inform you about the payment and bonus possibilities for a series of HITs that we will be releasing to a select group of workers over the coming weeks.
+    You do not have to do anything other than indicate that you have read this information.
+</p>
+
+<p>
+    If you need to access this information after completing this HIT, you can view a copy of all of this info <a href='https://docs.google.com/document/d/1xR11f6G4ENWIqo4dRplaMnAJktYvtzwq_a_nH7qZndU/edit?usp=sharing' target="_blank">here</a>. 
+    You are welcome to bookmark the page or download a copy for your own reference.
+</p>
+
+<br />
+
+<hr noshade="noshade" />
+
+<h2>General information</h2>
+
+<p>Welcome! This information is to help you understand the overall layout of the study and mainly provides information on (i) the tasks to be completed and (ii) the payment & bonus structure.
+	We will send out an email each week when we release a new batch of HITs.
+</p>
+
+<h3>Tasks</h3>
+
+<p>In each writing task (= 1 HIT), you will be asked to read a line from an unfamiliar text and write three sentences that relate to it. 
+Using only this text and what you know about the world:</p>
+<ul>
+	<li>Write one sentence that is deﬁnitely correct about the situation or event in the line.</li>
+	<li>Write one sentence that might be correct about the situation or event in the line.</li>
+	<li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
+</ul>
+<p>Each week, there will also be a categorization task (as validation). More information on both these tasks will be provided to you in a FAQ document linked in each HIT.</p>
+
+<h3>Payment & bonus structure:</h3>
+<p>The payment for each HIT increases in each subsequent week. At the end of each week, you are eligible for several bonuses, laid out below. </p>
+
+<table style="border:1px solid rgb(219, 215, 215)" class="center" frame=void rules=rows>
+	<thead>
+	  <tr>
+		<th></th>
+		<th>Week 1</th>
+		<th>Week 2</th>
+		<th>Week 3</th>
+		<th>Week 4</th>
+		<th>Week 5</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td>Base pay for each HIT (~4min each)</td>
+		<td>1.00</td>
+		<td>1.05</td>
+		<td>1.10</td>
+		<td>1.15</td>
+		<td>1.20</td>
+	  </tr>
+	  <tr>
+		<td>Bonus 1:<br>10 HITs that week</td>
+		<td>1.00</td>
+		<td>1.05</td>
+		<td>1.10</td>
+		<td>1.15</td>
+		<td>1.20</td>
+	  </tr>
+	  <tr>
+		<td>Bonus 2:<br>50 HITs that week</td>
+		<td>5.00</td>
+		<td>5.25</td>
+		<td>5.50</td>
+		<td>5.75</td>
+		<td>6.00</td>
+	  </tr>
+	  <tr>
+		<td>Bonus 3:<br>100 HITs that week</td>
+		<td>10.00</td>
+		<td>10.50</td>
+		<td>11.00</td>
+		<td>11.50</td>
+		<td>12.00</td>
+	  </tr>
+	  <tr>
+		<td>Bonus 4:<br>25+ HITs validated at 95% or above</td>
+		<td>5.00</td>
+		<td>5.00</td>
+		<td>5.00</td>
+		<td>5.00</td>
+		<td>5.00</td>
+	  </tr>
+	  <tr>
+		<td>Bonus 5:<br>Optional constraints</td>
+		<td>NA</td>
+		<td>0.13</td>
+		<td>0.13</td>
+		<td>0.13</td>
+		<td>0.13</td>
+	  </tr>
+	  <tr>
+		<td>Final bonus:<br>Complete all 5 rounds</td>
+		<td>NA</td>
+		<td>NA</td>
+		<td>NA</td>
+		<td>NA</td>
+		<td>20.00</td>
+	  </tr>
+	</tbody>
+	</table>
+
+<ul>
+	<li>Bonuses 1-3 are determined based on how many HITs you complete throughout the week.</li>
+	<li>Bonus 4 is awarded if you’ve completed more than 25 HITs and your responses on 95% of the writing HITs are validated by a majority of other workers. </li>
+	<li>Bonus 5 is awarded per HIT and is based on whether or not you indicate that you are able to apply optional, additional constraints. </li>
+	<li>The final bonus is awarded at the end of the study if you submit at least one HIT during each of the five planned weeks. If we end the study before week 5, we will award the final bonus in the last week at a prorated amount.</li>
+</ul>
+
+<h3>Example</h3>
+<p>If you complete 100 HITs (averaging 1 optional constraint included for each HIT) with 25+ HITs validated at >95% in week 5, you will receive a total of $176.20 (= ($1.20 + $0.13)*100 HITs + $12.00+$6.00+$1.20 HIT completion bonuses + $5.00 validation bonus + $20.00 final bonus) that week.</p>
+
+<br />
+
+<hr noshade="noshade" />
+
+<h2>Your answers</h2>
+
+<table class="count"><tbody>
+    <p>Have you read the information in this HIT?</p>       
+
+    <tr>
+        <td><label for="yes_read">Yes, I have read the information</label></td>
+        <td><label for="no_read">No, I have not read the information</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="yes_read" name="read" value="yes_read" /></td>
+        <td><input type="radio" id="no_read" name="read" value="no_read" /></td>
+    </tr>
+</tbody></table>
+
+<div>
+	<p>If you have any comments, questions, or concerns, you can write them below. We will respond individually via email, if needed. (optional)</p>
+	<input type="text" id="comments" name="comments" size="100" /></span>
+</div>
+
+<hr noshade="noshade" />
+
+
+<br />
+
+<div id="unanswered">
+	<span>&nbsp;</span> question (out of 1 total) has been answered. If you submit now, you will not be paid.<br />
+	<input type="button" value="HIGHLIGHT UNANSWERED QUESTIONS" id="highlight-button" />
+</div>
+
+<div id="answered">
+	<span>&nbsp;</span> question (out of 1 total) has been answered. You are ready to submit.
+</div>
+
+<p><input type="hidden" name="numanswered" id="numanswered" /> <input type="hidden" name="useragent" id="useragent" /></p>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type='text/javascript'>
+	// counter code:
+	total_number = parseInt("1") || Infinity;
+	
+	function count() {
+	if ($(this).is('input') && $(this).closest('table.count').find('input[type=radio]:checked').length == 1)
+		$(this).closest('table').css('background','transparent');
+
+	var num = $('.count input[type=radio]:checked').length;
+
+	$('#unanswered span, #answered span').text(num);
+	$('#numanswered').val(num);
+
+	if ( num < total_number ) {
+		$('#unanswered').show();
+		$('#answered').hide();
+	} else {
+		$('#unanswered').hide();
+		$('#answered').show();
+	}
+    }
+    $(count);
+    $('input[type=radio]').bind('change', count);
+
+    $(function() {
+        $('#useragent').val(navigator.userAgent);
+    });
+
+    function highlight() {
+		$('.count').each(function() {
+			if (!$(this).find('input').is(answered))
+				$(this).css('background', 'yellow');
+			else
+				$(this).css('background', 'transparent');			
+		});
+	}
+    $('#highlight-button').click(highlight);
+</script>

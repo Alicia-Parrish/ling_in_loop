@@ -1,0 +1,388 @@
+
+
+<style type="text/css">
+label, input[type=radio], input[type=button] { cursor: pointer; }
+.blue { color: blue; }
+.red { color: red; }
+.trial { padding: 15px 10px; }
+.trial p, .trial table { padding-left: 20px; margin: 3px; }
+.trial table { width: 400px; }
+.trial tr td { width: 14%; text-align: center; }
+.trial_number { font-size:1.2em; font-weight: bold; }
+.tab { margin-left: 40px; }
+#unanswered { font-weight: bold; font-size: 2em; color: black; background-color: red; margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+#answered { margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+td{padding:0 15px; }
+
+input.toggle[type='checkbox'] { display: none; } 
+.wrap-collabsible { margin: 1.2rem 0; } 
+.lbl-toggle { display: block; font-weight: bold; font-family: monospace; font-size: 1.2rem; text-transform: uppercase; text-align: center; padding: 1rem; color: #DDD; background: #2b3e5a; cursor: pointer; border-radius: 7px; transition: all 0.25s ease-out; } 
+.lbl-toggle:hover { color: #FFF; } 
+.lbl-toggle::before { content: ' '; display: inline-block; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid currentColor; vertical-align: middle; margin-right: .7rem; transform: translateY(-2px); transition: transform .2s ease-out; } 
+.toggle:checked+.lbl-toggle::before { transform: rotate(90deg) translateX(-3px); } 
+.collapsible-content { max-height: 0px; overflow: hidden; transition: max-height .25s ease-in-out; } 
+.toggle:checked + .lbl-toggle + .collapsible-content { max-height: 350px; } 
+.toggle:checked+.lbl-toggle { border-bottom-right-radius: 0; border-bottom-left-radius: 0; } 
+.collapsible-content .content-inner { background: rgba(222, 212, 238, 0.521); border-bottom: 1px solid rgba(202, 191, 218, 0.493); border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; padding: .5rem 1rem; } 
+.collapsible-content p { margin-bottom: 0; }
+
+</style>
+
+<h2>Instructions:</h2>
+
+<p>This task will involve reading a pair of sentences: a 'text' and a 'statement' about that text. You will indicate what the relationship of the 'statement' is to the 'text'.</p>
+
+<p><strong>Important:</strong> The order of the sentences is crucial! The text will always be first, and the statement follows.</p>
+
+<p>For each pair, you will decide which of the following is true:</p>
+
+<ul>
+	<li>The statement is deﬁnitely correct, given the text.</li>
+	<li>The statement might be correct, given the text.</li>
+	<li>The statement is deﬁnitely incorrect, given the text.</li>
+</ul>
+
+<div class="wrap-collabsible"> 
+    <input id="collapsible1" class="toggle" type="checkbox"> 
+    <label for="collapsible1" class="lbl-toggle">Example</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <table><tbody></tbody>
+                <p><span class="trial_number">Text:</span>
+        
+                    Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                    
+                <p><span class="trial_number">Statement:</span>
+                
+                    This building job will be very difficult to complete.</p>
+            
+                The statement about the text is:
+            
+                <tr>
+                    <td><label for="entailment_ex">Definitely correct</label></td>
+                    <td><label for="neutral_ex">Maybe correct</label></td>
+                    <td><label for="contradiction_ex">Definintely incorrect</label></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="entailment_ex" name="response_ex" value="E" checked /></td>
+                    <td><input type="radio" id="neutral_ex" name="response_ex" value="N" /></td>
+                    <td><input type="radio" id="contradiction_ex" name="response_ex" value="C" /></td>
+                </tr>
+
+                In this case, the statmenent is definitely true for the text, so the button for 'Definitely correct' is clicked.
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<p>
+For each item, you should also check off any constraints that apply to the statement.
+You should select all and only the relevant constraints for each of the 6 items.
+</p>
+
+<p>
+If needed, you can check out our FAQ page for examples and answers to common questions. 
+This page also provides an explanation of all the relevant constraints.
+</p>
+
+<br>
+
+<hr noshade="noshade" />
+
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_1}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_1}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_1">Definitely correct</label></td>
+        <td><label for="neutral_1">Maybe correct</label></td>
+        <td><label for="contradiction_1">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_1" name="response_1" value="E" /></td>
+        <td><input type="radio" id="neutral_1" name="response_1" value="N" /></td>
+        <td><input type="radio" id="contradiction_1" name="response_1" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h1_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h1_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h1_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+<hr noshade="noshade" />
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_2}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_2}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_2">Definitely correct</label></td>
+        <td><label for="neutral_2">Maybe correct</label></td>
+        <td><label for="contradiction_2">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_2" name="response_2" value="E" /></td>
+        <td><input type="radio" id="neutral_2" name="response_2" value="N" /></td>
+        <td><input type="radio" id="contradiction_2" name="response_2" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h2_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h2_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h2_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+<hr noshade="noshade" />
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_3}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_3}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_3">Definitely correct</label></td>
+        <td><label for="neutral_3">Maybe correct</label></td>
+        <td><label for="contradiction_3">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_3" name="response_3" value="E" /></td>
+        <td><input type="radio" id="neutral_3" name="response_3" value="N" /></td>
+        <td><input type="radio" id="contradiction_3" name="response_3" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h3_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h3_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h3_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+<hr noshade="noshade" />
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_4}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_4}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_4">Definitely correct</label></td>
+        <td><label for="neutral_4">Maybe correct</label></td>
+        <td><label for="contradiction_4">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_4" name="response_4" value="E" /></td>
+        <td><input type="radio" id="neutral_4" name="response_4" value="N" /></td>
+        <td><input type="radio" id="contradiction_4" name="response_4" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h4_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h4_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h4_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+<hr noshade="noshade" />
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_5}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_5}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_5">Definitely correct</label></td>
+        <td><label for="neutral_5">Maybe correct</label></td>
+        <td><label for="contradiction_5">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_5" name="response_5" value="E" /></td>
+        <td><input type="radio" id="neutral_5" name="response_5" value="N" /></td>
+        <td><input type="radio" id="contradiction_5" name="response_5" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h5_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h5_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h5_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+<hr noshade="noshade" />
+
+<table class="count"><tbody>
+    <p><span class="trial_number">Text:</span>
+	
+        ${premise_6}</p>
+        
+    <p><span class="trial_number">Statement:</span>
+    
+        ${hypothesis_6}</p>
+
+    The statement about the text is:
+
+    <tr>
+        <td><label for="entailment_6">Definitely correct</label></td>
+        <td><label for="neutral_6">Maybe correct</label></td>
+        <td><label for="contradiction_6">Definintely incorrect</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="entailment_6" name="response_6" value="E" /></td>
+        <td><input type="radio" id="neutral_6" name="response_6" value="N" /></td>
+        <td><input type="radio" id="contradiction_6" name="response_6" value="C" /></td>
+    </tr>
+</tbody></table>
+
+    <p>Check off any constraints that the above statement conforms to:</p>
+    <div>
+        <input type="checkbox" id="constraint_1" name="h6_constraint_1" value="c1_checked" >
+        <label for="constraint_1">${constraint_1}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_2" name="h6_constraint_2" value="c2_checked" >
+        <label for="constraint_2">${constraint_2}</label>
+    </div>
+    <div>
+        <input type="checkbox" id="constraint_3" name="h6_constraint_3" value="c3_checked" >
+        <label for="constraint_3">${constraint_3}</label>        
+    </div>
+
+
+<hr noshade="noshade" />
+
+
+
+<div>
+	<p>If you experienced any issues that made this HIT especially difficult, please provide more detail below (optional)</p>
+	<input type="text" id="comments" name="comments" size="100" /></span>
+</div>
+
+<br />
+
+<div id="unanswered">
+	<span>&nbsp;</span> questions (out of 6 total) have been answered. If you submit now, you will not be paid.<br />
+	<input type="button" value="HIGHLIGHT UNANSWERED QUESTIONS" id="highlight-button" />
+</div>
+
+<div id="answered">
+	<span>&nbsp;</span> questions (out of 6 total) have been answered. You are ready to submit.
+</div>
+
+<p><input type="hidden" name="numanswered" id="numanswered" /> <input type="hidden" name="useragent" id="useragent" /></p>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type='text/javascript'>
+	// counter code:
+	total_number = parseInt("6") || Infinity;
+	
+	function count() {
+	if ($(this).is('input') && $(this).closest('table.count').find('input[type=radio]:checked').length == 1)
+		$(this).closest('table').css('background','transparent');
+
+	var num = $('.count input[type=radio]:checked').length;
+
+	$('#unanswered span, #answered span').text(num);
+	$('#numanswered').val(num);
+
+	if ( num < total_number ) {
+		$('#unanswered').show();
+		$('#answered').hide();
+	} else {
+		$('#unanswered').hide();
+		$('#answered').show();
+	}
+    }
+    $(count);
+    $('input[type=radio]').bind('change', count);
+
+    $(function() {
+        $('#useragent').val(navigator.userAgent);
+    });
+
+    function highlight() {
+		$('.count').each(function() {
+			if (!$(this).find('input').is(answered))
+				$(this).css('background', 'yellow');
+			else
+				$(this).css('background', 'transparent');			
+		});
+	}
+    $('#highlight-button').click(highlight);
+</script>
