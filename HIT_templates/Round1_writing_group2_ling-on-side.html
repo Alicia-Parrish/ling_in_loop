@@ -27,6 +27,19 @@ input[type='checkbox'] { display: none; }
 
 </style>
 
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+    var ut_id = "25100a7da7dee7f43966325bd1e1ffa8";
+    if (UTWorkerLimitReached(ut_id)) {
+        document.getElementById('mturk_form').style.display = 'none';
+        document.getElementsByTagName('body')[0].innerHTML = "You have already completed 120 writing HITs this week. Please allow other workers in your group to complete more HITs before you continue. We will release a new batch of sentence validation HITs shortly. We appreciate all your hard work up until now!";
+    }
+})();
+</script>
+
+<h2>Sentence writing task for Group 2</h2>
+
 <h2>Instructions:</h2>
 
 <p>This task will involve reading a line from an unfamiliar text and writing three sentences that relate to it. 
@@ -38,25 +51,26 @@ Using only this text and what you know about the world:</p>
 	<li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
 </ul>
 
+<p> One example is provided for you below. 
+	If you would like to see additional examples or answers to common questions about this task,
+	please refer to our FAQ page <a href="https://docs.google.com/document/d/1uUr1ldO7oWAfbi255fKikS2C1ga6Px7IGlEdeI_Tr3c/edit?usp=sharing" target=blank>here</a>.
+</p>
+
 <div class="wrap-collabsible"> 
     <input id="collapsible1" class="toggle" type="checkbox"> 
     <label for="collapsible1" class="lbl-toggle">Example</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <p> <span class="trial_number">Text:</span>
-                Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                Well aware of the island's burgeoning wealth and repository of supplies, the French pirate Bertrand de Montluc sailed into Funchal harbor with his 11-galleon armada and 1,300 men.</p>
                 <ul>
-                    <li><strong>Deﬁnitely correct statement:</strong> This building job will be very difficult to complete.</li>
-                    <li><strong>Maybe correct statement:</strong> Dave Hanson worked with an especially large engineering team.</li>
-                    <li><strong>Definitely incorrect statement:</strong> This engineering task will be quite easy for everyone.</li>
+                    <li><strong>Deﬁnitely correct statement:</strong> Bertrand de Montluc arrived at the island with a great force of men.</li>
+                    <li><strong>Maybe correct statement:</strong> Montluc plundered and looted the island, killing many of its residents.</li>
+                    <li><strong>Definitely incorrect statement:</strong> The pirate Bertrand de Montluc avoided the wealthy island owing to its heavily armed garrison.</li>
                 </ul>
         </div>
     </div>
 </div>
-
-<br>
-
-If needed, you can check out our FAQ page for examples and answers to common questions.
 
 <br>
 
@@ -67,18 +81,18 @@ If needed, you can check out our FAQ page for examples and answers to common que
 	${premise}</p>
 
 <div class="trial count">
-    <p><label for="entailment_basic"><span class="trial_number">Definitely true statement:</span></label> 
-        <span class="score count"><input type="text" id="entailment_basic" name="entailment_basic" size="100" /></span>
+    <p><label for="entailment"><span class="trial_number">Definitely true statement:</span></label> 
+        <span class="score count"><input type="text" id="entailment" name="entailment" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
-    <p><label for="neutral_basic"><span class="trial_number">Maybe true statement:</span></label> 
-        <span class="score count"><input type="text" id="neutral_basic" name="neutral_basic" size="100" /></span>
+    <p><label for="neutral"><span class="trial_number">Maybe true statement:</span></label> 
+        <span class="score count"><input type="text" id="neutral" name="neutral" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
-    <p><label for="contradiction_basic"><span class="trial_number">Definitely false statement:</span></label> 
-        <span class="score count"><input type="text" id="contradiction_basic" name="contradiction_basic" size="100" /></span>
+    <p><label for="contradiction"><span class="trial_number">Definitely false statement:</span></label> 
+        <span class="score count"><input type="text" id="contradiction" name="contradiction" size="100" /></span>
     </p>
 </div>
 
@@ -89,7 +103,7 @@ If needed, you can check out our FAQ page for examples and answers to common que
 
 
 <div>
-	<p>If you experienced any issues that made this HIT especially difficult, please provide more detail below (optional)</p>
+	<p>If you experienced any problems with this HIT, please provide more detail below. Otherwise, please leave this portion blank.</p>
 	<input type="text" id="comments" name="comments" size="100" /></span>
 </div>
 

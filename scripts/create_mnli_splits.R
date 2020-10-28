@@ -19,10 +19,10 @@ dat_test<-filter(dat,splits=="test")
 dat_dev<-filter(dat,splits=="dev")
 dat_train<-filter(dat,splits=="train")
 
-n_per_round = 1000
+n_per_round = ceiling(3500/3)
 n_dev = floor(nrow(dat_dev)/5)
 n_train = n_per_round-n_dev
-add_dev = (n_per_round*.15)-n_dev
+add_dev = ceiling(500/3)-n_dev
 
 # randomize order of rows
 dat_dev_reorder <- dat_dev[sample(1:nrow(dat_dev)), ]
@@ -49,11 +49,11 @@ round5_reorder<-round5[sample(1:nrow(round5)), ]
 Reduce(intersect, list(round1_reorder$promptID,round2_reorder$promptID,round3_reorder$promptID,round4_reorder$promptID,round5_reorder$promptID))
 
 #check that I got the right number of dev items
-nrow(filter(round1_reorder,splits=="dev"))==150
-nrow(filter(round2_reorder,splits=="dev"))==150
-nrow(filter(round3_reorder,splits=="dev"))==150
-nrow(filter(round4_reorder,splits=="dev"))==150
-nrow(filter(round5_reorder,splits=="dev"))==150
+nrow(filter(round1_reorder,splits=="dev"))==167
+nrow(filter(round2_reorder,splits=="dev"))==167
+nrow(filter(round3_reorder,splits=="dev"))==167
+nrow(filter(round4_reorder,splits=="dev"))==167
+nrow(filter(round5_reorder,splits=="dev"))==167
 
 round1_reorder <- apply(round1_reorder,2,as.character)
 round2_reorder <- apply(round2_reorder,2,as.character)
@@ -61,8 +61,9 @@ round3_reorder <- apply(round3_reorder,2,as.character)
 round4_reorder <- apply(round4_reorder,2,as.character)
 round5_reorder <- apply(round5_reorder,2,as.character)
 
-write.csv(file="files/csv_for_mturk_upload/round5_batch1.csv",round5_reorder[1:200,],row.names=FALSE)
-write.csv(file="files/csv_for_mturk_upload/round5_batch2.csv",round5_reorder[201:400,],row.names=FALSE)
-write.csv(file="files/csv_for_mturk_upload/round5_batch3.csv",round5_reorder[401:600,],row.names=FALSE)
-write.csv(file="files/csv_for_mturk_upload/round5_batch4.csv",round5_reorder[601:800,],row.names=FALSE)
-write.csv(file="files/csv_for_mturk_upload/round5_batch5.csv",round5_reorder[801:1000,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch1.csv",round1_reorder[1:200,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch2.csv",round1_reorder[201:400,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch3.csv",round1_reorder[401:600,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch4.csv",round1_reorder[601:800,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch5.csv",round1_reorder[801:1000,],row.names=FALSE)
+write.csv(file="files/csv_for_mturk_upload/round1_batch6.csv",round1_reorder[1001:nrow(round1_reorder),],row.names=FALSE)
