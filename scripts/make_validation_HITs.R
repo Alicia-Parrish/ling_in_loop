@@ -58,6 +58,7 @@ base_3 = base_reorder[((num*2)+1):(num*3),]
 base_4 = base_reorder[((num*3)+1):(num*4),]
 base_5 = base_reorder[((num*4)+1):(num*5),]
 base_6 = base_reorder[((num*5)+1):(num*6),]
+base_leftover = base_reorder[((num*6)+1):nrow(base_reorder),]
 
 colnames(base_1)<-unlist(lapply(names(base_1), function(x) paste0(x,"_1")))
 colnames(base_2)<-unlist(lapply(names(base_2), function(x) paste0(x,"_2")))
@@ -70,7 +71,11 @@ full_base_val = cbind(base_1,base_2,base_3,base_4,base_5,base_6)
 full_base_val$group = "group1"
 full_base_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch1.csv",full_base_val,row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch1.csv",full_base_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch2.csv",full_base_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch3.csv",full_base_val[51:nrow(full_base_val),],row.names = F)
+
+
 
 # ---------- LotS PROTOCOL
 LotS$round<-"round1"
@@ -100,6 +105,7 @@ LotS_3 = LotS_reorder[((num*2)+1):(num*3),]
 LotS_4 = LotS_reorder[((num*3)+1):(num*4),]
 LotS_5 = LotS_reorder[((num*4)+1):(num*5),]
 LotS_6 = LotS_reorder[((num*5)+1):(num*6),]
+LotS_leftover = LotS_reorder[((num*6)+1):nrow(LotS_reorder),]
 
 colnames(LotS_1)<-unlist(lapply(names(LotS_1), function(x) paste0(x,"_1")))
 colnames(LotS_2)<-unlist(lapply(names(LotS_2), function(x) paste0(x,"_2")))
@@ -109,10 +115,12 @@ colnames(LotS_5)<-unlist(lapply(names(LotS_5), function(x) paste0(x,"_5")))
 colnames(LotS_6)<-unlist(lapply(names(LotS_6), function(x) paste0(x,"_6")))
 
 full_LotS_val = cbind(LotS_1,LotS_2,LotS_3,LotS_4,LotS_5,LotS_6)
-full_LotS_val$group = "group1"
+full_LotS_val$group = "group2"
 full_LotS_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val,row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[51:nrow(full_LotS_val)],row.names = F)
 
 
 # ---------- LitL PROTOCOL
@@ -143,6 +151,7 @@ LitL_3 = LitL_reorder[((num*2)+1):(num*3),]
 LitL_4 = LitL_reorder[((num*3)+1):(num*4),]
 LitL_5 = LitL_reorder[((num*4)+1):(num*5),]
 LitL_6 = LitL_reorder[((num*5)+1):(num*6),]
+LitL_leftover =LitL_reorder[((num*6)+1):nrow(LitL_reorder),]
 
 colnames(LitL_1)<-unlist(lapply(names(LitL_1), function(x) paste0(x,"_1")))
 colnames(LitL_2)<-unlist(lapply(names(LitL_2), function(x) paste0(x,"_2")))
@@ -152,8 +161,10 @@ colnames(LitL_5)<-unlist(lapply(names(LitL_5), function(x) paste0(x,"_5")))
 colnames(LitL_6)<-unlist(lapply(names(LitL_6), function(x) paste0(x,"_6")))
 
 full_LitL_val = cbind(LitL_1,LitL_2,LitL_3,LitL_4,LitL_5,LitL_6)
-full_LitL_val$group = "group1"
+full_LitL_val$group = "group3"
 full_LitL_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val,row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[51:nrow(full_LitL_val)],row.names = F)
 
