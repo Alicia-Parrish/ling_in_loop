@@ -119,8 +119,8 @@ full_LotS_val$group = "group2"
 full_LotS_val$round = "round1"
 
 write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[51:nrow(full_LotS_val)],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch2.csv",full_LotS_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch3.csv",full_LotS_val[51:nrow(full_LotS_val),],row.names = F)
 
 
 # ---------- LitL PROTOCOL
@@ -165,6 +165,6 @@ full_LitL_val$group = "group3"
 full_LitL_val$round = "round1"
 
 write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[51:nrow(full_LitL_val)],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch2.csv",full_LitL_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch3.csv",full_LitL_val[51:nrow(full_LitL_val),],row.names = F)
 
