@@ -71,11 +71,11 @@ full_base_val = cbind(base_1,base_2,base_3,base_4,base_5,base_6)
 full_base_val$group = "group1"
 full_base_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch1.csv",full_base_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch2.csv",full_base_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_base_batch3.csv",full_base_val[51:nrow(full_base_val),],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch1.csv",full_base_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch2.csv",full_base_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch3.csv",full_base_val[51:nrow(full_base_val),],row.names = F)
 
-
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_leftover.csv",base_leftover,row.names = F)
 
 # ---------- LotS PROTOCOL
 LotS$round<-"round1"
@@ -118,9 +118,11 @@ full_LotS_val = cbind(LotS_1,LotS_2,LotS_3,LotS_4,LotS_5,LotS_6)
 full_LotS_val$group = "group2"
 full_LotS_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch1.csv",full_LotS_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch2.csv",full_LotS_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LotS_batch3.csv",full_LotS_val[51:nrow(full_LotS_val),],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch1.csv",full_LotS_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch2.csv",full_LotS_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch3.csv",full_LotS_val[51:nrow(full_LotS_val),],row.names = F)
+
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_leftover.csv",LotS_leftover,row.names = F)
 
 
 # ---------- LitL PROTOCOL
@@ -164,7 +166,9 @@ full_LitL_val = cbind(LitL_1,LitL_2,LitL_3,LitL_4,LitL_5,LitL_6)
 full_LitL_val$group = "group3"
 full_LitL_val$round = "round1"
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch1.csv",full_LitL_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch2.csv",full_LitL_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_LitL_batch3.csv",full_LitL_val[51:nrow(full_LitL_val),],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch1.csv",full_LitL_val[1:20,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch2.csv",full_LitL_val[21:50,],row.names = F)
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch3.csv",full_LitL_val[51:nrow(full_LitL_val),],row.names = F)
+
+write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_leftover.csv",LitL_leftover,row.names = F)
 
