@@ -128,5 +128,5 @@ dmypy.json
 .pyre/
 
 # Results folders
-.best_configs/*
-.stats/*
+best_configs/*
+stats/*
