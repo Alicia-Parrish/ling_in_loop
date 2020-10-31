@@ -129,3 +129,4 @@ dmypy.json
 
 # Results folders
 .best_configs/*
+.stats/*
