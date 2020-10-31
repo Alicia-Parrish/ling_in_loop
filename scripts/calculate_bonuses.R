@@ -1,0 +1,171 @@
+library(tidyverse)
+library(rjson)
+library(jsonlite)
+library(data.table)
+
+setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
+
+set.seed(42)
+
+# function for reading in .jsonl files
+read_json_lines <- function(file){
+  con <- file(file, open = "r")
+  on.exit(close(con))
+  jsonlite::stream_in(con, verbose = FALSE)
+}
+
+######### get all the data you'll ever need...
+anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
+base_writing<-read_json_lines("../NLI_data/1_Baseline_protocol/train_round1_baseline.jsonl")
+LotS_writing<-read_json_lines("../NLI_data/2_Ling_on_side_protocol/train_round1_LotS.jsonl")
+LitL_writing<-read_json_lines("../NLI_data/3_Ling_in_loop_protocol/train_round1_LitL.jsonl")
+base_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_base_alldata.jsonl")
+LotS_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LotS_alldata.jsonl")
+LitL_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LitL_alldata.jsonl")
+
+
+######### calculate number of HITs bonus #########
+calculate_numHIT_bonus<-function(writing_file,validation_file){
+  val_completions<-validation_file$annotator_ids
+  val_completions2<-unlist(lapply(val_completions, function(x) x[2:5]))
+  val_completions_summary<-ceiling(table(val_completions2)/6)
+  
+  wri_completions_from_val<-unlist(lapply(val_completions, function(x) x[1]))
+  wri_completions_from_val_summary<-ceiling(table(wri_completions_from_val)/3)
+  
+  wri_completions<-writing_file$AnonId
+  wri_completions_summary<-ceiling(table(wri_completions)/3)
+  
+  if(writing_file$group[1]=="group1"){all_ids<-c(101:145)}
+  if(writing_file$group[1]=="group2"){all_ids<-c(201:245)}
+  if(writing_file$group[1]=="group3"){all_ids<-c(301:345)}
+  
+  totals = data.frame(matrix(ncol = 4, nrow = length(all_ids)))
+  colnames(totals)<-c("AnonId","validations","writing_val","writing_train")
+  
+  for(i in 1:length(all_ids)){
+    totals$AnonId[i] = all_ids[i]
+    totals$validations[i] = val_completions_summary[as.character(all_ids[i])]
+    totals$writing_val[i] = wri_completions_from_val_summary[as.character(all_ids[i])]
+    totals$writing_train[i] = wri_completions_summary[as.character(all_ids[i])]
+  }
+  
+  totals[, 2:4] <- sapply(totals[, 2:4], as.numeric)
+  
+  numHIT_totals <- totals %>%
+    replace(is.na(.), 0) %>%
+    mutate(sum = rowSums(.[2:4]))%>%
+    mutate(numHIT_bonus = ifelse(sum>=100, 16,
+                                 ifelse(sum>=50, 6,
+                                        ifelse(sum>=10,1,0))))
+  return(numHIT_totals)
+}
+
+# BASELINE
+base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val)
+
+# LING ON SIDE
+LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val)
+
+# LING IN LOOP
+LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val)
+
+
+######### calculate validation pass bonus #########
+calculate_validation_bonus<-function(validation_file){
+  if(validation_file$group[1]=="group1"){all_ids<-c(101:145)}
+  if(validation_file$group[1]=="group2"){all_ids<-c(201:245)}
+  if(validation_file$group[1]=="group3"){all_ids<-c(301:345)}
+  
+  validation_file<-filter(validation_file,label!="no_winner")
+  
+  check_correct = data.frame(matrix(ncol = 3, nrow = nrow(validation_file)))
+  colnames(check_correct)<-c("AnonId","original_label","validated_label")
+  
+  for(i in 1:nrow(validation_file)){
+    check_correct$AnonId[i] = unlist(validation_file$annotator_ids[i])[1]
+    check_correct$original_label[i] = unlist(validation_file$annotator_labels[i])[1]
+    check_correct$validated_label[i] = validation_file$label[i]
+  }
+  
+  check_correct2<-check_correct%>%
+    mutate(same=case_when(original_label==validated_label ~ 1,
+                          original_label!=validated_label ~0))%>%
+    group_by(AnonId)%>%
+    summarise(mean_agree=mean(same),count=n())
+  
+  check_correct3<-merge(data.frame(AnonId=all_ids),check_correct2,by="AnonId",all=T)
+  
+  check_correct4<-check_correct3%>%
+    replace(is.na(.), 0) %>%
+    mutate(validation_bonus = case_when(mean_agree>=0.95 ~ 5,
+                                        mean_agree<95 ~ 0))
+  
+  return(check_correct4)
+}
+
+# BASELINE
+base_validation_totals<-calculate_validation_bonus(base_val)
+
+# LING ON SIDE
+LotS_validation_totals<-calculate_validation_bonus(LotS_val)
+
+# LING IN LOOP
+LitL_validation_totals2<-calculate_validation_bonus(LitL_val)
+
+
+######### check accuracy within validation items too #########
+# (this doesn't affect the bonus, but it's good info to have in case considering removing someone) #
+calculate_validation_accuracy<-function(validation_file){
+    if(validation_file$group[1]=="group1"){all_ids<-c(101:145)}
+    if(validation_file$group[1]=="group2"){all_ids<-c(201:245)}
+    if(validation_file$group[1]=="group3"){all_ids<-c(301:345)}
+  
+    validation_file<-filter(validation_file,label!="no_winner")
+    
+    checks_full = NULL
+    
+    for(j in 2:5){
+      checks_temp = data.frame(matrix(ncol = 3, nrow = nrow(validation_file)))
+      colnames(checks_temp)<-c("AnonId","original_label","validated_label")
+      for(i in 1:nrow(validation_file)){
+        checks_temp$AnonId[i] = unlist(validation_file$annotator_ids[i])[j]
+        checks_temp$original_label[i] = unlist(validation_file$annotator_labels[i])[j]
+        checks_temp$validated_label[i] = validation_file$label[i]
+      }
+      checks_full = rbind(checks_full,checks_temp)
+    }
+    
+    checks_full2<-checks_full%>%
+      mutate(same=case_when(original_label==validated_label ~ 1,
+                            original_label!=validated_label ~0))%>%
+      group_by(AnonId)%>%
+      summarise(mean_agree=mean(same),count=n())
+    
+    checks_full3<-merge(data.frame(AnonId=all_ids),checks_full2,by="AnonId",all=T)
+    
+    return(checks_full3)
+}
+
+# BASELINE
+base_val_accuracies<-calculate_validation_accuracy(base_val)
+
+# LING ON SIDE
+LotS_val_accuracies<-calculate_validation_accuracy(LotS_val)
+
+# LING IN LOOP
+LitL_val_accuracies2<-calculate_validation_accuracy(LitL_val)
+
+######### calculate heuristic checkboxes bonus #########
+# LING ON SIDE
+
+
+# LING IN LOOP
+
+
+
+######### calculate slack participation bonus #########
+# LING IN LOOP
+
+
+
