@@ -33,7 +33,7 @@ def get_ex_tokens(ex, hyp_only=True):
         return get_tokens(ex['premise'] + ' ' + ex['hypothesis'])
 
 
-def get_pmi(exs, smooth, alpha, weight):
+def get_pmi(exs, smooth, alpha, weight, verbose):
     total_docs = len(exs)
 
     counts_by_label = {
@@ -44,21 +44,27 @@ def get_pmi(exs, smooth, alpha, weight):
 
     word_counts = {}
 
-    for ex in exs:
-        toks = get_ex_tokens(ex, hyp_only=False)
-        counts_by_label[ex['label']]['count'] += 1
-        counter = counts_by_label[ex['label']]['word_count']
+    skipped = []
+    error_keys = []
+    for i, ex in enumerate(exs):
+        try:
+            toks = get_ex_tokens(ex, hyp_only=False)
+            counts_by_label[ex['label']]['count'] += 1
+            counter = counts_by_label[ex['label']]['word_count']
 
-        for tok in set(toks):
-            if counter.get(tok, False):
-                counter[tok] += 1
-            else:
-                counter[tok] = 1.
+            for tok in set(toks):
+                if counter.get(tok, False):
+                    counter[tok] += 1
+                else:
+                    counter[tok] = 1.
 
-            if word_counts.get(tok, False):
-                word_counts[tok] += 1
-            else:
-                word_counts[tok] = 1.
+                if word_counts.get(tok, False):
+                    word_counts[tok] += 1
+                else:
+                    word_counts[tok] = 1.
+        except KeyError as ke:
+            skipped.append(i+1)
+            error_keys.append(ke)
 
     count_stats = {label: {} for label in counts_by_label.keys()}
     vocab_size = len(list(word_counts.keys()))
@@ -82,19 +88,30 @@ def get_pmi(exs, smooth, alpha, weight):
         for label in count_stats.keys()
     }
 
+    if verbose:
+        print("="*90)
+        print(f'PMIs\nSkipped {len(skipped)} examples\n{skipped}\n{error_keys}')
+        print("="*90)
+
     return pmi_stats
 
 
-def get_hyp_lengths(exs):
+def get_hyp_lengths(exs, verbose):
     hyp_lengths = {
         'entailment': [],
         'neutral': [],
         'contradiction': [],
     }
 
-    for ex in exs:
-        toks = get_ex_tokens(ex)
-        hyp_lengths[ex['label']].append(len(toks))
+    skipped = []
+    error_keys = []
+    for i, ex in enumerate(exs):
+        try:
+            toks = get_ex_tokens(ex)
+            hyp_lengths[ex['label']].append(len(toks))
+        except KeyError as ke:
+            skipped.append(i+1)
+            error_keys.append(ke)
 
     hyp_stats = {label: {} for label in hyp_lengths.keys()}
 
@@ -108,6 +125,11 @@ def get_hyp_lengths(exs):
         hyp_stats[label]['min'] = l_series.min()
         hyp_stats[label]['max'] = l_series.max()
 
+    if verbose:
+        print("="*90)
+        print(f'Hyp Lengths\nSkipped {len(skipped)} examples\n{skipped}\n{error_keys}')
+        print("="*90)
+
     return hyp_lengths, hyp_stats
 
 
@@ -117,19 +139,22 @@ def get_stats(args):
 
     if args.out_dir == '':
         repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-        stats = os.path.join(repo, 'stats')
+        stats = os.path.join(repo, 'corpus_stats') if args.pushstats else os.path.join(repo, 'stats')
         task_name = os.path.basename(os.path.dirname(args.fname))
 
         args.out_dir = os.path.join(stats, task_name)
     os.makedirs(args.out_dir, exist_ok=True)
 
-    pmis = get_pmi(ex, args.smooth, args.alpha, args.weight)
-    hyp_lengths, hyp_stats = get_hyp_lengths(ex)
+    pmis = get_pmi(ex, args.smooth, args.alpha, args.weight, verbose=args.verbose)
+    hyp_lengths, hyp_stats = get_hyp_lengths(ex, verbose=args.verbose)
 
     pd.DataFrame(hyp_stats).to_csv(os.path.join(args.out_dir, 'hyp_length_stats.csv'))
 
     for (label, pmi), hyp_length in zip(pmis.items(), hyp_lengths.values()):
-        pmi.to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
+        if args.topn == -1:
+            pmi.to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
+        else:
+            pmi.iloc[:args.topn, :].to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
         pd.Series(hyp_length).to_csv(os.path.join(args.out_dir, f'hyp_lenghts_{label}.csv'))
 
     print("="*45 + f' Complete: {args.out_dir} ' + "="*45)
@@ -146,6 +171,9 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', help='weighting for rare words', default=0.75)
     parser.add_argument('--weight', help='whether to smooth by adding or weighting', action='store_true')
     parser.add_argument('--out_dir', help='where to output summary stats', default='')
+    parser.add_argument('--pushstats', help='whether to put stats in push to github', action='store_true')
+    parser.add_argument('--topn', help='limit pmi to top n words', default=20, type=int)
+    parser.add_argument('--verbose', help='whether to print certain statements', action='store_true')
 
     args = parser.parse_args()
 
