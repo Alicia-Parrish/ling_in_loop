@@ -130,3 +130,5 @@ dmypy.json
 # Results folders
 best_configs/*
 stats/*
+scripts/.RData
+scripts/.Rhistory
