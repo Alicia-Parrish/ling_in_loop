@@ -1,0 +1,70 @@
+,case,subcase,label,acc
+0,combined,combined,combined,0.595108695652174
+1,Logic,combined,combined,0.5467032967032966
+2,Knowledge,combined,combined,0.5845070422535211
+3,Predicate-Argument Structure,combined,combined,0.5990566037735849
+4,Lexical Semantics,combined,combined,0.6630434782608695
+5,Predicate-Argument Structure,Coordination scope,combined,0.4117647058823529
+6,Logic,Non-monotone,combined,0.2727272727272727
+7,Logic,Disjunction;Negation,combined,0.0
+8,Predicate-Argument Structure,Nominalization,combined,0.7692307692307693
+9,Predicate-Argument Structure,Nominalization;Genitives/Partitives,combined,1.0
+10,Logic,Temporal,combined,0.35714285714285715
+11,Logic,Disjunction;Non-monotone,combined,0.0
+12,Predicate-Argument Structure,Restrictivity;Relative clauses,combined,0.5
+13,Logic,Existential;Upward monotone,combined,0.5
+14,Lexical Semantics,Lexical entailment;Factivity,combined,0.5
+15,Predicate-Argument Structure,Anaphora/Coreference,combined,0.47619047619047616
+16,Lexical Semantics,Redundancy,combined,0.9230769230769231
+17,Logic,Upward monotone,combined,0.6666666666666666
+18,Logic,Negation,combined,0.5555555555555556
+19,Logic,Temporal;Conjunction,combined,1.0
+20,Predicate-Argument Structure,Core args;Anaphora/Coreference,combined,0.25
+21,Predicate-Argument Structure,Prepositional phrases,combined,0.6428571428571429
+22,Lexical Semantics,Morphological negation,combined,0.9230769230769231
+23,Lexical Semantics,Quantifiers,combined,0.7391304347826086
+24,Logic,Downward monotone,combined,0.38461538461538464
+25,Predicate-Argument Structure,Restrictivity,combined,0.6666666666666666
+26,Logic,Disjunction,combined,0.45454545454545453
+27,Predicate-Argument Structure,Relative clauses,combined,0.5833333333333334
+28,Logic,Disjunction;Conjunction,combined,0.5
+29,Logic,Existential;Negation,combined,1.0
+30,Predicate-Argument Structure,Active/Passive,combined,0.5625
+31,Logic,Conditionals,combined,0.5909090909090909
+32,Logic,Negation;Conditionals,combined,0.5
+33,Lexical Semantics,Lexical entailment,combined,0.6194029850746269
+34,Logic,Universal,combined,0.8571428571428571
+35,Predicate-Argument Structure,Genitives/Partitives,combined,0.8888888888888888
+36,Logic,Disjunction;Conditionals;Negation,combined,0.5
+37,Logic,Existential,combined,0.6428571428571429
+38,Lexical Semantics,Factivity,combined,0.484375
+39,Logic,Intervals/Numbers,combined,0.36666666666666664
+40,Predicate-Argument Structure,Coordination scope;Prepositional phrases,combined,0.8333333333333334
+41,Logic,Double negation;Negation,combined,1.0
+42,Lexical Semantics,Symmetry/Collectivity,combined,0.7142857142857143
+43,Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference,combined,0.5
+44,Logic,Intervals/Numbers;Non-monotone,combined,0.6666666666666666
+45,Logic,Downward monotone;Conditionals,combined,0.5
+46,Logic,Universal;Negation,combined,1.0
+47,Logic,Conjunction,combined,0.6666666666666666
+48,Logic,Universal;Conjunction,combined,1.0
+49,Predicate-Argument Structure,Core args,combined,0.5416666666666666
+50,Predicate-Argument Structure,Datives,combined,0.8
+51,Predicate-Argument Structure,Restrictivity;Anaphora/Coreference,combined,1.0
+52,Logic,Double negation,combined,0.9615384615384616
+53,Logic,Conjunction;Negation,combined,0.5
+54,Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits,combined,1.0
+55,Logic,Conjunction;Upward monotone,combined,0.5
+56,Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases,combined,0.75
+57,Logic,Downward monotone;Existential;Negation,combined,0.5
+58,Lexical Semantics,Named entities,combined,0.6388888888888888
+59,Predicate-Argument Structure,Intersectivity,combined,0.5227272727272727
+60,Predicate-Argument Structure,Relative clauses;Restrictivity,combined,0.5
+61,Predicate-Argument Structure,Relative clauses;Anaphora/Coreference,combined,0.5
+62,Knowledge,World knowledge,combined,0.5895522388059702
+63,Knowledge,Common sense,combined,0.58
+64,Lexical Semantics,Factivity;Quantifiers,combined,1.0
+65,Predicate-Argument Structure,Ellipsis/Implicits,combined,0.5714285714285714
+66,Logic,Temporal;Intervals/Numbers,combined,0.0
+67,Predicate-Argument Structure,Active/Passive;Prepositional phrases,combined,1.0
+68,Lexical Semantics,Lexical entailment;Quantifiers,combined,0.5
