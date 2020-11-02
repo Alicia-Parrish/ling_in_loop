@@ -20,4 +20,4 @@ anon_slack<-merge(slack_names,anon_codes,by="WorkerId")
 
 anon_slack2<-anon_slack %>% select(Slack_name,AnonId)
 
-write.csv(anon_slack2,"files/worker_data/anon_slack_names.csv")
+write.csv(anon_slack2,"../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")

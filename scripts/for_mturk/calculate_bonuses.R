@@ -111,7 +111,7 @@ base_validation_totals<-calculate_validation_bonus(base_val)
 LotS_validation_totals<-calculate_validation_bonus(LotS_val)
 
 # LING IN LOOP
-LitL_validation_totals2<-calculate_validation_bonus(LitL_val)
+LitL_validation_totals<-calculate_validation_bonus(LitL_val)
 
 
 ######### check accuracy within validation items too #########
@@ -154,7 +154,7 @@ base_val_accuracies<-calculate_validation_accuracy(base_val)
 LotS_val_accuracies<-calculate_validation_accuracy(LotS_val)
 
 # LING IN LOOP
-LitL_val_accuracies2<-calculate_validation_accuracy(LitL_val)
+LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
 
 ######### calculate heuristic checkboxes bonus #########
 # LING ON SIDE
@@ -169,3 +169,11 @@ LitL_val_accuracies2<-calculate_validation_accuracy(LitL_val)
 
 
 
+######### TOTAL BONUSES FOR EACH WORKER #########
+all_bonuses_numHITs<-rbind(base_numHIT_totals,LotS_numHIT_totals,LitL_numHIT_totals)
+all_bonuses_validated<-rbind(base_validation_totals,LotS_validation_totals,LitL_validation_totals)
+all_bonuses<-merge(all_bonuses_numHITs, all_bonuses_validated, by = "AnonId",all = TRUE)
+#all_bonuses2<-merge(all_bonuses, ..., by = "AnonId",all = TRUE)# still need to merge slack bonus
+all_bonuses3<-merge(all_bonuses2, anon_codes, by = "AnonId",all = TRUE)
+
+total_bonuses<-all_bonuses3%>% mutate(total_bonus = numHIT_bonus+validation_bonus)
