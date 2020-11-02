@@ -103,7 +103,7 @@ base_pass<-filter(base_transformed,label!="no_winner")
 
 # save file
 jsonlite::stream_out(base_pass, file('../NLI_data/1_Baseline_protocol/val_round1_base.jsonl'))
-
+jsonlite::stream_out(base_transformed, file('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_base_alldata.jsonl'))
 
 # ---------- LING-ON-SIDE PROTOCOL
 LotS_anon<-merge(LotS,anon_codes,by="WorkerId") # anonymize
@@ -178,6 +178,7 @@ LotS_pass<-filter(LotS_transformed,label!="no_winner")
 
 # save file
 jsonlite::stream_out(LotS_pass, file('../NLI_data/2_Ling_on_side_protocol/val_round1_LotS.jsonl'))
+jsonlite::stream_out(LotS_transformed, file('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LotS_alldata.jsonl'))
 
 
 # ---------- LING-IN-LOOP PROTOCOL
@@ -253,5 +254,6 @@ LitL_pass<-filter(LitL_transformed,label!="no_winner")
 
 # save file
 jsonlite::stream_out(LitL_pass, file('../NLI_data/3_Ling_in_loop_protocol/val_round1_LitL.jsonl'))
+jsonlite::stream_out(LitL_transformed, file('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LitL_alldata.jsonl'))
 
 

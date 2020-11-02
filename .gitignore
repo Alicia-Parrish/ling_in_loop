@@ -129,3 +129,5 @@ dmypy.json
 
 # Results folders
 stats/*
+scripts/.RData
+scripts/.Rhistory
