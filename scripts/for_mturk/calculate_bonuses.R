@@ -177,3 +177,21 @@ all_bonuses<-merge(all_bonuses_numHITs, all_bonuses_validated, by = "AnonId",all
 all_bonuses3<-merge(all_bonuses2, anon_codes, by = "AnonId",all = TRUE)
 
 total_bonuses<-all_bonuses3%>% mutate(total_bonus = numHIT_bonus+validation_bonus)
+
+######### AGGREGATE ERROR RATES PER WORKER #########
+all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)
+errors<-merge(all_validation_rates,all_bonuses_validated,by="AnonId")
+
+errors2<-errors%>%
+  rename("mean_agree_validating"=mean_agree.x,
+         "mean_validated"=mean_agree.y,
+         "count_validations"=count.x,
+         "count_writing"=count.y)%>%
+  select(-validation_bonus)%>%
+  mutate(mean_validated=na_if(mean_validated,0))%>%
+  mutate(count_writing=na_if(count_writing,0))%>%
+  filter(!(is.na(count_validations)&is.na(count_writing)))%>%
+  mutate("low_raw_agreement" = ifelse(mean_agree_validating < 0.7 | mean_validated < 0.7,"low","good"))%>%
+  replace_na(list(low_raw_agreement = "good"))
+
+         
