@@ -1,0 +1,3 @@
+[submodule "jiant"]
+	path = jiant
+	url = https://github.com/wh629/jiant-1.git

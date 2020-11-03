@@ -131,3 +131,11 @@ dmypy.json
 stats/*
 scripts/.RData
 scripts/.Rhistory
+
+# jiant folders
+experiments/*
+tasks/*
+cache/*
+run_configs/
+models/*
+env/*
