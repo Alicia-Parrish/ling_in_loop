@@ -1,0 +1,6 @@
+sh create-task-configs.sh <test> true
+sh tokenization-and-cache.sh <test> roberta-large true
+sh train-models.sh <test> roberta-large <3000> true
+sh get-best.sh <test>
+sh tokenization-and-cache.sh eval_<test> roberta-large
+sh eval-models.sh <test> <lr> <bs> roberta-large

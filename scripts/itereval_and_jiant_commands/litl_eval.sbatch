@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=2
+#SBATCH --gres=gpu:p40:1
+#SBATCH --time=72:00:00
+#SBATCH --mem=40GB
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=wh629@nyu.edu
+#SBATCH --output=/scratch/wh629/research/litl/logs/slurm_%j.out
+
+BASE_DIR=/scratch/wh629/research/litl
+
+venv_path=${BASE_DIR}/env
+source activate $venv_path
+
+JIANT_PATH=${BASE_DIR}/jiant/jiant
+echo $TASK_NAME
+echo $MODELS_DIR
+echo $MODEL_TYPE
+echo $RUN_CONFIG
+export PYTHONPATH=jiant/
+
+timestamp=$(date +%s)
+
+$venv_path/bin/python \
+    $JIANT_PATH/proj/main/runscript.py \
+    run \
+       --ZZsrc ${MODELS_DIR}/${MODEL_TYPE}/config.json \
+       --jiant_task_container_config_path ${RUN_CONFIG} \
+       --model_load_mode all \
+       --model_path ${MODEL_PATH} \
+       --do_val \
+       --output_dir  ${OUTPUT_DIR} \
+       --ZZoverrides model_path \
+       --write_val_preds

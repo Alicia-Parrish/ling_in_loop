@@ -138,4 +138,3 @@ tasks/*
 cache/*
 run_configs/
 models/*
-env/*
