@@ -194,4 +194,5 @@ errors2<-errors%>%
   mutate("low_raw_agreement" = ifelse(mean_agree_validating < 0.7 | mean_validated < 0.7,"low","good"))%>%
   replace_na(list(low_raw_agreement = "good"))
 
+write.csv(errors2,"files/worker_data/round1_worker_error_rates.csv")
          
