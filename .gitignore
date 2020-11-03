@@ -134,7 +134,7 @@ scripts/.Rhistory
 
 # jiant folders
 experiments/*
-tasks/*
 cache/*
 run_configs/
 models/*
+logs/*

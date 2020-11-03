@@ -3,6 +3,7 @@ LR=$2
 TRAIN_BATCH=$3
 MODEL_TYPE=$4
 
+SCRIPT_DIR=$PWD
 cd ..
 cd ..
 BASE_DIR=$PWD
@@ -32,4 +33,4 @@ python jiant/jiant/proj/main/scripts/configurator.py \
     --eval_batch_multiplier ${EVAL_BATCH_MULT} \
     --do_val
 
-sbatch --export=MODEL_PATH=$MODEL_PATH,MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE litl_eval.sbatch
+sbatch --export=MODEL_PATH=$MODEL_PATH,MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE ${SCRIPT_DIR}/litl_eval.sbatch

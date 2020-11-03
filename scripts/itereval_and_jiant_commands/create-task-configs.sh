@@ -4,7 +4,6 @@ HYP=$2
 cd ..
 cd ..
 BASE_DIR=$PWD
-echo $BASE_DIR
 
 DATA_DIR=${BASE_DIR}/tasks/data/${TASK_NAME}
 ITEREVAL=${BASE_DIR}/tasks/data/iterative_eval/val_itercombined.jsonl
