@@ -27,6 +27,31 @@ input.toggle { display: none; }
 
 </style>
 
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+	var ut_id = "37ed3a097a18c9320961dfe1bf56e193xxxAVP120";
+	if (UTWorkerLimitReached(ut_id)) {
+		document.getElementById('mturk_form').style.display = 'none';
+		document.getElementsByTagName('body')[0].innerHTML = "You have already completed the maximum of 120 writing HITs in this round. We'll let you know when we release a set of validation HITs that you'll be able to complete. Thank you for all your hard work so far!";
+	}
+})();
+</script>
+
+
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+	var ut_id = "88e86fb537116632df7a983d7bdd566exxxAVP35x3";
+	if (UTWorkerLimitReached(ut_id)) {
+		document.getElementById('mturk_form').style.display = 'none';
+		document.getElementsByTagName('body')[0].innerHTML = "You have already completed 35 HITs in this batch. Please wait for another batch to be released. You'll be able to take a total of 120 writing HITs this round, but each of the 7 batches has a limit of 35 HITs per worker. Thank you for all your hard work so far!";
+	}
+})();
+</script>
+
+
+
 <h2>Instructions:</h2>
 
 <p>This task will involve reading a line from an unfamiliar text and writing three sentences that relate to it. 
@@ -50,7 +75,7 @@ As an added constraint, <strong>there are some words that you cannot use</strong
 
 <p> One example is provided for you below. 
 	If you would like to see additional examples or answers to common questions about this task,
-	please refer to our FAQ page <a href="https://docs.google.com/document/d/1DBdLV_H0pYWweSsO3cpV515q1k9c-uzvQTpqKu2-xN0/edit?usp=sharing" target=blank>here</a>.
+	please refer to our FAQ page <a href="https://docs.google.com/document/d/1uUr1ldO7oWAfbi255fKikS2C1ga6Px7IGlEdeI_Tr3c/edit?usp=sharing" target=blank>here</a>.
 </p>
 
 <div class="wrap-collabsible"> 
@@ -73,7 +98,7 @@ As an added constraint, <strong>there are some words that you cannot use</strong
 
 <hr noshade="noshade" />
 
-<h2>Bonus upportunity ($0.13):</h2>
+<h2>Bonus opportunity ($0.13):</h2>
 
 <p>You can also optionally follow an added restriction. 
 	Note that it may not be possible to follow this restriction for all texts. 
@@ -94,7 +119,7 @@ As an added constraint, <strong>there are some words that you cannot use</strong
 	For example, the word <em>not</em> is restricted for definitely incorrect statements.
 	Using <em>not</em> when writing either a maybe correct or definitely correct statement satisfies this restriction.
 	You should try to choose a different restricted word for each sentence.
-	For full examples and further explanation, see the FAQ page <a href="https://docs.google.com/document/d/1DBdLV_H0pYWweSsO3cpV515q1k9c-uzvQTpqKu2-xN0/edit#heading=h.pm9u0adkd98j">here</a> (direct link to the relevant section).
+	For full examples and further explanation, see the FAQ page <a href="https://docs.google.com/document/d/1uUr1ldO7oWAfbi255fKikS2C1ga6Px7IGlEdeI_Tr3c/edit#bookmark=kix.xd9dlg97y1qe">here</a> (direct link to the relevant section).
 </p>
 
 <br>
@@ -113,19 +138,19 @@ As an added constraint, <strong>there are some words that you cannot use</strong
 
 <div class="trial count">
 	<li> Your definitely correct statement must not contain any of the following words: <em>some, something, people, there</em></li>
-    <p><label for="entailment"><span class="trial_number">Definitely true statement:</span></label> 
+    <p><label for="entailment"><span class="trial_number">Definitely correct statement:</span></label> 
         <span class="score count"><input type="text" id="entailment" name="entailment" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
 	<li>Your maybe correct statement must not contain any of the following words: <em>may, might, many, most</em></li>
-    <p><label for="neutral"><span class="trial_number">Maybe true statement:</span></label> 
+    <p><label for="neutral"><span class="trial_number">Maybe correct statement:</span></label> 
         <span class="score count"><input type="text" id="neutral" name="neutral" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
 	<li>Your definitely incorrect statement must not contain any of the following words: <em>none, never, no, not, n't</em></li>
-    <p><label for="contradiction"><span class="trial_number">Definitely false statement:</span></label> 
+    <p><label for="contradiction"><span class="trial_number">Definitely incorrect statement:</span></label> 
         <span class="score count"><input type="text" id="contradiction" name="contradiction" size="100" /></span>
     </p>
 </div>
@@ -137,7 +162,7 @@ As an added constraint, <strong>there are some words that you cannot use</strong
 
 
 <div>
-	<p>If you experienced any issues that made this HIT especially difficult or if the text was non-sensical, please provide more detail below (optional)</p>
+	<p>(optional) If you experienced any issues that made this HIT especially difficult or if the text was non-sensical, please provide more detail below </p>
 	<input type="text" id="comments" name="comments" size="100" /></span>
 </div>
 

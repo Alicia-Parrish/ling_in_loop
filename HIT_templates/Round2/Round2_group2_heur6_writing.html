@@ -1,0 +1,226 @@
+
+
+<style type="text/css">
+    label, input[type=radio], input[type=button] { cursor: pointer; }
+    .blue { color: blue; }
+    .red { color: red; }
+    .trial { padding: 15px 10px; }
+    .trial p, .trial table { padding-left: 20px; margin: 3px; }
+    .trial table { width: 400px; }
+    .trial tr td { width: 14%; text-align: center; }
+    .trial_number { font-size:1.2em; font-weight: bold; }
+    .tab { margin-left: 40px; }
+    #unanswered { font-weight: bold; font-size: 2em; color: black; background-color: red; margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+    #answered { margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
+    
+    input.toggle { display: none; } 
+    .wrap-collabsible { margin: 1.2rem 0; } 
+    .lbl-toggle { display: block; font-weight: bold; font-family: monospace; font-size: 1.2rem; text-transform: uppercase; text-align: center; padding: 1rem; color: #DDD; background: #2b3e5a; cursor: pointer; border-radius: 7px; transition: all 0.25s ease-out; } 
+    .lbl-toggle:hover { color: #FFF; } 
+    .lbl-toggle::before { content: ' '; display: inline-block; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid currentColor; vertical-align: middle; margin-right: .7rem; transform: translateY(-2px); transition: transform .2s ease-out; } 
+    .toggle:checked+.lbl-toggle::before { transform: rotate(90deg) translateX(-3px); } 
+    .collapsible-content { max-height: 0px; overflow: hidden; transition: max-height .25s ease-in-out; } 
+    .toggle:checked + .lbl-toggle + .collapsible-content { max-height: 350px; } 
+    .toggle:checked+.lbl-toggle { border-bottom-right-radius: 0; border-bottom-left-radius: 0; } 
+    .collapsible-content .content-inner { background: rgba(222, 212, 238, 0.521); border-bottom: 1px solid rgba(202, 191, 218, 0.493); border-bottom-left-radius: 7px; border-bottom-right-radius: 7px; padding: .5rem 1rem; } 
+    .collapsible-content p { margin-bottom: 0; }
+    
+    </style>
+    
+    <script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    (function(){
+        var ut_id = "37ed3a097a18c9320961dfe1bf56e193xxxAVP120";
+        if (UTWorkerLimitReached(ut_id)) {
+            document.getElementById('mturk_form').style.display = 'none';
+            document.getElementsByTagName('body')[0].innerHTML = "You have already completed the maximum of 120 writing HITs in this round. We'll let you know when we release a set of validation HITs that you'll be able to complete. Thank you for all your hard work so far!";
+        }
+    })();
+    </script>
+    
+    
+    <script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    (function(){
+        var ut_id = "88e86fb537116632df7a983d7bdd566exxxAVP35x6";
+        if (UTWorkerLimitReached(ut_id)) {
+            document.getElementById('mturk_form').style.display = 'none';
+            document.getElementsByTagName('body')[0].innerHTML = "You have already completed 35 HITs in this batch. Please wait for another batch to be released. You'll be able to take a total of 120 writing HITs this round, but each of the 7 batches has a limit of 35 HITs per worker. Thank you for all your hard work so far!";
+        }
+    })();
+    </script>
+    
+    
+    
+    <h2>Instructions:</h2>
+    
+    <p>This task will involve reading a line from an unfamiliar text and writing three sentences that relate to it. 
+    Using only this text and what you know about the world:</p>
+    
+    <ul>
+        <li>Write one sentence that is deﬁnitely correct about the situation or event in the line.</li>
+        <li>Write one sentence that might be correct about the situation or event in the line.</li>
+        <li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
+    </ul>
+    
+    <p>
+    As an added constraint, <strong>there are some words that you cannot use</strong> in your statement:
+    </p>
+    
+    <ul>
+        <li>The deﬁnitely correct sentence cannot use the following words: <em>some, something, people, there</em> </li>
+        <li>The deﬁnitely maybe sentence cannot use the following words: <em>may, might, many, most</em> </li>
+        <li>The deﬁnitely incorrect sentence cannot use the following words: <em>none, never, no, not</em> (this restriction includes using the contraction <em>n’t</em>, as in <em>doesn’t</em>)</em></li>
+    </ul>
+    
+    <p> One example is provided for you below. 
+        If you would like to see additional examples or answers to common questions about this task,
+        please refer to our FAQ page <a href="https://docs.google.com/document/d/1uUr1ldO7oWAfbi255fKikS2C1ga6Px7IGlEdeI_Tr3c/edit?usp=sharing" target=blank>here</a>.
+    </p>
+    
+    <div class="wrap-collabsible"> 
+        <input id="collapsible1" class="toggle" type="checkbox"> 
+        <label for="collapsible1" class="lbl-toggle">Example</label>
+        <div class="collapsible-content">
+            <div class="content-inner">
+                <p> <span class="trial_number">Text:</span>
+                    Well aware of the island's burgeoning wealth and repository of supplies, the French pirate Bertrand de Montluc sailed into Funchal harbor with his 11-galleon armada and 1,300 men.</p>
+                    <ul>
+                        <li><strong>Deﬁnitely correct statement:</strong> Bertrand de Montluc arrived at the island with a great force of men.</li>
+                        <li><strong>Maybe correct statement:</strong> Montluc plundered and looted the island, killing several of its residents.</li>
+                        <li><strong>Definitely incorrect statement:</strong> The pirate Bertrand de Montluc avoided the wealthy island owing to its heavily armed garrison.</li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+    
+    <hr noshade="noshade" />
+    
+    <h2>Bonus opportunity ($0.13):</h2>
+    
+    <p>You can also optionally follow an added restriction. 
+        Note that it may not be possible to follow this restriction for all texts. 
+        Use your best judgment. 
+        We don't expect you select this opportunity on every HIT.
+    
+        If you feel that you can complete <strong>all three statements</strong> following the below restriction, 
+        check the box in the HIT.
+        After we verify that your answers follow the indicated restriction, 
+        we will award you a bonus of $0.13 on this HIT.
+        This is in addition to any other bonuses you are awarded on this HIT series.
+    </p>
+    
+    <p><strong>Restriction:</strong> 
+        Use a more specific or less specific word.</p>
+    
+    <p>
+        Select on a word (or phrase) in the text and come up with another word (or phrase) that is either <em>more specific</em> or <em>less specific</em>. 
+        For example, if the text contains the word <em>dog</em>, a more specific term could be <em>golden retriever</em>, 
+        and a less specific term could be <em>animal</em>. 
+        You should use the same word (or phrase) you came up with in all three sentences you write.
+        For full examples and further explanation, see the FAQ page <a href="https://docs.google.com/document/d/1uUr1ldO7oWAfbi255fKikS2C1ga6Px7IGlEdeI_Tr3c/edit#bookmark=kix.sf74zwlynwsx">here</a> (direct link to the relevant section).
+    </p>
+    
+    <br>
+    
+    <hr noshade="noshade" />
+    
+    <p><span class="trial_number">Text:</span>
+        
+        ${premise}</p>
+    
+        <div>
+            <input type="checkbox" id="constraint" name="constraint_1" value="hypernym_hyponym" >
+            <label for="constraint">Each of the three sentences uses either a more specific or less specific word from the text.</label>
+        </div>
+        
+    
+    <div class="trial count">
+        <li> Your definitely correct statement must not contain any of the following words: <em>some, something, people, there</em></li>
+        <p><label for="entailment"><span class="trial_number">Definitely correct statement:</span></label> 
+            <span class="score count"><input type="text" id="entailment" name="entailment" size="100" /></span>
+        </p>
+    </div>
+    <div class="trial count">
+        <li>Your maybe correct statement must not contain any of the following words: <em>may, might, many, most</em></li>
+        <p><label for="neutral"><span class="trial_number">Maybe correct statement:</span></label> 
+            <span class="score count"><input type="text" id="neutral" name="neutral" size="100" /></span>
+        </p>
+    </div>
+    <div class="trial count">
+        <li>Your definitely incorrect statement must not contain any of the following words: <em>none, never, no, not, n't</em></li>
+        <p><label for="contradiction"><span class="trial_number">Definitely incorrect statement:</span></label> 
+            <span class="score count"><input type="text" id="contradiction" name="contradiction" size="100" /></span>
+        </p>
+    </div>
+    
+    
+    
+    <hr noshade="noshade" />
+    
+    
+    
+    <div>
+        <p>(optional) If you experienced any issues that made this HIT especially difficult or if the text was non-sensical, please provide more detail below </p>
+        <input type="text" id="comments" name="comments" size="100" /></span>
+    </div>
+    
+    <br />
+    
+    <div id="unanswered">
+        <span>&nbsp;</span> questions (out of 3 total) have been answered. If you submit now, you will not be paid.<br />
+        <input type="button" value="HIGHLIGHT UNANSWERED QUESTIONS" id="highlight-button" />
+    </div>
+    
+    <div id="answered">
+        <span>&nbsp;</span> questions (out of 3 total) have been answered. You are ready to submit.
+    </div>
+    
+    <p><input type="hidden" name="numanswered" id="numanswered" /> <input type="hidden" name="useragent" id="useragent" /></p>
+    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type='text/javascript'>
+        // counter code:
+        total_number = parseInt("3") || Infinity;
+        
+        function answered() {
+            var value = $(this).val();
+            return value.length;
+        }
+        function count() {
+            if ($(this).is('input') && $(this).is(answered))
+                $(this).closest('.trial').css('background','transparent');
+        
+            var num = $('.count input[type="text"]').filter(answered).length;
+        
+            $('#unanswered span, #answered span').text(num);
+            $('#numanswered').val(num);
+        
+            if ( num < total_number ) {
+                $('#unanswered').show();
+                $('#answered').hide();
+            } else {
+                $('#unanswered').hide();
+                $('#answered').show();
+            }
+        }
+        $(count);
+        $('input').bind('change', count);
+        
+        $(function() {
+            $('#useragent').val(navigator.userAgent);
+        });
+        
+        function highlight() {
+            $('.trial.count').each(function() {
+                if (!$(this).find('input').is(answered))
+                    $(this).css('background', 'yellow');
+                else
+                    $(this).css('background', 'transparent');			
+            });
+        }
+        $('#highlight-button').click(highlight);
+    </script>
+    
