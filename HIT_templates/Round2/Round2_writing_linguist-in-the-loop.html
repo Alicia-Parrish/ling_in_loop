@@ -38,19 +38,32 @@ Using only this text and what you know about the world:</p>
 	<li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
 </ul>
 
-In your sentence, you must make sure that you ${rule_in_heuristic}.
+<p>
+As an added constraint, <strong>there are some words that you cannot use</strong> in your statement:
+</p>
+
+<ul>
+	<li>The deﬁnitely correct sentence cannot use the following words: <em>some, something, people, there</em> </li>
+	<li>The deﬁnitely maybe sentence cannot use the following words: <em>may, might, many, most</em> </li>
+	<li>The deﬁnitely incorrect sentence cannot use the following words: <em>none, never, no, not</em> (this restriction includes using the contraction <em>n’t</em>, as in <em>doesn’t</em>)</em></li>
+</ul>
+
+<p> One example is provided for you below. 
+	If you would like to see additional examples or answers to common questions about this task,
+	please refer to our FAQ page <a href="https://docs.google.com/document/d/1DBdLV_H0pYWweSsO3cpV515q1k9c-uzvQTpqKu2-xN0/edit?usp=sharing" target=blank>here</a>.
+</p>
 
 <div class="wrap-collabsible"> 
-    <input id="collapsible1" class="toggle" type="checkbox" > 
+    <input id="collapsible1" class="toggle" type="checkbox"> 
     <label for="collapsible1" class="lbl-toggle">Example</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <p> <span class="trial_number">Text:</span>
-                Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                Well aware of the island's burgeoning wealth and repository of supplies, the French pirate Bertrand de Montluc sailed into Funchal harbor with his 11-galleon armada and 1,300 men.</p>
                 <ul>
-                    <li><strong>Deﬁnitely correct statement:</strong> This building job will be very difficult to complete.</li>
-                    <li><strong>Maybe correct statement:</strong> Dave Hanson worked with an especially large engineering team.</li>
-                    <li><strong>Definitely incorrect statement:</strong> This engineering task will be quite easy for everyone.</li>
+                    <li><strong>Deﬁnitely correct statement:</strong> Bertrand de Montluc arrived at the island with a great force of men.</li>
+                    <li><strong>Maybe correct statement:</strong> Montluc plundered and looted the island, killing several of its residents.</li>
+                    <li><strong>Definitely incorrect statement:</strong> The pirate Bertrand de Montluc avoided the wealthy island owing to its heavily armed garrison.</li>
                 </ul>
         </div>
     </div>
@@ -58,7 +71,31 @@ In your sentence, you must make sure that you ${rule_in_heuristic}.
 
 <br>
 
-If needed, you can check out our FAQ page for examples and answers to common questions.
+<hr noshade="noshade" />
+
+<h2>Bonus upportunity ($0.13):</h2>
+
+<p>You can also optionally follow an added restriction. 
+	Note that it may not be possible to follow this restriction for all texts. 
+	Use your best judgment. 
+	We don't expect you select this opportunity on every HIT.
+
+	If you feel that you can complete <strong>all three statements</strong> following the below restriction, 
+	check the box in the HIT.
+	After we verify that your answers follow the indicated restriction, 
+	we will award you a bonus of $0.13 on this HIT.
+	This is in addition to any other bonuses you are awarded on this HIT series.
+</p>
+
+<p><strong>Restriction:</strong> 
+	Use a restricted word from one sentence type when writing the sentence of a different type.</p>
+
+<p>
+	For example, the word <em>not</em> is restricted for definitely incorrect statements.
+	Using <em>not</em> when writing either a maybe correct or definitely correct statement satisfies this restriction.
+	You should try to choose a different restricted word for each sentence.
+	For full examples and further explanation, see the FAQ page <a href="https://docs.google.com/document/d/1DBdLV_H0pYWweSsO3cpV515q1k9c-uzvQTpqKu2-xN0/edit#heading=h.pm9u0adkd98j">here</a> (direct link to the relevant section).
+</p>
 
 <br>
 
@@ -68,37 +105,26 @@ If needed, you can check out our FAQ page for examples and answers to common que
 	
 	${premise}</p>
 
-    <p>For a bonus, we are also asking you to adhere to the following constraints, if it's possible to apply them (some may not apply for the text that you are given).
-    For each constraint that you are able to follow, check the box next to that constraint. 
-    You will receive a $0.13 bonus for each constraint.
-    Unless otherwise noted, if you check off a constraint, you must apply it to all three statements that you provide.
-    </p>
-
     <div>
-        <input type="checkbox" id="constraint_1" name="constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
+        <input type="checkbox" id="constraint" name="constraint_1" value="restricted_word_in_diff_label" >
+        <label for="constraint">Each of the three sentences uses a restricted word from another sentence type.</label>
     </div>
     
 
 <div class="trial count">
+	<li> Your definitely correct statement must not contain any of the following words: <em>some, something, people, there</em></li>
     <p><label for="entailment"><span class="trial_number">Definitely true statement:</span></label> 
         <span class="score count"><input type="text" id="entailment" name="entailment" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
+	<li>Your maybe correct statement must not contain any of the following words: <em>may, might, many, most</em></li>
     <p><label for="neutral"><span class="trial_number">Maybe true statement:</span></label> 
         <span class="score count"><input type="text" id="neutral" name="neutral" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
+	<li>Your definitely incorrect statement must not contain any of the following words: <em>none, never, no, not, n't</em></li>
     <p><label for="contradiction"><span class="trial_number">Definitely false statement:</span></label> 
         <span class="score count"><input type="text" id="contradiction" name="contradiction" size="100" /></span>
     </p>
@@ -111,7 +137,7 @@ If needed, you can check out our FAQ page for examples and answers to common que
 
 
 <div>
-	<p>If you experienced any issues that made this HIT especially difficult, please provide more detail below (optional)</p>
+	<p>If you experienced any issues that made this HIT especially difficult or if the text was non-sensical, please provide more detail below (optional)</p>
 	<input type="text" id="comments" name="comments" size="100" /></span>
 </div>
 
