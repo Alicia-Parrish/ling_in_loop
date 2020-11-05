@@ -206,7 +206,7 @@ bonus_with_ass_ids<-merge(total_bonuses,ass_ids[2:3],by="WorkerId",all=T)
 
 pay_bonus<-filter(bonus_with_ass_ids,total_bonus!=0)
 
-write.csv(total_bonuses,"../../SECRET/ling_in_loop_SECRET/round1_bonuses.csv")
+write.csv(pay_bonus,"../../SECRET/ling_in_loop_SECRET/round1_bonuses.csv")
 
 
 
