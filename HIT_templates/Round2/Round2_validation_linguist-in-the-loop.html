@@ -78,13 +78,15 @@ input.toggle[type='checkbox'] { display: none; }
 <br>
 
 <p>
-For each item, you should also check off any constraints that apply to the statement.
-You should select all and only the relevant constraints for each of the 6 items.
+For each item, the following additional constraint may or may not apply:
+<span style="color:red">${heuristic_description}</span>. 
+<br />
+You must indicate whether or not that constraint applies to the <strong>statement</strong> for each item.
 </p>
 
 <p>
-If needed, you can check out our FAQ page for examples and answers to common questions. 
-This page also provides an explanation of all the relevant constraints.
+If needed, you can check out our FAQ page <a href="https://docs.google.com/document/d/1-RgBvqBnLylunj_3V-xw2YKJajK5BwwbR3CqftLJsEw/edit?usp=sharing" target=blank>here</a> for examples and answers to common questions. 
+This page also provides an explanation of all the relevant constraints (you can use the sidebar to navigate to the one you're looking for).
 </p>
 
 <br>
@@ -115,19 +117,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h1_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h1_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h1_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_1">Yes</label></td>
+        <td><label for="h_no_1">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_1" name="heuristic_val_1" value="Yes" /></td>
+        <td><input type="radio" id="h_no_1" name="heuristic_val_1" value="No" /></td>
+    </tr>
+</tbody></table>
 
 <hr noshade="noshade" />
 
@@ -154,19 +155,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h2_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h2_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h2_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_2">Yes</label></td>
+        <td><label for="h_no_2">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_2" name="heuristic_val_2" value="Yes" /></td>
+        <td><input type="radio" id="h_no_2" name="heuristic_val_2" value="No" /></td>
+    </tr>
+</tbody></table>
 
 <hr noshade="noshade" />
 
@@ -193,19 +193,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h3_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h3_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h3_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_3">Yes</label></td>
+        <td><label for="h_no_3">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_3" name="heuristic_val_3" value="Yes" /></td>
+        <td><input type="radio" id="h_no_3" name="heuristic_val_3" value="No" /></td>
+    </tr>
+</tbody></table>
 
 <hr noshade="noshade" />
 
@@ -232,19 +231,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h4_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h4_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h4_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_4">Yes</label></td>
+        <td><label for="h_no_4">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_4" name="heuristic_val_4" value="Yes" /></td>
+        <td><input type="radio" id="h_no_4" name="heuristic_val_4" value="No" /></td>
+    </tr>
+</tbody></table>
 
 <hr noshade="noshade" />
 
@@ -271,19 +269,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h5_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h5_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h5_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_5">Yes</label></td>
+        <td><label for="h_no_5">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_5" name="heuristic_val_5" value="Yes" /></td>
+        <td><input type="radio" id="h_no_5" name="heuristic_val_5" value="No" /></td>
+    </tr>
+</tbody></table>
 
 <hr noshade="noshade" />
 
@@ -310,19 +307,18 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h6_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h6_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h6_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+<table class="count"><tbody>
+    <p>For the statement above, does the constraint that <span style="color:red">${heuristic_description}</span> apply?</p>
+
+    <tr>
+        <td><label for="h_yes_6">Yes</label></td>
+        <td><label for="h_no_6">No</label></td>
+    </tr>
+    <tr>
+        <td><input type="radio" id="h_yes_6" name="heuristic_val_6" value="Yes" /></td>
+        <td><input type="radio" id="h_no_6" name="heuristic_val_6" value="No" /></td>
+    </tr>
+</tbody></table>
 
 
 <hr noshade="noshade" />
@@ -337,12 +333,12 @@ This page also provides an explanation of all the relevant constraints.
 <br />
 
 <div id="unanswered">
-	<span>&nbsp;</span> questions (out of 6 total) have been answered. If you submit now, you will not be paid.<br />
+	<span>&nbsp;</span> questions (out of 12 total) have been answered. If you submit now, you will not be paid.<br />
 	<input type="button" value="HIGHLIGHT UNANSWERED QUESTIONS" id="highlight-button" />
 </div>
 
 <div id="answered">
-	<span>&nbsp;</span> questions (out of 6 total) have been answered. You are ready to submit.
+	<span>&nbsp;</span> questions (out of 12 total) have been answered. You are ready to submit.
 </div>
 
 <p><input type="hidden" name="numanswered" id="numanswered" /> <input type="hidden" name="useragent" id="useragent" /></p>
@@ -350,7 +346,7 @@ This page also provides an explanation of all the relevant constraints.
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type='text/javascript'>
 	// counter code:
-	total_number = parseInt("6") || Infinity;
+	total_number = parseInt("12") || Infinity;
 	
 	function count() {
 	if ($(this).is('input') && $(this).closest('table.count').find('input[type=radio]:checked').length == 1)
