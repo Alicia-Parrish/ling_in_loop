@@ -1,4 +1,0 @@
-"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
-226,98237,"He writes that it's the first time he's added such a track.","temporal_reasoning","No","neutral","He added tracks different to this before.","98237n"
-230,27837,"Sometimes Huntington seems to think so.","temporal_reasoning","No","contradiction","Huntington avoided thinking it to be the case.","27837c"
-201,31113,"One wag, J., wrote in to ask, Is there a difference between pests and airlines?","temporal_reasoning","No","contradiction","J is supportive of airlines.","31113c"

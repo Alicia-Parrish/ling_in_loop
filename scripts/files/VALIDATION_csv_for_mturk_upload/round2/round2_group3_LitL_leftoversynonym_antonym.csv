@@ -1,4 +1,0 @@
-"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
-336,88064,"If there was a bit of Fuller in Leonardo, there was also a bit of Liberace in this theatrical, high-living dandy who favored brocade doublets and bad boys with pretty faces.","synonym_antonym","No","entailment","The current theatrical reminded one of Fuller in Leonardo and Liberace.","88064e"
-332,40075,"In an interview with the Chronicle for Higher Education , Levitt took credit for launching the letter-writing  I was mad as hell that such an irresponsible review had run in Science , he said.","synonym_antonym","Yes","contradiction","Levitt took credit for starting the letter-writing in an interview with the president.","40075c"
-337,62414,"Interesting Conflict Over Conflict of Interest","synonym_antonym","No","neutral","A clash can become boring very quickly","62414n"
