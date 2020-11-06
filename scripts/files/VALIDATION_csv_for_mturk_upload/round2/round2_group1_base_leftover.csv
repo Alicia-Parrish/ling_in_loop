@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","label","hypothesis","pairID"
+102,107978,"Unless the political culture changes drastically, there will always be one or more independent prosecutors investigating the administration of the day and/or past administrations, anyway.","contradiction","Independent prosecutors do not exist in our current political climate.","107978c"
+128,92343,"After all, what is Social Security but a job benefit?","neutral","social security is getting reduced next month.","92343n"
+130,40708,"The only comprehensible explanation is that the vocation that had burrowed in next to medicine had taken control, had insisted.","entailment","Jobs are capable of moving themselves into other various fields.","40708e"

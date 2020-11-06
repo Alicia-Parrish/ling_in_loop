@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+329,103455,"Now they're telling mothers to deny food to infants all night long once the kids are a few months old.","restricted_word_in_diff_label","Yes","contradiction","It's suggested that most mothers feed their infants all night long when they are hungry.","103455c"
+329,117964,"In the '50s, he reworked It Ain't Necessarily So for Adlai Stevenson (and included the first sung reference to a vice-presidential  L'il Nixon was small, but oh, my/His office expenses were high) as well as Love Is Sweeping the Country (also from Of Thee I Sing ):","restricted_word_in_diff_label","No","entailment","Love is Sweeping the Country was sang in the 50's.","117964e"
+332,96410,"Unfortunately, the magnet schools began the undoing of desegregation in Charlotte.","restricted_word_in_diff_label","No","entailment","Magnet schools in Charlotte began the desegregation of schools.","96410e"

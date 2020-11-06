@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+218,35658,"Gigot argued that Starr's victories had a political echo or consequence in Congress, namely they make impeachment proceedings more likely.","relative_clause","No","entailment","Gigot's argument stated that Starr's victories could have consequences that would make impeachment more likely.","35658e"
+236,80808,"A button on the Chatterbox page will make this easy, so please do join in.","relative_clause","No","contradiction","The button on the Chatterbox page forces you to exit.","80808c"
+222,1771,"Sun Ra's spaceships did not come, as it were, out of nowhere.","relative_clause","Yes","entailment","The spaceships that belong to Sun Ra didn't come out of nowhere","1771e"

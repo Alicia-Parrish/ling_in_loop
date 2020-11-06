@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+309,107468,"You have to walk through it).","reverse_argument_order","No","contradiction","You can run through it.","107468c"
+333,120967,"ran toward us rather slowly, like people finishing their run.","reverse_argument_order","No","entailment","The person ran in an exhaustive way.","120967e"
+306,102923,"The movie doesn't come to much, though.","reverse_argument_order","No","contradiction","All movies should be avoided.","102923c"

@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+222,45816,"But many have--if a passenger with the problem calls in advance, there will be no peanuts on that flight.","synonym_antonym","Yes","entailment","There will be no peanuts on an airplane if a passenger calls beforehand","45816e"
+236,98078,"( sums up the millennium coverage from around the globe, and  examines whether the Y2K preparations were a waste.)","synonym_antonym","Yes","entailment","This is a summary of Y2K preparations around the world.","98078e"
+230,18348,"If the face has been getting longer at the bottom over the generations, it has been getting shorter (and broader) on top.","synonym_antonym","Yes","neutral","Over time, through their parentage, if they gain an inch in their lower face, they will lose an inch in their upper face.","18348n"

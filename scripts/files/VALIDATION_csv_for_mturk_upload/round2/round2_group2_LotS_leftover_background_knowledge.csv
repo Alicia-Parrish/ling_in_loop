@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+231,9085,"Only Billy has a reputation as a straight arrow.","reverse_argument_order","No","contradiction","Billy is a high living playboy who uses drugs regularly and has sex with anyone who comes near him.","9085c"
+226,73751,"The key question may be not what Hillary knew but when she knew it.","reverse_argument_order","No","entailment","Hillary knew something.","73751e"
+211,29226,"While she said that this violated the unwritten code against taking more than two candidates in the race seriously at the same time, she noted that since McCain wasn't running in Iowa, Forbes would be his surrogate as not Bush.","reverse_argument_order","No","neutral","McCain wore a red tie more often than he wore a blue tie.","29226n"

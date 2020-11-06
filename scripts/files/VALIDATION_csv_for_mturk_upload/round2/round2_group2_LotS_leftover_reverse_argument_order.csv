@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","heuristic_checked","label","hypothesis","pairID"
+222,14272,"Inflation is supposed to be a deadly poison, not a useful medicine.","restricted_word_in_diff_label","Yes","entailment","Inflation is not supposed to be a useful medicine","14272e"
+229,127395,"Republican consultants agree that conservative candidates in the South, Southwest, Midwest, and Rocky Mountains will beg for Reed's talents and connections.","restricted_word_in_diff_label","No","contradiction","Reed's talents and connections is a turn off for republicans.","127395c"
+222,45749,"Perhaps all we can say of great acting is that it involves assimilation rather than accumulation, that the performer isn't so much a surrogate as a vessel.","restricted_word_in_diff_label","Yes","entailment","The performer isn't a surrogate","45749e"
