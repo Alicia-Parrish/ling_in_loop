@@ -9,10 +9,6 @@ set.seed(42)
 
 round = "round2" # change this value each round
 
-base<-NULL
-LotS<-NULL
-LitL<-NULL
-
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 heur_mapping<-read.csv("for_mturk/heuristic_definitions_round2.csv")
 
@@ -20,13 +16,13 @@ heur_mapping<-read.csv("for_mturk/heuristic_definitions_round2.csv")
 transform_data = function(dat){
   dat2<-dat%>%
     filter(Input.splits=="dev")%>%
-    select(AnonId,group,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,heuristic,heuristic_checked)%>%
+    select(AnonId,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,heuristic,heuristic_checked)%>%
     rename("promptID" = Input.promptID,
            "premise" = Input.premise,
            "entailment" = Answer.entailment,
            "neutral" = Answer.neutral,
            "contradiction" = Answer.contradiction)%>%
-    gather("label","hypothesis",-promptID,-premise,-AnonId,-group,-heuristic,-heuristic_checked)%>%
+    gather("label","hypothesis",-promptID,-premise,-AnonId,-heuristic,-heuristic_checked)%>%
     mutate("pairID"=ifelse(label=="entailment",paste0(promptID,"e"),
                            ifelse(label=="neutral",paste0(promptID,"n"),
                                   ifelse(label=="contradiction",paste0(promptID,"c"),"problem"))))
@@ -115,11 +111,11 @@ base_leftover <- base_vals[[2]]
 full_base_val$group = "group1"
 full_base_val$round = round
 
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group1_base_batch1.csv"),full_base_val[1:20,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group1_base_batch2.csv"),full_base_val[21:50,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group1_base_batch3.csv"),full_base_val[51:nrow(full_base_val),],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch1.csv"),full_base_val[1:20,],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch2.csv"),full_base_val[21:50,],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch3.csv"),full_base_val[51:nrow(full_base_val),],row.names = F)
 
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group1_base_leftover.csv"),base_leftover,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_leftover.csv"),base_leftover,row.names = F)
 
 # ---------- LotS PROTOCOL
 LotS_anon<-merge(LotS,anon_codes,by="WorkerId")
@@ -147,15 +143,27 @@ full_LotS_val_heur<-merge(full_LotS_val,heur_mapping,by="heuristic_1")
 
 
 # Set up the rel.clause and restricted word ones to run first, since those heuristics don't get validated by mturkers
-full_LotS_val_1 <- full_LotS_val_heur %>% filter(heuristic_1 == "restricted_word_in_diff_label" |
-                                              heuristic_1 == "relative_clause")
+full_LotS_val_noHeur <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "restricted_word_in_diff_label" |
+         heuristic_1 == "relative_clause") 
+full_LotS_val_noHeur$heuristic_description = NA
+full_LotS_val_noHeur$heuristic_example = NA
+
+# Set up with rest of them
+full_LotS_val_withHeur1 <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "background_knowledge" |
+         heuristic_1 == "temporal_reasoning")
+full_LotS_val_withHeur2 <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "hypernym_hyponym" |
+           heuristic_1 == "reverse_argument_order" |
+           heuristic_1 == "synonym_antonym")
   
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group2_LotS_batch1.csv"),full_LotS_val_heur[1:20,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group2_LotS_batch2.csv"),full_LotS_val_heur[21:50,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group2_LotS_batch3.csv"),full_LotS_val_heur[51:nrow(full_LotS_val_heur),],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch1_withHeur.csv"),full_LotS_val_withHeur1,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch2_withHeur.csv"),full_LotS_val_withHeur2,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch3_noHeur.csv"),full_LotS_val_noHeur,row.names = F)
 
 for(i in 1:length(all_heuristics)){
-  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group2_LotS_leftover_",all_heuristics[i],".csv"),LotS_leftovers[[i]],row.names = F)
+  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_leftover_",all_heuristics[i],".csv"),LotS_leftovers[[i]],row.names = F)
 }
 
 # ---------- LitL PROTOCOL
@@ -187,13 +195,25 @@ full_LitL_val_heur<-merge(full_LitL_val,heur_mapping,by="heuristic_1")
 
 
 # Set up the rel.clause and restricted word ones to run first, since those heuristics don't get validated by mturkers
-full_LitL_val_1 <- full_LitL_val_heur %>% filter(heuristic_1 == "restricted_word_in_diff_label" |
-                                                   heuristic_1 == "relative_clause")
+full_LitL_val_noHeur <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "restricted_word_in_diff_label" |
+        heuristic_1 == "relative_clause")
+full_LitL_val_noHeur$heuristic_description = NA
+full_LitL_val_noHeur$heuristic_example = NA
 
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group3_LitL_batch1.csv"),full_LitL_val_heur[1:20,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group3_LitL_batch2.csv"),full_LitL_val_heur[21:50,],row.names = F)
-write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group3_LitL_batch3.csv"),full_LitL_val_heur[51:nrow(full_LitL_val_heur),],row.names = F)
+# Set up with rest of them
+full_LitL_val_withHeur1 <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "background_knowledge" |
+           heuristic_1 == "temporal_reasoning")
+full_LitL_val_withHeur2 <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "hypernym_hyponym" |
+           heuristic_1 == "reverse_argument_order" |
+           heuristic_1 == "synonym_antonym")
+
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch1_withHeur.csv"),full_LitL_val_withHeur1,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch2_withHeur.csv"),full_LitL_val_withHeur2,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch3_noHeur.csv"),full_LitL_val_noHeur,row.names = F)
 
 for(i in 1:length(LitL_leftovers)){
-  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"_group3_LitL_leftover",all_heuristics[i],".csv"),LitL_leftovers[[i]],row.names = F)
+  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_leftover",all_heuristics[i],".csv"),LitL_leftovers[[i]],row.names = F)
 }
