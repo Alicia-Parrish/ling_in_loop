@@ -124,21 +124,21 @@ LitL_glue = merge(LitL_anon_transformed, glue_labels)
 base_anon_transformed2<-base_anon_transformed%>%
   select(AnonId,group,round,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_checked)%>%
   select(-heuristic,-heuristic_checked)%>%
-  filter(!is.na(hypothesis), hypothesis!="")
+  filter(!is.na(hypothesis), hypothesis!="", hypothesis != "{}")
 
 # Ling on the side
 LotS_anon_transformed2<-LotS_glue%>%
   select(AnonId,group,round,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_checked,glue_labels)%>%
-  filter(!is.na(hypothesis), hypothesis!="")
+  filter(!is.na(hypothesis), hypothesis!="", hypothesis != "{}")
 
 # Ling in the loop
 LitL_anon_transformed2<-LitL_glue%>%
   select(AnonId,group,round,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_checked,glue_labels)%>%
-  filter(!is.na(hypothesis), hypothesis!="")
+  filter(!is.na(hypothesis), hypothesis!="", hypothesis != "{}")
 
 #################### SAVE ####################
 
-jsonlite::stream_out(base_anon_transformed, file(paste0('../NLI_data/1_Baseline_protocol/train_',round,'_baseline.jsonl')))
-jsonlite::stream_out(LotS_anon_transformed_glue, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS.jsonl')))
-jsonlite::stream_out(LitL_anon_transformed_glue, file(paste0('../NLI_data/3_Ling_in_loop_protocol/train_',round,'_LitL.jsonl')))
+jsonlite::stream_out(base_anon_transformed2, file(paste0('../NLI_data/1_Baseline_protocol/train_',round,'_baseline.jsonl')))
+jsonlite::stream_out(LotS_anon_transformed2, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS.jsonl')))
+jsonlite::stream_out(LitL_anon_transformed2, file(paste0('../NLI_data/3_Ling_in_loop_protocol/train_',round,'_LitL.jsonl')))
 
