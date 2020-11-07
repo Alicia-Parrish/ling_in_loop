@@ -65,7 +65,7 @@ def summarize_configs(best_configs_fname, plot_args, args):
         breakouts['treatment'].append(run_id[0])
         breakouts['round'].append(run_id[1])
 
-        modifier = 'combined' if len(run_id) == 2 else run_id[2]
+        modifier = 'combined' if len(run_id) == 2 else '_'.join(run_id[2:])
         breakouts['modifier'].append(modifier)
 
         breakouts['lr'].append(float(lr))
@@ -199,21 +199,25 @@ def summarize_iterevals(base_dir, plot_args, args):
     }
 
 
-def save_summaries(summary_dict, out_dir, plot_type, save_plots, summary_type):
+def save_summaries(summary_dict, out_dir, plot_type, save_plots, combined, summary_type):
     plots = summary_dict['plots']
 
     if summary_type == 'configs':
         tables = summary_dict['tables']
+        table_dir = os.path.join(out_dir, 'tables')
+        plots_dir = os.path.join(out_dir, 'plots')
+
     elif summary_type == 'iterevals':
         tables = summary_dict['tables']['breakdown']
+        itercomb = 'combined' if combined else 'separate'
+        table_dir = os.path.join(out_dir, 'tables', itercomb)
+        plots_dir = os.path.join(out_dir, 'plots', itercomb)
+
     else:
         raise KeyError(f'{summary_type}')
 
-    table_dir = os.path.join(out_dir, 'tables')
     os.makedirs(table_dir, exist_ok=True)
-    plots_dir = os.path.join(out_dir, 'plots')
     os.makedirs(plots_dir, exist_ok=True)
-
 
     rep = {
         '/': '-',
@@ -247,15 +251,13 @@ def summarize(args):
     best_configs, iteration = summarize_configs(args.best_config, plot_args, args)
     iterevals = summarize_iterevals(args.itereval_base, plot_args, args)
 
-    print(len(list(iterevals['tables']['breakdown'].keys())))
+    print(f"{len(list(iterevals['tables']['breakdown'].keys()))} separate breakdowns")
 
     out_dir = os.path.join(args.out_base, f'r{iteration}')
     os.makedirs(out_dir, exist_ok=True)
 
-    save_summaries(best_configs, out_dir, args.plot_type, args.save_plots, summary_type='configs')
-
-    itercomb = 'combined' if args.combined else 'separate'
-    save_summaries(iterevals, os.path.join(out_dir, itercomb), args.plot_type, args.save_plots, summary_type='iterevals')
+    save_summaries(best_configs, out_dir, args.plot_type, args.save_plots, args.combined, summary_type='configs')
+    save_summaries(iterevals, out_dir, args.plot_type, args.save_plots, args.combined, summary_type='iterevals')
 
     return out_dir
 

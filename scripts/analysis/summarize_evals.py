@@ -77,6 +77,8 @@ def summarize_itereval(args):
     # summarize and save
     for dataset, summary in summaries.items():
         summary_preds = pd.DataFrame(summary)
+        labels = set(list(pred2label[dataset].values()))
+
         accs = [{
             'case': 'combined',
             'subcase': 'combined',
@@ -84,7 +86,23 @@ def summarize_itereval(args):
             'acc': summary_preds['correct'].sum() / summary_preds.shape[0]
         }]
 
-        labels = set(list(pred2label[dataset].values()))
+        for label in labels:
+            subtemp = summary_preds.loc[summary_preds['label'] == label, :]
+            if subtemp.shape[0] > 0:
+                accs.append({
+                    'case': 'combined',
+                    'subcase': 'combined',
+                    'label': label,
+                    'acc': subtemp['correct'].sum() / subtemp.shape[0]
+                })
+            else:
+                accs.append({
+                    'case': 'combined',
+                    'subcase': 'combined',
+                    'label': label,
+                    'acc': -1
+                })
+
         if dataset == 'hans':
             for case in cases[dataset]:
                 temp = summary_preds.loc[summary_preds['case'] == case, :]
