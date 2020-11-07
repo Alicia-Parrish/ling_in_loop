@@ -65,7 +65,7 @@ def summarize_configs(best_configs_fname, plot_args, args):
         breakouts['treatment'].append(run_id[0])
         breakouts['round'].append(run_id[1])
 
-        modifier = 'standard' if len(run_id) == 2 else run_id[2]
+        modifier = 'combined' if len(run_id) == 2 else run_id[2]
         breakouts['modifier'].append(modifier)
 
         breakouts['lr'].append(float(lr))
@@ -85,6 +85,7 @@ def summarize_configs(best_configs_fname, plot_args, args):
            }, best_configs['round'].max()
 
 
+# for iterative validations
 def get_dir_names(files_dir):
     dir_list = []
     for root, dirs, files in os.walk(files_dir):
@@ -110,15 +111,16 @@ def load_itereval_acc(base_dir):
     return result.reset_index(drop=True, )
 
 
-# for iterative validations
 def get_itereval_tables(base_dir, treatments, rounds, dir2plot, args):
     tables = {'full': None, 'breakdown': {}}
+    itercomb = 'combined' if args.combined else 'separate'
+
     for treatment in treatments:
         treat_dir = os.path.join(base_dir, treatment)
         treatment_table = None
 
         for iteration in rounds:
-            iter_dir = os.path.join(treat_dir, iteration)
+            iter_dir = os.path.join(treat_dir, iteration, itercomb)
 
             temp_acc = load_itereval_acc(iter_dir)
             temp_acc['round'] = 1
@@ -251,7 +253,9 @@ def summarize(args):
     os.makedirs(out_dir, exist_ok=True)
 
     save_summaries(best_configs, out_dir, args.plot_type, args.save_plots, summary_type='configs')
-    save_summaries(iterevals, out_dir, args.plot_type, args.save_plots, summary_type='iterevals')
+
+    itercomb = 'combined' if args.combined else 'separate'
+    save_summaries(iterevals, os.path.join(out_dir, itercomb), args.plot_type, args.save_plots, summary_type='iterevals')
 
     return out_dir
 
@@ -262,6 +266,7 @@ if __name__ == '__main__':
     repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
     pred = os.path.join(repo, 'predictions')
 
+    parser.add_argument('--combined', help='whether datasets are combined over iterations', action='store_true')
     parser.add_argument('--itereval_base',
                         help='base directory of iterative evaluations',
                         default=os.path.join(pred, '4_iterevals'))
