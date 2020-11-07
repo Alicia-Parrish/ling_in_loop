@@ -139,7 +139,7 @@ def get_stats(args):
 
     if args.out_dir == '':
         repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-        stats = os.path.join(repo, 'corpus_stats') if args.pushstats else os.path.join(repo, 'stats')
+        stats = os.path.join(repo, 'corpus_stats', f'r{args.round}') if args.pushstats else os.path.join(repo, 'stats', f'r{args.round}')
         task_name = os.path.basename(os.path.dirname(args.fname))
 
         args.out_dir = os.path.join(stats, task_name)
@@ -165,6 +165,7 @@ if __name__ == '__main__':
 
     # Required arguments
     parser.add_argument('--fname', help='absolute path to file to analyze', required=True)
+    parser.add_argument('--round', help='iteration', required=True)
 
     # Optional arguments(
     parser.add_argument('--smooth', help='amount to smooth pmi', default=100)
