@@ -84,8 +84,8 @@ def summarize_itereval(args):
             'acc': summary_preds['correct'].sum() / summary_preds.shape[0]
         }]
 
+        labels = set(list(pred2label[dataset].values()))
         if dataset == 'hans':
-            labels = set(list(pred2label[dataset].values()))
             for case in cases[dataset]:
                 temp = summary_preds.loc[summary_preds['case'] == case, :]
                 accs.append({
@@ -148,6 +148,23 @@ def summarize_itereval(args):
                     'acc': temp['correct'].sum() / temp.shape[0]
                 })
 
+                for label in labels:
+                    subtemp = temp.loc[temp['label'] == label, :]
+                    if subtemp.shape[0] > 0:
+                        accs.append({
+                            'case': case,
+                            'subcase': 'combined',
+                            'label': label,
+                            'acc': subtemp['correct'].sum() / subtemp.shape[0]
+                        })
+                    else:
+                        accs.append({
+                            'case': case,
+                            'subcase': 'combined',
+                            'label': label,
+                            'acc': -1
+                        })
+
             for (case, subcase) in subpairsets[dataset]:
                 temp = summary_preds.loc[summary_preds[case] == subcase, :]
                 accs.append({
@@ -156,6 +173,23 @@ def summarize_itereval(args):
                     'label': 'combined',
                     'acc': temp['correct'].sum() / temp.shape[0]
                 })
+
+                for label in labels:
+                    subtemp = temp.loc[temp['label'] == label, :]
+                    if subtemp.shape[0] > 0:
+                        accs.append({
+                            'case': case,
+                            'subcase': subcase,
+                            'label': label,
+                            'acc': subtemp['correct'].sum() / subtemp.shape[0]
+                        })
+                    else:
+                        accs.append({
+                            'case': case,
+                            'subcase': subcase,
+                            'label': label,
+                            'acc': -1
+                        })
         else:
             raise KeyError(f'{dataset}')
 
