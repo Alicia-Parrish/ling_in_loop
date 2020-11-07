@@ -13,7 +13,7 @@ label, input[type=radio], input[type=button] { cursor: pointer; }
 #unanswered { font-weight: bold; font-size: 2em; color: black; background-color: red; margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
 #answered { margin: 0 auto; width: 500px; border: black 1px solid; padding: 10px; display:none; }
 
-input.toggle { display: none; } 
+input[type='checkbox'] { display: none; } 
 .wrap-collabsible { margin: 1.2rem 0; } 
 .lbl-toggle { display: block; font-weight: bold; font-family: monospace; font-size: 1.2rem; text-transform: uppercase; text-align: center; padding: 1rem; color: #DDD; background: #2b3e5a; cursor: pointer; border-radius: 7px; transition: all 0.25s ease-out; } 
 .lbl-toggle:hover { color: #FFF; } 
@@ -27,6 +27,30 @@ input.toggle { display: none; }
 
 </style>
 
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+	var ut_id = "37ed3a097a18c9320961dfe1bf56e193xxxAVP120";
+	if (UTWorkerLimitReached(ut_id)) {
+		document.getElementById('mturk_form').style.display = 'none';
+		document.getElementsByTagName('body')[0].innerHTML = "You have already completed the maximum of 120 writing HITs in this round. We'll let you know when we release a set of validation HITs that you'll be able to complete. Thank you for all your hard work so far!";
+	}
+})();
+</script>
+
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+	var ut_id = "88e86fb537116632df7a983d7bdd566exxxAVP35x1";
+	if (UTWorkerLimitReached(ut_id)) {
+		document.getElementById('mturk_form').style.display = 'none';
+		document.getElementsByTagName('body')[0].innerHTML = "You have already completed 35 HITs in this batch. Please wait for another batch to be released. You'll be able to take a total of 120 writing HITs this round, but each of the 7 batches has a limit of 35 HITs per worker. Thank you for all your hard work so far!";
+	}
+})();
+</script>
+
+<h2>Sentence writing task for Group 1</h2>
+
 <h2>Instructions:</h2>
 
 <p>This task will involve reading a line from an unfamiliar text and writing three sentences that relate to it. 
@@ -38,27 +62,26 @@ Using only this text and what you know about the world:</p>
 	<li>Write one sentence that is deﬁnitely incorrect about the situation or event in the line.</li>
 </ul>
 
-In your sentence, you must make sure that you ${rule_in_heuristic}.
+<p> One example is provided for you below. 
+	If you would like to see additional examples or answers to common questions about this task,
+	please refer to our FAQ page <a href="https://docs.google.com/document/d/1MNdfHzrbQZxEoMOf4Fryil6ainijGYI8pi8wVhhoacM/edit?usp=sharing" target=blank>here</a>.
+</p>
 
 <div class="wrap-collabsible"> 
-    <input id="collapsible1" class="toggle" type="checkbox" > 
+    <input id="collapsible1" class="toggle" type="checkbox"> 
     <label for="collapsible1" class="lbl-toggle">Example</label>
     <div class="collapsible-content">
         <div class="content-inner">
             <p> <span class="trial_number">Text:</span>
-                Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                Well aware of the island's burgeoning wealth and repository of supplies, the French pirate Bertrand de Montluc sailed into Funchal harbor with his 11-galleon armada and 1,300 men.</p>
                 <ul>
-                    <li><strong>Deﬁnitely correct statement:</strong> This building job will be very difficult to complete.</li>
-                    <li><strong>Maybe correct statement:</strong> Dave Hanson worked with an especially large engineering team.</li>
-                    <li><strong>Definitely incorrect statement:</strong> This engineering task will be quite easy for everyone.</li>
+                    <li><strong>Deﬁnitely correct statement:</strong> Bertrand de Montluc arrived at the island with a great force of men.</li>
+                    <li><strong>Maybe correct statement:</strong> Montluc plundered and looted the island, killing many of its residents.</li>
+                    <li><strong>Definitely incorrect statement:</strong> The pirate Bertrand de Montluc avoided the wealthy island owing to its heavily armed garrison.</li>
                 </ul>
         </div>
     </div>
 </div>
-
-<br>
-
-If needed, you can check out our FAQ page for examples and answers to common questions.
 
 <br>
 
@@ -68,38 +91,18 @@ If needed, you can check out our FAQ page for examples and answers to common que
 	
 	${premise}</p>
 
-    <p>For a bonus, we are also asking you to adhere to the following constraints, if it's possible to apply them (some may not apply for the text that you are given).
-    For each constraint that you are able to follow, check the box next to that constraint. 
-    You will receive a $0.13 bonus for each constraint.
-    Unless otherwise noted, if you check off a constraint, you must apply it to all three statements that you provide.
-    </p>
-
-    <div>
-        <input type="checkbox" id="constraint_1" name="constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
-    
-
 <div class="trial count">
-    <p><label for="entailment"><span class="trial_number">Definitely true statement:</span></label> 
+    <p><label for="entailment"><span class="trial_number">Definitely correct statement:</span></label> 
         <span class="score count"><input type="text" id="entailment" name="entailment" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
-    <p><label for="neutral"><span class="trial_number">Maybe true statement:</span></label> 
+    <p><label for="neutral"><span class="trial_number">Maybe correct statement:</span></label> 
         <span class="score count"><input type="text" id="neutral" name="neutral" size="100" /></span>
 	</p>
 </div>
 <div class="trial count">
-    <p><label for="contradiction"><span class="trial_number">Definitely false statement:</span></label> 
+    <p><label for="contradiction"><span class="trial_number">Definitely incorrect statement:</span></label> 
         <span class="score count"><input type="text" id="contradiction" name="contradiction" size="100" /></span>
     </p>
 </div>
@@ -111,7 +114,7 @@ If needed, you can check out our FAQ page for examples and answers to common que
 
 
 <div>
-	<p>If you experienced any issues that made this HIT especially difficult, please provide more detail below (optional)</p>
+	<p>(optional) If you experienced any issues that made this HIT especially difficult or if the text was non-sensical, please provide more detail below </p>
 	<input type="text" id="comments" name="comments" size="100" /></span>
 </div>
 

@@ -28,6 +28,20 @@ input.toggle[type='checkbox'] { display: none; }
 
 </style>
 
+<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(){
+    var ut_id = "ea0446cdb9d7310ec36f3420xAVPval30";
+    if (UTWorkerLimitReached(ut_id)) {
+        document.getElementById('mturk_form').style.display = 'none';
+        document.getElementsByTagName('body')[0].innerHTML = "You have already completed 30 validation HITs this week. Please allow other workers in your group to complete more HITs before you continue. This counter will start over fresh next week, so be on the lookout for more HITs soon. We appreciate all your hard work up until now!";
+    }
+})();
+</script>
+
+
+<h2>Group 3 validation task</h2>
+
 <h2>Instructions:</h2>
 
 <p>This task will involve reading a pair of sentences: a 'text' and a 'statement' about that text. You will indicate what the relationship of the 'statement' is to the 'text'.</p>
@@ -50,13 +64,13 @@ input.toggle[type='checkbox'] { display: none; }
             <table><tbody></tbody>
                 <p><span class="trial_number">Text:</span>
         
-                    Dave Hanson, to whom nothing was impossible. Well, we have a nearly impossible task: a task of engineering and building.</p>
+                    Well aware of the island's burgeoning wealth and repository of supplies, the French pirate Bertrand de Montluc sailed into Funchal harbor with his 11-galleon armada and 1,300 men.</p>
                     
                 <p><span class="trial_number">Statement:</span>
                 
-                    This building job will be very difficult to complete.</p>
+                    Bertrand de Montluc arrived at the island with a great force of men.</p>
             
-                The statement about the text is:
+                <p>The statement about the text is:</p>
             
                 <tr>
                     <td><label for="entailment_ex">Definitely correct</label></td>
@@ -64,13 +78,13 @@ input.toggle[type='checkbox'] { display: none; }
                     <td><label for="contradiction_ex">Definintely incorrect</label></td>
                 </tr>
                 <tr>
-                    <td><input type="radio" id="entailment_ex" name="response_ex" value="E" checked /></td>
-                    <td><input type="radio" id="neutral_ex" name="response_ex" value="N" /></td>
-                    <td><input type="radio" id="contradiction_ex" name="response_ex" value="C" /></td>
+                    <td><input type="radio" id="entailment_ex" name="response_ex" value="entailment" checked /></td>
+                    <td><input type="radio" id="neutral_ex" name="response_ex" value="neutral" /></td>
+                    <td><input type="radio" id="contradiction_ex" name="response_ex" value="contradiction" /></td>
                 </tr>
 
-                In this case, the statmenent is definitely true for the text, so the button for 'Definitely correct' is clicked.
             </tbody></table>
+            <p>In this case, the statmenent is definitely true for the text, so the button for 'Definitely correct' is clicked.</p>
         </div>
     </div>
 </div>
@@ -78,13 +92,11 @@ input.toggle[type='checkbox'] { display: none; }
 <br>
 
 <p>
-For each item, you should also check off any constraints that apply to the statement.
-You should select all and only the relevant constraints for each of the 6 items.
+    This particular HIT does not ask you to validate any of the optional constraints.
 </p>
 
 <p>
-If needed, you can check out our FAQ page for examples and answers to common questions. 
-This page also provides an explanation of all the relevant constraints.
+If needed, you can check out our FAQ page <a href="https://docs.google.com/document/d/1-RgBvqBnLylunj_3V-xw2YKJajK5BwwbR3CqftLJsEw/edit?usp=sharing" target=blank>here</a> for examples and answers to common questions. 
 </p>
 
 <br>
@@ -115,19 +127,7 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h1_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h1_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h1_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+
 
 <hr noshade="noshade" />
 
@@ -154,19 +154,7 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h2_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h2_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h2_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+
 
 <hr noshade="noshade" />
 
@@ -193,19 +181,7 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h3_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h3_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h3_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+
 
 <hr noshade="noshade" />
 
@@ -232,19 +208,7 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h4_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h4_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h4_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+
 
 <hr noshade="noshade" />
 
@@ -271,19 +235,7 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h5_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h5_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h5_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
+
 
 <hr noshade="noshade" />
 
@@ -310,23 +262,9 @@ This page also provides an explanation of all the relevant constraints.
     </tr>
 </tbody></table>
 
-    <p>Check off any constraints that the above statement conforms to:</p>
-    <div>
-        <input type="checkbox" id="constraint_1" name="h6_constraint_1" value="c1_checked" >
-        <label for="constraint_1">${constraint_1}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_2" name="h6_constraint_2" value="c2_checked" >
-        <label for="constraint_2">${constraint_2}</label>
-    </div>
-    <div>
-        <input type="checkbox" id="constraint_3" name="h6_constraint_3" value="c3_checked" >
-        <label for="constraint_3">${constraint_3}</label>        
-    </div>
 
 
 <hr noshade="noshade" />
-
 
 
 <div>

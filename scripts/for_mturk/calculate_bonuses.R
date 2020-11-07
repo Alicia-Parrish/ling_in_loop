@@ -166,17 +166,50 @@ LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
+slack<-read.csv("../slack_data/slack_data_11-2-2020.csv")
+slack<-rename(slack,"AnonId"=anon_id)
+slack_names<-read.csv("../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")
+slacks=merge(slack,slack_names,by="AnonId")
 
+slack_bonus<-slacks%>%
+  select(AnonId,Slack_name,total_msgs)%>%
+  filter(AnonId!="admin")%>%
+  mutate(slack_bonus = ifelse(total_msgs>10,10,
+                              ifelse(total_msgs>0,1.5,0)))
+
+# Add any per-person adjustmetnts to the bonus here
+smaller_bonus<-c('315','336') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
+for(i in 1:length(smaller_bonus)){
+  slack_bonus$slack_bonus[slack_bonus$AnonId==smaller_bonus[i]]<-1.5
+}
 
 
 ######### TOTAL BONUSES FOR EACH WORKER #########
 all_bonuses_numHITs<-rbind(base_numHIT_totals,LotS_numHIT_totals,LitL_numHIT_totals)
 all_bonuses_validated<-rbind(base_validation_totals,LotS_validation_totals,LitL_validation_totals)
 all_bonuses<-merge(all_bonuses_numHITs, all_bonuses_validated, by = "AnonId",all = TRUE)
-#all_bonuses2<-merge(all_bonuses, ..., by = "AnonId",all = TRUE)# still need to merge slack bonus
+all_bonuses2<-merge(all_bonuses, slack_bonus, by = "AnonId",all = TRUE)# still need to merge slack bonus
 all_bonuses3<-merge(all_bonuses2, anon_codes, by = "AnonId",all = TRUE)
 
-total_bonuses<-all_bonuses3%>% mutate(total_bonus = numHIT_bonus+validation_bonus)
+total_bonuses<-all_bonuses3%>% 
+  replace_na(list(slack_bonus=0))%>%
+  mutate(total_bonus = numHIT_bonus+validation_bonus+slack_bonus)%>%
+  select(AnonId, WorkerId, numHIT_bonus, validation_bonus, slack_bonus, total_bonus)
+
+# for push to repo
+to_push<-select(total_bonuses, -WorkerId)
+write.csv(to_push,"files/worker_data/round1_bonuses.csv")
+
+# for actually paying
+ass_ids<-read.csv("../../SECRET/ling_in_loop_SECRET/assignment_ids.csv")
+bonus_with_ass_ids<-merge(total_bonuses,ass_ids[2:3],by="WorkerId",all=T)
+
+pay_bonus<-filter(bonus_with_ass_ids,total_bonus!=0)
+
+write.csv(pay_bonus,"../../SECRET/ling_in_loop_SECRET/round1_bonuses.csv")
+
+
+
 
 ######### AGGREGATE ERROR RATES PER WORKER #########
 all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)
