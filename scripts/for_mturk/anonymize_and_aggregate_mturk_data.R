@@ -72,7 +72,7 @@ base_anon$round<-round
 
 base_anon_transformed = transform_data(base_anon)
 
-for(i in 1:length(base_anon_transformed)){
+for(i in 1:nrow(base_anon_transformed)){
   base_anon_transformed$annotator_labels[i] = list(base_anon_transformed$label[i])
 }
 
@@ -82,7 +82,8 @@ LotS_anon<-merge(LotS,anon_codes,by="WorkerId")
 LotS_anon$round<-round
 LotS_anon_transformed <- transform_data(LotS_anon)
 
-for(i in 1:length(LotS_anon_transformed)){
+
+for(i in 1:nrow(LotS_anon_transformed)){
   LotS_anon_transformed$annotator_labels[i] = list(LotS_anon_transformed$label[i])
 }
 
@@ -92,7 +93,7 @@ LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
 LitL_anon$round<-"round1"
 LitL_anon_transformed <- transform_data(LitL_anon)
 
-for(i in 1:length(LitL_anon_transformed)){
+for(i in 1:nrow(LitL_anon_transformed)){
   LitL_anon_transformed$annotator_labels[i] = list(LitL_anon_transformed$label[i])
 }
 
