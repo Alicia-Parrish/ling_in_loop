@@ -6,6 +6,7 @@ library(data.table)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
+round = "round2"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -15,13 +16,13 @@ read_json_lines <- function(file){
 }
 
 ######### get all the data you'll ever need...
-anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
-base_writing<-read_json_lines("../NLI_data/1_Baseline_protocol/train_round1_baseline.jsonl")
-LotS_writing<-read_json_lines("../NLI_data/2_Ling_on_side_protocol/train_round1_LotS.jsonl")
-LitL_writing<-read_json_lines("../NLI_data/3_Ling_in_loop_protocol/train_round1_LitL.jsonl")
-base_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_base_alldata.jsonl")
-LotS_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LotS_alldata.jsonl")
-LitL_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LitL_alldata.jsonl")
+anon_codes = read.csv(paste0("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv"))
+base_writing<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/train_",round,"_baseline.jsonl"))
+LotS_writing<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/train_",round,"_LotS.jsonl"))
+LitL_writing<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/train_",round,"_LitL.jsonl"))
+base_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_base_alldata.jsonl"))
+LotS_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LotS_alldata.jsonl"))
+LitL_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LitL_alldata.jsonl"))
 
 
 ######### calculate number of HITs bonus #########
@@ -106,12 +107,18 @@ calculate_validation_bonus<-function(validation_file){
 
 # BASELINE
 base_validation_totals<-calculate_validation_bonus(base_val)
+# calcuate weighted mean for total validation
+weighted.mean(base_validation_totals$mean_agree,base_validation_totals$count)
 
 # LING ON SIDE
 LotS_validation_totals<-calculate_validation_bonus(LotS_val)
+# calcuate weighted mean for total validation
+weighted.mean(LotS_validation_totals$mean_agree,LotS_validation_totals$count)
 
 # LING IN LOOP
 LitL_validation_totals<-calculate_validation_bonus(LitL_val)
+# calcuate weighted mean for total validation
+weighted.mean(LitL_validation_totals$mean_agree,LitL_validation_totals$count)
 
 
 ######### check accuracy within validation items too #########
@@ -149,12 +156,15 @@ calculate_validation_accuracy<-function(validation_file){
 
 # BASELINE
 base_val_accuracies<-calculate_validation_accuracy(base_val)
+weighted.mean(base_val_accuracies$mean_agree,base_val_accuracies$count,na.rm=T)
 
 # LING ON SIDE
 LotS_val_accuracies<-calculate_validation_accuracy(LotS_val)
+weighted.mean(LotS_val_accuracies$mean_agree,LotS_val_accuracies$count,na.rm=T)
 
 # LING IN LOOP
 LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
+weighted.mean(LitL_val_accuracies$mean_agree,LitL_val_accuracies$count,na.rm=T)
 
 ######### calculate heuristic checkboxes bonus #########
 # LING ON SIDE
