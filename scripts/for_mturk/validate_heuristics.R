@@ -205,7 +205,7 @@ LitL_val_all_glue<-LitL_val_all_glue%>%
 
 #################### SAVE ####################
 # ---------- LING-ON-SIDE PROTOCOL
-jsonlite::stream_out(Lots_val_all, file(paste0('../NLI_data/2_Ling_on_side_protocol/val_',round,'_LotS.jsonl')))
+jsonlite::stream_out(Lots_val_all_glue, file(paste0('../NLI_data/2_Ling_on_side_protocol/val_',round,'_LotS.jsonl')))
 
 # ---------- LING-IN-LOOP PROTOCOL
-jsonlite::stream_out(LitL_val_all, file(paste0('../NLI_data/3_Ling_in_loop_protocol/val_',round,'_LitL.jsonl')))
+jsonlite::stream_out(LitL_val_all_glue, file(paste0('../NLI_data/3_Ling_in_loop_protocol/val_',round,'_LitL.jsonl')))
