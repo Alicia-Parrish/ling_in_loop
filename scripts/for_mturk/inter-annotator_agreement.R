@@ -24,6 +24,10 @@ base_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validati
 LotS_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LotS_alldata.jsonl"))
 LitL_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LitL_alldata.jsonl"))
 
+base_val_final<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/val_",round,"_base.jsonl"))
+LotS_val_final<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS.jsonl"))
+LitL_val_final<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL.jsonl"))
+
 ## BASELINE
 base_val<-filter(base_val,label!="no_winner")
 dat1 <- do.call(rbind, base_val$annotator_labels) # transform data
@@ -115,3 +119,30 @@ for(i in 1:14){
   abline(v = c(unlist(ci_lows[[i]]),unlist(ci_his[[i]]),as.character(boots[[i]][1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
 }
 
+# figure out how many people tried to do each one of the heuristics
+get_heur_ns<-function(dat){
+  dat_heur_rates_gold<-dat%>%
+    group_by(heuristic,heuristic_gold_label)%>%
+    summarise(count=n())%>%
+    spread(heuristic_gold_label,count)%>%
+    mutate(pct_gold=Yes/(No+Yes))%>%
+    rename("No_gold"=No,"Yes_gold"=Yes)
+  
+  dat_val_final2<-dat
+  dat_val_final2$writer_label=NA
+  for(i in 1:nrow(dat_val_final2)){
+    dat_val_final2$writer_label[i]<-dat_val_final2$heuristic_labels[i][[1]][1]
+  }
+  dat_heur_rates_annotator<-dat_val_final2%>%
+    group_by(heuristic,writer_label)%>%
+    summarise(count=n())%>%
+    spread(writer_label,count)%>%
+    mutate(pct_annotator=Yes/(No+Yes))%>%
+    rename("No_ann"=No,"Yes_ann"=Yes)
+  
+  dat_heur_rates = merge(dat_heur_rates_gold,dat_heur_rates_annotator)
+  return(dat_heur_rates)
+}
+
+heur_rates_LotS<-get_heur_ns(LotS_val_final)
+heur_rates_LitL<-get_heur_ns(LitL_val_final)
