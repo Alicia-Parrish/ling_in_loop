@@ -123,7 +123,7 @@ def get_itereval_tables(base_dir, treatments, rounds, dir2plot, args):
             iter_dir = os.path.join(treat_dir, iteration, itercomb)
 
             temp_acc = load_itereval_acc(iter_dir)
-            temp_acc['round'] = 1
+            temp_acc['round'] = int(iteration[-1])
 
             if treatment_table is None:
                 treatment_table = temp_acc
