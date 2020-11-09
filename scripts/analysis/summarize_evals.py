@@ -55,7 +55,6 @@ def summarize_itereval(args):
         dataset = ex['dataset']
         temp_ex = {key: value for key, value in ex.items()}
         temp_ex['pred'] = pred2label[dataset][pred]
-        temp_ex['correct'] = temp_ex['label'] == pred2label[dataset][pred]
 
         # unpack case and subcases
         if dataset == 'hans':
@@ -72,6 +71,8 @@ def summarize_itereval(args):
                 cases[dataset].add(case)
         else:
             raise KeyError(f'{dataset}')
+
+        temp_ex['correct'] = temp_ex['label'] == pred2label[dataset][pred]
         summaries[dataset].append(temp_ex)
 
     # summarize and save
