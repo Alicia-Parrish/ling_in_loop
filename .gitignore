@@ -129,5 +129,13 @@ dmypy.json
 
 # Results folders
 stats/*
+eval_summary/*/plots
 scripts/.RData
 scripts/.Rhistory
+
+# jiant folders
+experiments/*
+cache/*
+run_configs/
+models/*
+logs/*

@@ -139,10 +139,12 @@ def get_stats(args):
 
     if args.out_dir == '':
         repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-        stats = os.path.join(repo, 'corpus_stats') if args.pushstats else os.path.join(repo, 'stats')
+        stats = os.path.join(repo, 'corpus_stats', f'r{args.round}') if args.pushstats else os.path.join(repo, 'stats', f'r{args.round}')
+        fname_end = os.path.basename(args.fname).split('.')[0].split('_')[-1]
+        comb = 'combined' if fname_end == 'combined' else 'separate'
         task_name = os.path.basename(os.path.dirname(args.fname))
 
-        args.out_dir = os.path.join(stats, task_name)
+        args.out_dir = os.path.join(stats, task_name, comb)
     os.makedirs(args.out_dir, exist_ok=True)
 
     pmis = get_pmi(ex, args.smooth, args.alpha, args.weight, verbose=args.verbose)
@@ -155,7 +157,7 @@ def get_stats(args):
             pmi.to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
         else:
             pmi.iloc[:args.topn, :].to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
-        pd.Series(hyp_length).to_csv(os.path.join(args.out_dir, f'hyp_lenghts_{label}.csv'))
+        pd.Series(hyp_length).to_csv(os.path.join(args.out_dir, f'hyp_lengths_{label}.csv'))
 
     print("="*45 + f' Complete: {args.out_dir} ' + "="*45)
 
@@ -165,6 +167,7 @@ if __name__ == '__main__':
 
     # Required arguments
     parser.add_argument('--fname', help='absolute path to file to analyze', required=True)
+    parser.add_argument('--round', help='iteration', required=True)
 
     # Optional arguments(
     parser.add_argument('--smooth', help='amount to smooth pmi', default=100)

@@ -6,6 +6,7 @@ library(data.table)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
+round = "round2"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -15,13 +16,13 @@ read_json_lines <- function(file){
 }
 
 ######### get all the data you'll ever need...
-anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
-base_writing<-read_json_lines("../NLI_data/1_Baseline_protocol/train_round1_baseline.jsonl")
-LotS_writing<-read_json_lines("../NLI_data/2_Ling_on_side_protocol/train_round1_LotS.jsonl")
-LitL_writing<-read_json_lines("../NLI_data/3_Ling_in_loop_protocol/train_round1_LitL.jsonl")
-base_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_base_alldata.jsonl")
-LotS_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LotS_alldata.jsonl")
-LitL_val<-read_json_lines("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_round1_LitL_alldata.jsonl")
+anon_codes = read.csv(paste0("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv"))
+base_writing<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/train_",round,"_baseline.jsonl"))
+LotS_writing<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/train_",round,"_LotS.jsonl"))
+LitL_writing<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/train_",round,"_LitL.jsonl"))
+base_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_base_alldata.jsonl"))
+LotS_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LotS_alldata.jsonl"))
+LitL_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LitL_alldata.jsonl"))
 
 
 ######### calculate number of HITs bonus #########
@@ -106,12 +107,18 @@ calculate_validation_bonus<-function(validation_file){
 
 # BASELINE
 base_validation_totals<-calculate_validation_bonus(base_val)
+# calcuate weighted mean for total validation
+weighted.mean(base_validation_totals$mean_agree,base_validation_totals$count)
 
 # LING ON SIDE
 LotS_validation_totals<-calculate_validation_bonus(LotS_val)
+# calcuate weighted mean for total validation
+weighted.mean(LotS_validation_totals$mean_agree,LotS_validation_totals$count)
 
 # LING IN LOOP
 LitL_validation_totals<-calculate_validation_bonus(LitL_val)
+# calcuate weighted mean for total validation
+weighted.mean(LitL_validation_totals$mean_agree,LitL_validation_totals$count)
 
 
 ######### check accuracy within validation items too #########
@@ -149,12 +156,15 @@ calculate_validation_accuracy<-function(validation_file){
 
 # BASELINE
 base_val_accuracies<-calculate_validation_accuracy(base_val)
+weighted.mean(base_val_accuracies$mean_agree,base_val_accuracies$count,na.rm=T)
 
 # LING ON SIDE
 LotS_val_accuracies<-calculate_validation_accuracy(LotS_val)
+weighted.mean(LotS_val_accuracies$mean_agree,LotS_val_accuracies$count,na.rm=T)
 
 # LING IN LOOP
 LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
+weighted.mean(LitL_val_accuracies$mean_agree,LitL_val_accuracies$count,na.rm=T)
 
 ######### calculate heuristic checkboxes bonus #########
 # LING ON SIDE
@@ -166,17 +176,50 @@ LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
+slack<-read.csv("../slack_data/slack_data_11-2-2020.csv")
+slack<-rename(slack,"AnonId"=anon_id)
+slack_names<-read.csv("../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")
+slacks=merge(slack,slack_names,by="AnonId")
 
+slack_bonus<-slacks%>%
+  select(AnonId,Slack_name,total_msgs)%>%
+  filter(AnonId!="admin")%>%
+  mutate(slack_bonus = ifelse(total_msgs>10,10,
+                              ifelse(total_msgs>0,1.5,0)))
+
+# Add any per-person adjustmetnts to the bonus here
+smaller_bonus<-c('315','336') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
+for(i in 1:length(smaller_bonus)){
+  slack_bonus$slack_bonus[slack_bonus$AnonId==smaller_bonus[i]]<-1.5
+}
 
 
 ######### TOTAL BONUSES FOR EACH WORKER #########
 all_bonuses_numHITs<-rbind(base_numHIT_totals,LotS_numHIT_totals,LitL_numHIT_totals)
 all_bonuses_validated<-rbind(base_validation_totals,LotS_validation_totals,LitL_validation_totals)
 all_bonuses<-merge(all_bonuses_numHITs, all_bonuses_validated, by = "AnonId",all = TRUE)
-#all_bonuses2<-merge(all_bonuses, ..., by = "AnonId",all = TRUE)# still need to merge slack bonus
+all_bonuses2<-merge(all_bonuses, slack_bonus, by = "AnonId",all = TRUE)# still need to merge slack bonus
 all_bonuses3<-merge(all_bonuses2, anon_codes, by = "AnonId",all = TRUE)
 
-total_bonuses<-all_bonuses3%>% mutate(total_bonus = numHIT_bonus+validation_bonus)
+total_bonuses<-all_bonuses3%>% 
+  replace_na(list(slack_bonus=0))%>%
+  mutate(total_bonus = numHIT_bonus+validation_bonus+slack_bonus)%>%
+  select(AnonId, WorkerId, numHIT_bonus, validation_bonus, slack_bonus, total_bonus)
+
+# for push to repo
+to_push<-select(total_bonuses, -WorkerId)
+write.csv(to_push,"files/worker_data/round1_bonuses.csv")
+
+# for actually paying
+ass_ids<-read.csv("../../SECRET/ling_in_loop_SECRET/assignment_ids.csv")
+bonus_with_ass_ids<-merge(total_bonuses,ass_ids[2:3],by="WorkerId",all=T)
+
+pay_bonus<-filter(bonus_with_ass_ids,total_bonus!=0)
+
+write.csv(pay_bonus,"../../SECRET/ling_in_loop_SECRET/round1_bonuses.csv")
+
+
+
 
 ######### AGGREGATE ERROR RATES PER WORKER #########
 all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)

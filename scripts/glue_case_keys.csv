@@ -1,0 +1,70 @@
+case,subcase
+combined,combined
+Knowledge,combined
+Knowledge,Common sense
+Knowledge,World knowledge
+Lexical Semantics,combined
+Lexical Semantics,Factivity
+Lexical Semantics,Factivity;Quantifiers
+Lexical Semantics,Lexical entailment
+Lexical Semantics,Lexical entailment;Factivity
+Lexical Semantics,Lexical entailment;Quantifiers
+Lexical Semantics,Morphological negation
+Lexical Semantics,Named entities
+Lexical Semantics,Quantifiers
+Lexical Semantics,Redundancy
+Lexical Semantics,Symmetry/Collectivity
+Logic,combined
+Logic,Conditionals
+Logic,Conjunction
+Logic,Conjunction;Negation
+Logic,Conjunction;Upward monotone
+Logic,Disjunction
+Logic,Disjunction;Conditionals;Negation
+Logic,Disjunction;Conjunction
+Logic,Disjunction;Negation
+Logic,Disjunction;Non-monotone
+Logic,Double negation
+Logic,Double negation;Negation
+Logic,Downward monotone
+Logic,Downward monotone;Conditionals
+Logic,Downward monotone;Existential;Negation
+Logic,Existential
+Logic,Existential;Negation
+Logic,Existential;Upward monotone
+Logic,Intervals/Numbers
+Logic,Intervals/Numbers;Non-monotone
+Logic,Negation
+Logic,Negation;Conditionals
+Logic,Non-monotone
+Logic,Temporal
+Logic,Temporal;Conjunction
+Logic,Temporal;Intervals/Numbers
+Logic,Universal
+Logic,Universal;Conjunction
+Logic,Universal;Negation
+Logic,Upward monotone
+Predicate-Argument Structure,Active/Passive
+Predicate-Argument Structure,Active/Passive;Prepositional phrases
+Predicate-Argument Structure,Anaphora/Coreference
+Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases
+Predicate-Argument Structure,combined
+Predicate-Argument Structure,Coordination scope
+Predicate-Argument Structure,Coordination scope;Prepositional phrases
+Predicate-Argument Structure,Core args
+Predicate-Argument Structure,Core args;Anaphora/Coreference
+Predicate-Argument Structure,Datives
+Predicate-Argument Structure,Ellipsis/Implicits
+Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference
+Predicate-Argument Structure,Genitives/Partitives
+Predicate-Argument Structure,Intersectivity
+Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits
+Predicate-Argument Structure,Nominalization
+Predicate-Argument Structure,Nominalization;Genitives/Partitives
+Predicate-Argument Structure,Prepositional phrases
+Predicate-Argument Structure,Relative clauses
+Predicate-Argument Structure,Relative clauses;Anaphora/Coreference
+Predicate-Argument Structure,Relative clauses;Restrictivity
+Predicate-Argument Structure,Restrictivity
+Predicate-Argument Structure,Restrictivity;Anaphora/Coreference
+Predicate-Argument Structure,Restrictivity;Relative clauses

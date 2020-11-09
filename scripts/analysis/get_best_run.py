@@ -20,10 +20,10 @@ def get_best(args):
 
     if args.best_config_dir == '':
         repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-        best_config_dir = os.path.join(repo, 'best_configs')
+        best_config_dir = os.path.join(repo, 'predictions', 'best_configs')
 
     os.makedirs(best_config_dir, exist_ok=True)
-    with open(os.path.join(best_config_dir, 'predictions', 'best_configs.csv'), 'a', newline='') as f:
+    with open(os.path.join(best_config_dir, 'best_configs.csv'), 'a', newline='') as f:
         write = csv.writer(f)
         write.writerow([os.path.basename(args.exp_dir), metrics_s.idxmax(), metrics_s.max()])
     print(f'Complete\nSaved at {best_config_dir}')

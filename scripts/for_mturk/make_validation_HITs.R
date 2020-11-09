@@ -7,168 +7,213 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
 
+round = "round2" # change this value each round
+
+anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
+heur_mapping<-read.csv("for_mturk/heuristic_definitions_round2.csv")
+
+#################### FUNCTIONS ####################
+transform_data = function(dat){
+  dat2<-dat%>%
+    filter(Input.splits=="dev")%>%
+    select(AnonId,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,heuristic,heuristic_checked)%>%
+    rename("promptID" = Input.promptID,
+           "premise" = Input.premise,
+           "entailment" = Answer.entailment,
+           "neutral" = Answer.neutral,
+           "contradiction" = Answer.contradiction)%>%
+    gather("label","hypothesis",-promptID,-premise,-AnonId,-heuristic,-heuristic_checked)%>%
+    mutate("pairID"=ifelse(label=="entailment",paste0(promptID,"e"),
+                           ifelse(label=="neutral",paste0(promptID,"n"),
+                                  ifelse(label=="contradiction",paste0(promptID,"c"),"problem"))))
+  return(dat2)
+}
+
+restructure_for_validation_HITs <- function(dat){
+  # randomize order
+  dat_reorder <- dat[sample(1:nrow(dat)), ]
+  
+  # get structure needed for validation HIT
+  num=floor(nrow(dat_reorder)/6) # will have some leftover
+  dat_1 = dat_reorder[1:num,]
+  dat_2 = dat_reorder[(num+1):(num*2),]
+  dat_3 = dat_reorder[((num*2)+1):(num*3),]
+  dat_4 = dat_reorder[((num*3)+1):(num*4),]
+  dat_5 = dat_reorder[((num*4)+1):(num*5),]
+  dat_6 = dat_reorder[((num*5)+1):(num*6),]
+  dat_leftover = dat_reorder[((num*6)+1):nrow(dat_reorder),]
+  
+  colnames(dat_1)<-unlist(lapply(names(dat_1), function(x) paste0(x,"_1")))
+  colnames(dat_2)<-unlist(lapply(names(dat_2), function(x) paste0(x,"_2")))
+  colnames(dat_3)<-unlist(lapply(names(dat_3), function(x) paste0(x,"_3")))
+  colnames(dat_4)<-unlist(lapply(names(dat_4), function(x) paste0(x,"_4")))
+  colnames(dat_5)<-unlist(lapply(names(dat_5), function(x) paste0(x,"_5")))
+  colnames(dat_6)<-unlist(lapply(names(dat_6), function(x) paste0(x,"_6")))
+  
+  full_dat_val = cbind(dat_1,dat_2,dat_3,dat_4,dat_5,dat_6)
+  
+  return(list(full_dat_val,dat_leftover))
+}
+
+
+#################### READ IN ####################
+
 base<-NULL
 LotS<-NULL
 LitL<-NULL
 
-anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
+base_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group1_baseline/",round,"_writing"),full.names=T, pattern = "*.csv")
+LotS_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group2_ling_on_side/",round,"_writing"),full.names=T, pattern = "*.csv")
+LitL_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group3_ling_in_loop/",round,"_writing"),full.names=T, pattern = "*.csv")
 
-base_files = list.files("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group1_baseline/Round1_writing",full.names=T)
-LotS_files = list.files("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group2_ling_on_side/Round1_writing",full.names=T)
-LitL_files = list.files("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group3_ling_in_loop/Round1_writing",full.names=T)
+#################### AGGREGATE ####################
 
 for(i in 1:length(base_files)){
   temp = read.csv(base_files[i])
+  temp$heuristic = NA
+  temp$heuristic_checked = NA
   base = rbind(base,temp)
 }
 for(i in 1:length(LotS_files)){
   temp = read.csv(LotS_files[i])
-  LotS = rbind(LotS,temp)
+  heuristic_used = as.character(unique(temp$Answer.constraint_1))
+  heuristic_used = heuristic_used[heuristic_used != ""]
+  temp$heuristic = heuristic_used
+  temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No",
+                                                        Answer.constraint_1 == heuristic ~ "Yes"))
+  LotS = rbind(LotS,temp2)
 }
 for(i in 1:length(LitL_files)){
   temp = read.csv(LitL_files[i])
-  LitL = rbind(LitL,temp)
+  heuristic_used = as.character(unique(temp$Answer.constraint_1))
+  heuristic_used = heuristic_used[heuristic_used != ""]
+  temp$heuristic = heuristic_used
+  temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No",
+                                                        Answer.constraint_1 == heuristic ~ "Yes"))
+  LitL = rbind(LitL,temp2)
 }
 
+#################### TRANSFORM ####################
+
 # ---------- BASELINE PROTOCOL
-base$round<-"round1"
 base_anon<-merge(base,anon_codes,by="WorkerId")
-base_transformed<-base_anon%>%
-  filter(Input.splits=="dev")%>%
-  select(AnonId,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction)%>%
-  rename("promptID"=Input.promptID,
-         "premise"=Input.premise,
-         "entailment"=Answer.entailment,
-         "neutral"=Answer.neutral,
-         "contradiction"=Answer.contradiction,
-         "annotator1_ID"=AnonId)%>%
-  gather("annotator1_label","hypothesis",-promptID,-premise,-annotator1_ID)%>%
-  mutate("pairID"=ifelse(annotator1_label=="entailment",paste0(promptID,"e"),
-                         ifelse(annotator1_label=="neutral",paste0(promptID,"n"),
-                                ifelse(annotator1_label=="contradiction",paste0(promptID,"c"),"problem"))))
+
+base_transformed<-transform_data(base_anon)
+
+# remove heuristic column, not relevant for this protocol
+base_transformed2 <- base_transformed %>%
+  select(-heuristic_checked, -heuristic)
   
-# randomize order
-base_reorder <- base_transformed[sample(1:nrow(base_transformed)), ]
+base_vals = restructure_for_validation_HITs(base_transformed2)
+full_base_val <- base_vals[[1]]
+base_leftover <- base_vals[[2]]
 
-# get structure needed for validation HIT
-num=floor(nrow(base_reorder)/6) # will have 2 leftover
-base_1 = base_reorder[1:num,]
-base_2 = base_reorder[(num+1):(num*2),]
-base_3 = base_reorder[((num*2)+1):(num*3),]
-base_4 = base_reorder[((num*3)+1):(num*4),]
-base_5 = base_reorder[((num*4)+1):(num*5),]
-base_6 = base_reorder[((num*5)+1):(num*6),]
-base_leftover = base_reorder[((num*6)+1):nrow(base_reorder),]
-
-colnames(base_1)<-unlist(lapply(names(base_1), function(x) paste0(x,"_1")))
-colnames(base_2)<-unlist(lapply(names(base_2), function(x) paste0(x,"_2")))
-colnames(base_3)<-unlist(lapply(names(base_3), function(x) paste0(x,"_3")))
-colnames(base_4)<-unlist(lapply(names(base_4), function(x) paste0(x,"_4")))
-colnames(base_5)<-unlist(lapply(names(base_5), function(x) paste0(x,"_5")))
-colnames(base_6)<-unlist(lapply(names(base_6), function(x) paste0(x,"_6")))
-
-full_base_val = cbind(base_1,base_2,base_3,base_4,base_5,base_6)
 full_base_val$group = "group1"
-full_base_val$round = "round1"
+full_base_val$round = round
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch1.csv",full_base_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch2.csv",full_base_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_batch3.csv",full_base_val[51:nrow(full_base_val),],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch1.csv"),full_base_val[1:20,],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch2.csv"),full_base_val[21:50,],row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_batch3.csv"),full_base_val[51:nrow(full_base_val),],row.names = F)
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group1_base_leftover.csv",base_leftover,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group1_base_leftover.csv"),base_leftover,row.names = F)
 
 # ---------- LotS PROTOCOL
-LotS$round<-"round1"
 LotS_anon<-merge(LotS,anon_codes,by="WorkerId")
-LotS_transformed<-LotS_anon%>%
-  filter(Input.splits=="dev")%>%
-  select(AnonId,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction)%>%
-  rename("promptID"=Input.promptID,
-         "premise"=Input.premise,
-         "entailment"=Answer.entailment,
-         "neutral"=Answer.neutral,
-         "contradiction"=Answer.contradiction,
-         "annotator1_ID"=AnonId)%>%
-  gather("annotator1_label","hypothesis",-promptID,-premise,-annotator1_ID)%>%
-  mutate("pairID"=ifelse(annotator1_label=="entailment",paste0(promptID,"e"),
-                         ifelse(annotator1_label=="neutral",paste0(promptID,"n"),
-                                ifelse(annotator1_label=="contradiction",paste0(promptID,"c"),"problem"))))
+LotS_transformed<-transform_data(LotS_anon)
 
-# randomize order
-LotS_reorder <- LotS_transformed[sample(1:nrow(LotS_transformed)), ]
+all_heuristics<-unique(LotS_transformed$heuristic)
 
-# get structure needed for validation HIT
-num=floor(nrow(LotS_reorder)/6) # will have 2 leftover
-LotS_1 = LotS_reorder[1:num,]
-LotS_2 = LotS_reorder[(num+1):(num*2),]
-LotS_3 = LotS_reorder[((num*2)+1):(num*3),]
-LotS_4 = LotS_reorder[((num*3)+1):(num*4),]
-LotS_5 = LotS_reorder[((num*4)+1):(num*5),]
-LotS_6 = LotS_reorder[((num*5)+1):(num*6),]
-LotS_leftover = LotS_reorder[((num*6)+1):nrow(LotS_reorder),]
+full_LotS_val = NULL
+LotS_leftovers <- list()
 
-colnames(LotS_1)<-unlist(lapply(names(LotS_1), function(x) paste0(x,"_1")))
-colnames(LotS_2)<-unlist(lapply(names(LotS_2), function(x) paste0(x,"_2")))
-colnames(LotS_3)<-unlist(lapply(names(LotS_3), function(x) paste0(x,"_3")))
-colnames(LotS_4)<-unlist(lapply(names(LotS_4), function(x) paste0(x,"_4")))
-colnames(LotS_5)<-unlist(lapply(names(LotS_5), function(x) paste0(x,"_5")))
-colnames(LotS_6)<-unlist(lapply(names(LotS_6), function(x) paste0(x,"_6")))
+for(i in 1:length(all_heuristics)){
+  this_dat <- LotS_transformed %>% filter(heuristic==all_heuristics[i])
+  restructured_dats <- restructure_for_validation_HITs(this_dat)
+  val_dat = restructured_dats[[1]]
+  leftover_dat = restructured_dats[[2]]
+  val_dat$group = "group2"
+  val_dat$round = round
+  full_LotS_val = rbind(full_LotS_val,val_dat)
+  #assign(paste("LotS_leftover", i, sep = "_") , leftover_dat)
+  LotS_leftovers[[i]] <- leftover_dat
+}
 
-full_LotS_val = cbind(LotS_1,LotS_2,LotS_3,LotS_4,LotS_5,LotS_6)
-full_LotS_val$group = "group2"
-full_LotS_val$round = "round1"
+# add in mapping to ${heuristic_description} and ${heuristic_example}
+full_LotS_val_heur<-merge(full_LotS_val,heur_mapping,by="heuristic_1")
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch1.csv",full_LotS_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch2.csv",full_LotS_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_batch3.csv",full_LotS_val[51:nrow(full_LotS_val),],row.names = F)
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group2_LotS_leftover.csv",LotS_leftover,row.names = F)
+# Set up the rel.clause and restricted word ones to run first, since those heuristics don't get validated by mturkers
+full_LotS_val_noHeur <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "restricted_word_in_diff_label" |
+         heuristic_1 == "relative_clause") 
+full_LotS_val_noHeur$heuristic_description = NA
+full_LotS_val_noHeur$heuristic_example = NA
 
+# Set up with rest of them
+full_LotS_val_withHeur1 <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "background_knowledge" |
+         heuristic_1 == "temporal_reasoning")
+full_LotS_val_withHeur2 <- full_LotS_val_heur %>% 
+  filter(heuristic_1 == "hypernym_hyponym" |
+           heuristic_1 == "reverse_argument_order" |
+           heuristic_1 == "synonym_antonym")
+  
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch1_withHeur.csv"),full_LotS_val_withHeur1,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch2_withHeur.csv"),full_LotS_val_withHeur2,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch3_noHeur.csv"),full_LotS_val_noHeur,row.names = F)
+
+for(i in 1:length(all_heuristics)){
+  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_leftover_",all_heuristics[i],".csv"),LotS_leftovers[[i]],row.names = F)
+}
 
 # ---------- LitL PROTOCOL
-LitL$round<-"round1"
 LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
-LitL_transformed<-LitL_anon%>%
-  filter(Input.splits=="dev")%>%
-  select(AnonId,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction)%>%
-  rename("promptID"=Input.promptID,
-         "premise"=Input.premise,
-         "entailment"=Answer.entailment,
-         "neutral"=Answer.neutral,
-         "contradiction"=Answer.contradiction,
-         "annotator1_ID"=AnonId)%>%
-  gather("annotator1_label","hypothesis",-promptID,-premise,-annotator1_ID)%>%
-  mutate("pairID"=ifelse(annotator1_label=="entailment",paste0(promptID,"e"),
-                         ifelse(annotator1_label=="neutral",paste0(promptID,"n"),
-                                ifelse(annotator1_label=="contradiction",paste0(promptID,"c"),"problem"))))
+LitL_transformed<-transform_data(LitL_anon)
 
-# randomize order
-LitL_reorder <- LitL_transformed[sample(1:nrow(LitL_transformed)), ]
+all_heuristics<-unique(LitL_transformed$heuristic)
 
-# get structure needed for validation HIT
-num=floor(nrow(base_reorder)/6) # will have 2 leftover
-LitL_1 = LitL_reorder[1:num,]
-LitL_2 = LitL_reorder[(num+1):(num*2),]
-LitL_3 = LitL_reorder[((num*2)+1):(num*3),]
-LitL_4 = LitL_reorder[((num*3)+1):(num*4),]
-LitL_5 = LitL_reorder[((num*4)+1):(num*5),]
-LitL_6 = LitL_reorder[((num*5)+1):(num*6),]
-LitL_leftover =LitL_reorder[((num*6)+1):nrow(LitL_reorder),]
+full_LitL_val = NULL
+LitL_leftovers = list()
 
-colnames(LitL_1)<-unlist(lapply(names(LitL_1), function(x) paste0(x,"_1")))
-colnames(LitL_2)<-unlist(lapply(names(LitL_2), function(x) paste0(x,"_2")))
-colnames(LitL_3)<-unlist(lapply(names(LitL_3), function(x) paste0(x,"_3")))
-colnames(LitL_4)<-unlist(lapply(names(LitL_4), function(x) paste0(x,"_4")))
-colnames(LitL_5)<-unlist(lapply(names(LitL_5), function(x) paste0(x,"_5")))
-colnames(LitL_6)<-unlist(lapply(names(LitL_6), function(x) paste0(x,"_6")))
+for(i in 1:length(all_heuristics)){
+  this_dat <- LitL_transformed %>% filter(heuristic==all_heuristics[i])
+  restructured_dats <- restructure_for_validation_HITs(this_dat)
+  val_dat = restructured_dats[[1]]
+  leftover_dat = restructured_dats[[2]]
+  val_dat$group = "group2"
+  val_dat$round = round
+  full_LitL_val = rbind(full_LitL_val,val_dat)
+  #assign(paste("LitL_leftover", i, sep = "_") , leftover_dat)
+  LitL_leftovers[[i]] <- leftover_dat
+}
 
-full_LitL_val = cbind(LitL_1,LitL_2,LitL_3,LitL_4,LitL_5,LitL_6)
 full_LitL_val$group = "group3"
-full_LitL_val$round = "round1"
+full_LitL_val$round = round
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch1.csv",full_LitL_val[1:20,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch2.csv",full_LitL_val[21:50,],row.names = F)
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_batch3.csv",full_LitL_val[51:nrow(full_LitL_val),],row.names = F)
+# add in mapping to ${heuristic_description} and ${heuristic_example}
+full_LitL_val_heur<-merge(full_LitL_val,heur_mapping,by="heuristic_1")
 
-write.csv(file="files/VALIDATION_csv_for_mturk_upload/round1_group3_LitL_leftover.csv",LitL_leftover,row.names = F)
 
+# Set up the rel.clause and restricted word ones to run first, since those heuristics don't get validated by mturkers
+full_LitL_val_noHeur <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "restricted_word_in_diff_label" |
+        heuristic_1 == "relative_clause")
+full_LitL_val_noHeur$heuristic_description = NA
+full_LitL_val_noHeur$heuristic_example = NA
+
+# Set up with rest of them
+full_LitL_val_withHeur1 <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "background_knowledge" |
+           heuristic_1 == "temporal_reasoning")
+full_LitL_val_withHeur2 <- full_LitL_val_heur %>% 
+  filter(heuristic_1 == "hypernym_hyponym" |
+           heuristic_1 == "reverse_argument_order" |
+           heuristic_1 == "synonym_antonym")
+
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch1_withHeur.csv"),full_LitL_val_withHeur1,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch2_withHeur.csv"),full_LitL_val_withHeur2,row.names = F)
+write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch3_noHeur.csv"),full_LitL_val_noHeur,row.names = F)
+
+for(i in 1:length(LitL_leftovers)){
+  write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_leftover",all_heuristics[i],".csv"),LitL_leftovers[[i]],row.names = F)
+}
