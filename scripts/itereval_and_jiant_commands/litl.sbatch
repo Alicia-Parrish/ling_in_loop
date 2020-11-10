@@ -15,6 +15,7 @@ venv_path=${BASE_DIR}/env
 source activate $venv_path
 
 JIANT_PATH=${BASE_DIR}/jiant/jiant
+echo $RUN_CONFIG
 echo $TASK_NAME
 echo $MODELS_DIR
 echo $MODEL_TYPE

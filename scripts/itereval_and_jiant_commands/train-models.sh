@@ -34,6 +34,7 @@ then
 fi
 
 echo Task config ${TASK_NAME_HYP}
+echo ${MNLI_HYP}
 
 for LR in "${LRS[@]}"
 do

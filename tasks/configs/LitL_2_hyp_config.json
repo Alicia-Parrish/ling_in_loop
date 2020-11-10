@@ -1,5 +1,5 @@
 {
-  "task": "mnli",
+  "task": "mnli_hyp",
   "paths": {
     "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LitL_2/train_round2_LitL_combined.jsonl",
     "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LitL_2/val_round2_LitL_combined.jsonl"
