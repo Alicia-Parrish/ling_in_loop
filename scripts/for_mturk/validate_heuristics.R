@@ -7,10 +7,15 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 set.seed(42)
 round = "round2"
 
-# banned words
-words_e <- c("some", "there", "something", "people")
-words_n <- c("many", "most", "may ", "might")
-words_c <- c("not","n't","never","none","no")
+# banned words in round 2
+#words_e <- c("some", "there", "something", "people")
+#words_n <- c("many", "most", "may ", "might")
+#words_c <- c("not","n't","never","none","no")
+
+# banned words in round 3
+words_e <- c()
+words_n <- c()
+words_c <- c()
 
 #################### FUNCTIONS ####################
 # function for reading in .jsonl files

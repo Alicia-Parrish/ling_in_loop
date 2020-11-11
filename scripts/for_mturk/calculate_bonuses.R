@@ -279,8 +279,15 @@ pay_bonus<-filter(bonus_with_ass_ids,total_bonus!=0)
 
 write.csv(pay_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_bonuses.csv"))
 
-
-
+update_bonus<-pay_bonus%>%
+  select(WorkerId,AssignmentId,AnonId,total_bonus,numHIT_bonus)%>%
+  mutate(updated_bonus = case_when(numHIT_bonus == 1 ~ 0.05,
+                                   numHIT_bonus == 6 ~ 0.3,
+                                   numHIT_bonus == 16 ~ 0.8,
+                                   numHIT_bonus == 0 ~ 0))%>%
+  select(-numHIT_bonus,-total_bonus)%>%
+  filter(updated_bonus!=0)
+write.csv(update_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_UPDATED_bonuses.csv"))
 
 ######### AGGREGATE ERROR RATES PER WORKER #########
 all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)
