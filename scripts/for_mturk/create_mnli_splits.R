@@ -121,8 +121,14 @@ LitL_csvs<-list(
   merge(r3_b5, heurs_g3[5,])
 )
 
+for(i in 1:length(base_csvs)){
+  write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group1_batch",i,".csv"),base_csvs[[i]],row.names=FALSE)
+}
+for(i in 1:length(LotS_csvs)){
+  write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group2_batch",i,".csv"),LotS_csvs[[i]],row.names=FALSE)
+}
 for(i in 1:length(LitL_csvs)){
-  write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group3_batch",i,".csv"),base_csvs[[i]],row.names=FALSE)
+  write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group3_batch",i,".csv"),LitL_csvs[[i]],row.names=FALSE)
 }
   
   
