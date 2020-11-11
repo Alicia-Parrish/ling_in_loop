@@ -288,6 +288,8 @@ update_bonus<-pay_bonus%>%
   select(-numHIT_bonus,-total_bonus)%>%
   filter(updated_bonus!=0)
 write.csv(update_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_UPDATED_bonuses.csv"))
+to_push2<-select(update_bonus, -WorkerId)
+write.csv(to_push2,paste0("files/worker_data/",round,"_UPDATED_bonuses.csv"))
 
 ######### AGGREGATE ERROR RATES PER WORKER #########
 all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)
