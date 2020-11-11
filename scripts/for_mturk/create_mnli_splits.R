@@ -45,7 +45,7 @@ dat_train3<-dat_train2%>%
 
 
 n_per_round = ceiling(3500/3)
-n_dev = floor(nrow(dat_dev3)/4) # four rounds left
+n_dev = floor(nrow(dat_dev3)/3) # three rounds left
 n_train = n_per_round-n_dev
 add_dev = ceiling(500/3)-n_dev
 
@@ -55,43 +55,80 @@ dat_train_reorder <- dat_train3[sample(1:nrow(dat_train3)), ]
 
 #round1<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
 #round1$splits[1:add_dev]<-"dev" # need to add 20 rows of dev because want 15%
-round2<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
-round2$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
-round3<-rbind(dat_train_reorder[(n_train+1):(n_train*2),],dat_dev_reorder[(n_dev+1):(n_dev*2),])
-round3$splits[1:add_dev]<-"dev"
-round4<-rbind(dat_train_reorder[((n_train*2)+1):(n_train*3),],dat_dev_reorder[((n_dev*2)+1):(n_dev*3),])
+#round2<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
+#round2$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
+round3<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
+round3$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
+round4<-rbind(dat_train_reorder[(n_train+1):(n_train*2),],dat_dev_reorder[(n_dev+1):(n_dev*2),])
 round4$splits[1:add_dev]<-"dev"
-round5<-rbind(dat_train_reorder[((n_train*3)+1):(n_train*4),],dat_dev_reorder[((n_dev*3)+1):(n_dev*4),])
+round5<-rbind(dat_train_reorder[((n_train*2)+1):(n_train*3),],dat_dev_reorder[((n_dev*2)+1):(n_dev*3),])
 round5$splits[1:add_dev]<-"dev"
+# round5<-rbind(dat_train_reorder[((n_train*3)+1):(n_train*4),],dat_dev_reorder[((n_dev*3)+1):(n_dev*4),])
+# round5$splits[1:add_dev]<-"dev"
 # round5<-rbind(dat_train_reorder[((n_train*4)+1):(n_train*5),],dat_dev_reorder[((n_dev*4)+1):(n_dev*5),])
 # round5$splits[1:add_dev]<-"dev"
 
 #round1_reorder<-round1[sample(1:nrow(round1)), ]
-round2_reorder<-round2[sample(1:nrow(round2)), ]
+#round2_reorder<-round2[sample(1:nrow(round2)), ]
 round3_reorder<-round3[sample(1:nrow(round3)), ]
 round4_reorder<-round4[sample(1:nrow(round4)), ]
 round5_reorder<-round5[sample(1:nrow(round5)), ]
 
 #check that I didn't duplicate anything accidentally
-Reduce(intersect, list(round2_reorder$promptID,round3_reorder$promptID,round4_reorder$promptID,round5_reorder$promptID)) #round1_reorder$promptID,
+Reduce(intersect, list(round3_reorder$promptID,round4_reorder$promptID,round5_reorder$promptID)) #round1_reorder$promptID, round2_reorder$promptID
 
 #check that I got the right number of dev items
 #nrow(filter(round1_reorder,splits=="dev"))==167
-nrow(filter(round2_reorder,splits=="dev"))==167
+#nrow(filter(round2_reorder,splits=="dev"))==167
 nrow(filter(round3_reorder,splits=="dev"))==167
 nrow(filter(round4_reorder,splits=="dev"))==167
 nrow(filter(round5_reorder,splits=="dev"))==167
 
 #round1_reorder <- apply(round1_reorder,2,as.character)
-round2_reorder <- apply(round2_reorder,2,as.character)
+#round2_reorder <- apply(round2_reorder,2,as.character)
 round3_reorder <- apply(round3_reorder,2,as.character)
 round4_reorder <- apply(round4_reorder,2,as.character)
 round5_reorder <- apply(round5_reorder,2,as.character)
 
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch1.csv",round2_reorder[1:170,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch2.csv",round2_reorder[171:340,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch3.csv",round2_reorder[341:510,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch4.csv",round2_reorder[511:680,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch5.csv",round2_reorder[681:850,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch6.csv",round2_reorder[851:1020,],row.names=FALSE)
-write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch7.csv",round2_reorder[1021:nrow(round2_reorder),],row.names=FALSE)
+######### CREATE FILES FOR UPLOAD ##########
+
+round = 'round3'
+batches = 5
+
+# break into batches
+r3_b1<-round3_reorder[1:233,]
+r3_b2<-round3_reorder[234:466,]
+r3_b3<-round3_reorder[467:699,]
+r3_b4<-round3_reorder[700:932,]
+r3_b5<-round3_reorder[933:nrow(round3_reorder),]
+
+heurs_g2<-read.csv("files/round3_heuristics_group2.csv")
+heurs_g3<-read.csv("files/round3_heuristics_group3.csv")
+
+base_csvs<-list(r3_b1,r3_b2,r3_b3,r3_b4,r3_b5)
+LotS_csvs<-list(
+  merge(r3_b1, heurs_g2[1,]),
+  merge(r3_b2, heurs_g2[2,]),
+  merge(r3_b3, heurs_g2[3,]),
+  merge(r3_b4, heurs_g2[4,]),
+  merge(r3_b5, heurs_g2[5,])
+)
+LitL_csvs<-list(
+  merge(r3_b1, heurs_g3[1,]),
+  merge(r3_b2, heurs_g3[2,]),
+  merge(r3_b3, heurs_g3[3,]),
+  merge(r3_b4, heurs_g3[4,]),
+  merge(r3_b5, heurs_g3[5,])
+)
+
+for(i in 1:length(LitL_csvs)){
+  write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group3_batch",i,".csv"),base_csvs[[i]],row.names=FALSE)
+}
+  
+  
+# write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group1_batch2.csv"),round3_reorder[171:340,],row.names=FALSE)
+# write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group1_batch3.csv"),round3_reorder[341:510,],row.names=FALSE)
+# write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group1_batch4.csv"),round3_reorder[511:680,],row.names=FALSE)
+# write.csv(file=paste0("files/WRITING_csv_for_mturk_upload/",round,"_group1_batch5.csv"),round3_reorder[681:850,],row.names=FALSE)
+# write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch6.csv",round2_reorder[851:1020,],row.names=FALSE)
+# write.csv(file="files/WRITING_csv_for_mturk_upload/round2_batch7.csv",round2_reorder[1021:nrow(round2_reorder),],row.names=FALSE)
