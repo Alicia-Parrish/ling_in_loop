@@ -125,7 +125,7 @@ get_heur_ns<-function(dat){
     group_by(heuristic,heuristic_gold_label)%>%
     summarise(count=n())%>%
     spread(heuristic_gold_label,count)%>%
-    mutate(pct_gold=Yes/(No+Yes))%>%
+    mutate(pct_gold_as_yes=Yes/(No+Yes))%>%
     rename("No_gold"=No,"Yes_gold"=Yes)
   
   dat_val_final2<-dat
@@ -137,12 +137,26 @@ get_heur_ns<-function(dat){
     group_by(heuristic,writer_label)%>%
     summarise(count=n())%>%
     spread(writer_label,count)%>%
-    mutate(pct_annotator=Yes/(No+Yes))%>%
+    mutate(pct_annotator_marked_yes=Yes/(No+Yes))%>%
     rename("No_ann"=No,"Yes_ann"=Yes)
+  dat_heur_agreement<-dat_val_final2%>%
+    mutate(agree=case_when(writer_label==heuristic_gold_label ~ 1,
+                           writer_label!=heuristic_gold_label ~ 0))%>%
+    group_by(heuristic,writer_label)%>%
+    summarise(agreement=mean(agree))%>%
+    spread(writer_label,agreement)%>%
+    rename("No_resp_validated"=No,"Yes_resp_validated"=Yes)
   
-  dat_heur_rates = merge(dat_heur_rates_gold,dat_heur_rates_annotator)
-  return(dat_heur_rates)
+  dat_heur_rates_1 = merge(dat_heur_agreement,dat_heur_rates_gold)
+  dat_heur_rates_2 = merge(dat_heur_rates_1,dat_heur_rates_annotator)
+  return(dat_heur_rates_2)
 }
 
 heur_rates_LotS<-get_heur_ns(LotS_val_final)
 heur_rates_LitL<-get_heur_ns(LitL_val_final)
+
+weighted.mean(heur_rates_LotS$Yes_resp_validated,heur_rates_LotS$Yes_ann,na.rm=T)
+weighted.mean(heur_rates_LitL$Yes_resp_validated,heur_rates_LitL$Yes_ann,na.rm=T,na.rm=T)
+
+weighted.mean(heur_rates_LotS$No_resp_validated,heur_rates_LotS$No_ann,na.rm=T)
+weighted.mean(heur_rates_LitL$No_resp_validated,heur_rates_LitL$No_ann,na.rm=T)
