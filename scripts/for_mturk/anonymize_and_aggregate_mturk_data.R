@@ -8,19 +8,32 @@ set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
-round = "round2" # change this value each round
+round = "round3" # change this value each round
 
 #################### FUNCTIONS ####################
-transform_data = function(dat){
+transform_data = function(dat,heur){
   dat2<-dat%>%
     filter(Input.splits=="train")%>%
-    select(AnonId,group,round,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,heuristic,heuristic_checked)%>%
+    #select(AnonId,group,round,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,heuristic,heuristic_checked)%>% # round 2
+    {if(!heur) select(.,AnonId,group,round,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction) else . } %>%
+    {if(heur) select(.,AnonId,group,round,Input.promptID,Input.premise,Answer.entailment,Answer.neutral,Answer.contradiction,
+                     Input.heuristic_value, Answer.constraint_contradiciton, Answer.constraint_entailment, Answer.constraint_neutral) else . } %>%
     rename("promptID" = Input.promptID,
            "premise" = Input.premise,
            "entailment" = Answer.entailment,
            "neutral" = Answer.neutral,
            "contradiction" = Answer.contradiction)%>%
-    gather("label","hypothesis",-promptID,-premise,-AnonId,-group,-round,-heuristic,-heuristic_checked)%>%
+    {if(heur) rename(.,"heuristic" = Input.heuristic_value) else . } %>%
+    #gather("label","hypothesis",-promptID,-premise,-AnonId,-group,-round,-heuristic,-heuristic_checked)%>% # round 2
+    {if(heur) gather(.,"label","hypothesis",-promptID,-premise,-AnonId,-group,-round,-heuristic,
+                      -Answer.constraint_contradiciton, -Answer.constraint_entailment, -Answer.constraint_neutral) else .} %>%
+    {if(heur) mutate(.,"heuristic_checked" = case_when(label=="contradiction" ~ Answer.constraint_contradiciton,
+                                                       label=="entailment" ~ Answer.constraint_entailment,
+                                                       label=="neutral" ~ Answer.constraint_neutral)) else .} %>%
+    {if(heur) mutate(., "heuristic_checked" = case_when(heuristic_checked=="" ~ "No",
+                                                        heuristic_checked!="" ~ "Yes")) else .}%>%
+    {if(heur) select(., -Answer.constraint_contradiciton, -Answer.constraint_entailment, -Answer.constraint_neutral) else .} %>%
+    {if(!heur) gather(.,"label","hypothesis",-promptID,-premise,-AnonId,-group,-round) else .} %>%
     mutate("pairID"=ifelse(label=="entailment",paste0(promptID,"e"),
                            ifelse(label=="neutral",paste0(promptID,"n"),
                                   ifelse(label=="contradiction",paste0(promptID,"c"),"problem"))))
@@ -41,27 +54,27 @@ LitL_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files
 
 for(i in 1:length(base_files)){
   temp = read.csv(base_files[i])
-  temp$heuristic = NA
-  temp$heuristic_checked = NA
+  #temp$heuristic = NA # needed with round2
+  #temp$heuristic_checked = NA # needed with round2
   base = rbind(base,temp)
 }
 for(i in 1:length(LotS_files)){
   temp = read.csv(LotS_files[i])
-  heuristic_used = as.character(unique(temp$Answer.constraint_1))
-  heuristic_used = heuristic_used[heuristic_used != ""]
-  temp$heuristic = heuristic_used
-  temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No",
-                                                        Answer.constraint_1 == heuristic ~ "Yes"))
-  LotS = rbind(LotS,temp2)
+  #heuristic_used = as.character(unique(temp$Answer.constraint_1)) # needed with round2
+  #heuristic_used = heuristic_used[heuristic_used != ""] # needed with round2
+  #temp$heuristic = heuristic_used # needed with round2
+  #temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No", # needed with round2
+  #                                                      Answer.constraint_1 == heuristic ~ "Yes"))
+  LotS = rbind(LotS,temp)
 }
 for(i in 1:length(LitL_files)){
   temp = read.csv(LitL_files[i])
-  heuristic_used = as.character(unique(temp$Answer.constraint_1))
-  heuristic_used = heuristic_used[heuristic_used != ""]
-  temp$heuristic = heuristic_used
-  temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No",
-                                                        Answer.constraint_1 == heuristic ~ "Yes"))
-  LitL = rbind(LitL,temp2)
+  #heuristic_used = as.character(unique(temp$Answer.constraint_1)) # needed with round2
+  #heuristic_used = heuristic_used[heuristic_used != ""] # needed with round2
+  #temp$heuristic = heuristic_used # needed with round2
+  #temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No", # needed with round2
+  #                                                      Answer.constraint_1 == heuristic ~ "Yes"))
+  LitL = rbind(LitL,temp)
 }
 
 #################### TRANSFORM ####################
@@ -70,7 +83,7 @@ for(i in 1:length(LitL_files)){
 base_anon<-merge(base,anon_codes,by="WorkerId")
 base_anon$round<-round
 
-base_anon_transformed = transform_data(base_anon)
+base_anon_transformed = transform_data(base_anon,heur=F)
 
 for(i in 1:nrow(base_anon_transformed)){
   base_anon_transformed$annotator_labels[i] = list(base_anon_transformed$label[i])
@@ -80,7 +93,7 @@ for(i in 1:nrow(base_anon_transformed)){
 # ---------- LotS PROTOCOL
 LotS_anon<-merge(LotS,anon_codes,by="WorkerId")
 LotS_anon$round<-round
-LotS_anon_transformed <- transform_data(LotS_anon)
+LotS_anon_transformed <- transform_data(LotS_anon,heur=T)
 
 
 for(i in 1:nrow(LotS_anon_transformed)){
@@ -91,7 +104,7 @@ for(i in 1:nrow(LotS_anon_transformed)){
 # ---------- LitL PROTOCOL
 LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
 LitL_anon$round<-"round1"
-LitL_anon_transformed <- transform_data(LitL_anon)
+LitL_anon_transformed <- transform_data(LitL_anon,heur=T)
 
 for(i in 1:nrow(LitL_anon_transformed)){
   LitL_anon_transformed$annotator_labels[i] = list(LitL_anon_transformed$label[i])
@@ -123,8 +136,8 @@ LitL_glue = merge(LitL_anon_transformed, glue_labels)
 
 # baseline
 base_anon_transformed2<-base_anon_transformed%>%
-  select(AnonId,group,round,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_checked)%>%
-  select(-heuristic,-heuristic_checked)%>%
+  select(AnonId,group,round,annotator_labels,label,pairID,promptID,premise,hypothesis)%>% # ,heuristic,heuristic_checked)%>%
+  #select(-heuristic,-heuristic_checked)%>% # round 2
   filter(!is.na(hypothesis), hypothesis!="", hypothesis != "{}")
 
 # Ling on the side
