@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","label","hypothesis","heuristic_checked","pairID"
+339,92422,"In the ancestral environment a man would be likely to have more offspring if he got his pick of the most fertile-seeming women.","sub_part","contradiction","Women had the ultimate say in which males they mated with.","No","92422c"
+307,46063,"[W]e have a book worthy of its subject--graceful, astonishingly well researched, yet imbued with a sense of flow that is rarely achieved at this level of scholarship, says Daphne Merkin in the New York Times Book Review . (See Sarah Kerr's review in Slate.)","sub_part","entailment","Daphne Merkin of the New York Times Book Review recommends the book.","No","46063e"
+333,11254,"Still, commercial calculation isn't sufficient to explain his stand.","sub_part","entailment","He needs more than commercial calculation to explain his stand.","No","11254e"

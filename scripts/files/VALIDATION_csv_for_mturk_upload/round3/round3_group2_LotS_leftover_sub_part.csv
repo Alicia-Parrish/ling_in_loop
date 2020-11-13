@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","label","hypothesis","heuristic_checked","pairID"
+231,101467,"Horwitz makes us see that the pinched circumstances of their lives are not so different from the conditions of their ancestors, dirt-poor yeoman farmers who seldom saw, much less owned, a slave.","sub_part","contradiction","Farmers of the time owned many slaves.","No","101467c"
+229,113976,"For ideological free-marketeers (like myself), theories like Smith and Wright's can be intellectually jarring.","sub_part","contradiction","Smith and Wright's theories are based in economics","No","113976c"
+222,55808,"Also, Time claims that for the past year, the FBI has been seeking Robert Jacques, a possible accomplice to Timothy McVeigh in the Oklahoma City bombing.","sub_part","neutral","Robert Jacques has spent the past 12 months hiding in Texas","Yes","55808n"

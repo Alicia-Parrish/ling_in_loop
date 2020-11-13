@@ -1,0 +1,16 @@
+Heuristic,Label,Bonus
+sub_part,Entailment,0.07
+sub_part,Neutral,0.07
+sub_part,Contradiction,0.07
+reverse_argument_order,Entailment,0.1
+reverse_argument_order,Neutral,0.05
+reverse_argument_order,Contradiction,0.05
+antonym,Entailment,0.1
+antonym,Neutral,0.05
+antonym,Contradiction,0.05
+hyponym,Entailment,0.1
+hyponym,Neutral,0.05
+hyponym,Contradiction,0.05
+hypernym,Entailment,0.05
+hypernym,Neutral,0.1
+hypernym,Contradiction,0.1
