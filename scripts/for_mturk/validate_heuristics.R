@@ -13,9 +13,9 @@ round = "round2"
 #words_c <- c("not","n't","never","none","no")
 
 # banned words in round 3
-words_e <- c()
-words_n <- c()
-words_c <- c()
+words_e <- c("there","can","may","might","used")
+words_n <- c("many","some","people","other","will")
+words_c <- c("no","never","not","always","all","any")
 
 #################### FUNCTIONS ####################
 # function for reading in .jsonl files

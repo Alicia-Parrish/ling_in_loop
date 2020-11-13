@@ -65,6 +65,9 @@ for(i in 1:length(LotS_files)){
   #temp$heuristic = heuristic_used # needed with round2
   #temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No", # needed with round2
   #                                                      Answer.constraint_1 == heuristic ~ "Yes"))
+  this_heur = as.character(unique(temp$Input.heuristic_value))
+  if(this_heur=="hyponym"){temp$Input.heuristic_value="hypernym"} # I flipped these in round 3, whoops
+  if(this_heur=="hypernym"){temp$Input.heuristic_value="hyponym"}
   LotS = rbind(LotS,temp)
 }
 for(i in 1:length(LitL_files)){
@@ -74,6 +77,9 @@ for(i in 1:length(LitL_files)){
   #temp$heuristic = heuristic_used # needed with round2
   #temp2 = temp %>% mutate(heuristic_checked = case_when(Answer.constraint_1 != heuristic ~ "No", # needed with round2
   #                                                      Answer.constraint_1 == heuristic ~ "Yes"))
+  this_heur = as.character(unique(temp$Input.heuristic_value))
+  if(this_heur=="hyponym"){temp$Input.heuristic_value="hypernym"} # I flipped these in round 3, whoops
+  if(this_heur=="hypernym"){temp$Input.heuristic_value="hyponym"}
   LitL = rbind(LitL,temp)
 }
 
