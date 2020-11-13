@@ -81,3 +81,7 @@ for_plt2<-merge(for_plt,heur_paymnt)
     ylab("percent")+
     theme(plot.title = element_text(hjust = 0.5))+
     facet_wrap(~ Heuristic + group, ncol = 2))
+
+ggsave(plot=plt, 
+       filename="figures/heuristic_distributions_round3.png",
+       width = 6, height = 8.5)
