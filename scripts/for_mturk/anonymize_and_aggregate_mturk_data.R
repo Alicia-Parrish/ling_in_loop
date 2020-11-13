@@ -40,6 +40,14 @@ transform_data = function(dat,heur){
   return(dat2)
 }
 
+# function for reading in .jsonl files
+read_json_lines <- function(file){
+  con <- file(file, open = "r")
+  on.exit(close(con))
+  jsonlite::stream_in(con, verbose = FALSE)
+}
+
+
 #################### READ IN ####################
 
 base<-NULL
@@ -118,18 +126,19 @@ for(i in 1:nrow(LitL_anon_transformed)){
 
 
 #################### ADD RELELVANT GLUE LABELS ####################
-glue_labels = data.frame(matrix(ncol = 2, nrow = 7))
+glue_labels = data.frame(matrix(ncol = 2, nrow = 5))
 colnames(glue_labels)<-c("heuristic","glue_labels")
 
 glue_labels$heuristic = unique(LotS_anon_transformed$heuristic)
 
 # need to do each of these individually each time
-glue_labels$glue_labels[glue_labels$heuristic=="synonym_antonym"] = list(c("Lexical entailment"))
-glue_labels$glue_labels[glue_labels$heuristic=="temporal_reasoning"] = list(c("Temporal", "Temporal;Intervals/Numbers"))
-glue_labels$glue_labels[glue_labels$heuristic=="restricted_word_in_diff_label"] = list(c(""))
-glue_labels$glue_labels[glue_labels$heuristic=="relative_clause"] = list(c("Relative clauses;Restrictivity", "Relative clauses"))
-glue_labels$glue_labels[glue_labels$heuristic=="background_knowledge"] = list(c("World knowledge"))
-glue_labels$glue_labels[glue_labels$heuristic=="hypernym_hyponym"] = list(c("Lexical entailment"))
+glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="temporal_reasoning"] = list(c("Temporal", "Temporal;Intervals/Numbers"))
+#glue_labels$glue_labels[glue_labels$heuristic=="restricted_word_in_diff_label"] = list(c(""))
+#glue_labels$glue_labels[glue_labels$heuristic=="relative_clause"] = list(c("Relative clauses;Restrictivity", "Relative clauses"))
+glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
+glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
+glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
 glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
 
 # add to LotS
@@ -161,4 +170,41 @@ LitL_anon_transformed2<-LitL_glue%>%
 jsonlite::stream_out(base_anon_transformed2, file(paste0('../NLI_data/1_Baseline_protocol/train_',round,'_baseline.jsonl')))
 jsonlite::stream_out(LotS_anon_transformed2, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS.jsonl')))
 jsonlite::stream_out(LitL_anon_transformed2, file(paste0('../NLI_data/3_Ling_in_loop_protocol/train_',round,'_LitL.jsonl')))
+
+#################### MAKE COMBINED FILES #########################
+
+base_jsonl_files<-list.files('../NLI_data/1_Baseline_protocol/',full.names=T, pattern = "train_.*_baseline.jsonl")
+LotS_jsonl_files<-list.files('../NLI_data/2_Ling_on_side_protocol/',full.names=T, pattern = "train_.*_LotS.jsonl")
+LitL_jsonl_files<-list.files('../NLI_data/3_Ling_in_loop_protocol/',full.names=T, pattern = "train_.*_LitL.jsonl")
+
+all_base_jsonl = NULL
+all_LotS_jsonl = NULL
+all_LitL_jsonl = NULL
+
+for(i in 1:length(base_jsonl_files)){
+  temp = read_json_lines(base_jsonl_files[i])
+  all_base_jsonl = rbind(all_base_jsonl,temp)
+}
+for(i in 1:length(LotS_jsonl_files)){
+  temp = read_json_lines(LotS_jsonl_files[i])
+  if(!"heuristic" %in% colnames(temp)){
+    temp$heuristic = NA
+    temp$heuristic_checked = NA
+    temp$glue_labels = NA
+  }
+  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
+}
+for(i in 1:length(LitL_jsonl_files)){
+  temp = read_json_lines(LitL_jsonl_files[i])
+  if(!"heuristic" %in% colnames(temp)){
+    temp$heuristic = NA
+    temp$heuristic_checked = NA
+    temp$glue_labels = NA
+  }
+  all_LitL_jsonl = rbind(all_LitL_jsonl,temp)
+}
+
+jsonlite::stream_out(all_base_jsonl, file(paste0('../NLI_data/1_Baseline_protocol/train_',round,'_baseline_combined.jsonl')))
+jsonlite::stream_out(all_LotS_jsonl, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS_combined.jsonl')))
+jsonlite::stream_out(all_LitL_jsonl, file(paste0('../NLI_data/3_Ling_in_loop_protocol/train_',round,'_LitL_combined.jsonl')))
 
