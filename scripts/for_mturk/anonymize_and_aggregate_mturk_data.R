@@ -117,7 +117,7 @@ for(i in 1:nrow(LotS_anon_transformed)){
 
 # ---------- LitL PROTOCOL
 LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
-LitL_anon$round<-"round1"
+LitL_anon$round<-round
 LitL_anon_transformed <- transform_data(LitL_anon,heur=T)
 
 for(i in 1:nrow(LitL_anon_transformed)){

@@ -8,7 +8,7 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
-round = "round2" # change this value each round
+round = "round3" # change this value each round
 
 #################### FUNCTIONS ####################
 smaller_data <- function(dat){
@@ -142,7 +142,6 @@ for(i in 1:length(LotS_files)){
 for(i in 1:length(LitL_files)){
   temp = read.csv(LitL_files[i],stringsAsFactors=FALSE)
   temp2 = select(temp, -matches("heuristic_description|heuristic_example")) # get only relevant columns
-  if(!"Answer.heuristic_val_1" %in% names(temp2)){temp2=add_missing_columns(temp2)}
   LitL = rbind(LitL,temp2)
 }
 
@@ -160,10 +159,6 @@ base_transformed$group = "group1"
 
 base_transformed<-filter(base_transformed,!is.na(promptID))
 
-# validation failures
-base_fails<-filter(base_transformed,label=="no_winner")
-# validation passes
-base_pass<-filter(base_transformed,label!="no_winner")
 
 
 # ---------- LING-ON-SIDE PROTOCOL
@@ -178,12 +173,6 @@ LotS_transformed$group = "group2"
 
 LotS_transformed<-filter(LotS_transformed,!is.na(promptID))
 
-# validation failures
-LotS_fails<-filter(LotS_transformed,label=="no_winner")
-# validation passes
-LotS_pass<-filter(LotS_transformed,label!="no_winner")
-
-
 
 # ---------- LING-IN-LOOP PROTOCOL
 LitL_smaller <- smaller_data(LitL)
@@ -196,25 +185,118 @@ LitL_transformed$round = round
 LitL_transformed$group = "group3"
 
 LitL_transformed<-filter(LitL_transformed,!is.na(promptID))
-LitL_transformed<-filter(LitL_transformed,promptID!='49943') # problem just during round 2
+#LitL_transformed<-filter(LitL_transformed,promptID!='49943') # problem just during round 2
+
+
+#################### ADD RELELVANT GLUE LABELS ####################
+glue_labels = data.frame(matrix(ncol = 2, nrow = 5))
+colnames(glue_labels)<-c("heuristic","glue_labels")
+
+glue_labels$heuristic = unique(LitL_pass$heuristic)
+
+# need to do each of these individually each time
+glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="temporal_reasoning"] = list(c("Temporal", "Temporal;Intervals/Numbers"))
+#glue_labels$glue_labels[glue_labels$heuristic=="restricted_word_in_diff_label"] = list(c(""))
+#glue_labels$glue_labels[glue_labels$heuristic=="relative_clause"] = list(c("Relative clauses;Restrictivity", "Relative clauses"))
+glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
+glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
+glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
+glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
+
+# add to LotS
+LotS_glue = merge(LotS_transformed, glue_labels)
+
+# add to LitL
+LitL_glue = merge(LitL_transformed, glue_labels)
+
+#################### REORDER ####################
+
+base_transformed2<-base_transformed%>%
+  select(annotator_ids,annotator_labels,label,pairID,promptID,premise,hypothesis,group,round,)
+
+LotS_transformed2<-LotS_glue%>%
+  select(annotator_ids,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_labels,heuristic_gold_label,glue_labels,group,round)
+
+LitL_transformed2<-LitL_glue%>%
+  select(annotator_ids,annotator_labels,label,pairID,promptID,premise,hypothesis,heuristic,heuristic_labels,heuristic_gold_label,glue_labels,group,round)
+  
+
+#################### PULL OUT PASSES ####################
 
 # validation failures
-LitL_fails<-filter(LitL_transformed,label=="no_winner")
+base_fails<-filter(base_transformed2,label=="no_winner")
 # validation passes
-LitL_pass<-filter(LitL_transformed,label!="no_winner")
+base_pass<-filter(base_transformed2,label!="no_winner")
+
+# validation failures
+LotS_fails<-filter(LotS_transformed2,label=="no_winner")
+# validation passes
+LotS_pass<-filter(LotS_transformed2,label!="no_winner")
+
+# validation failures
+LitL_fails<-filter(LitL_transformed2,label=="no_winner")
+# validation passes
+LitL_pass<-filter(LitL_transformed2,label!="no_winner")
 
 
 #################### SAVE DATA ####################
 
 # ---------- BASELINE PROTOCOL
 jsonlite::stream_out(base_pass, file(paste0('../NLI_data/1_Baseline_protocol/val_',round,'_base.jsonl')))
-jsonlite::stream_out(base_transformed, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_base_alldata.jsonl')))
+jsonlite::stream_out(base_transformed2, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_base_alldata.jsonl')))
 
 # ---------- LING-ON-SIDE PROTOCOL
 jsonlite::stream_out(LotS_pass, file(paste0('../NLI_data/2_Ling_on_side_protocol/val_',round,'_LotS.jsonl')))
-jsonlite::stream_out(LotS_transformed, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_LotS_alldata.jsonl')))
+jsonlite::stream_out(LotS_transformed2, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_LotS_alldata.jsonl')))
 
 # ---------- LING-IN-LOOP PROTOCOL
 jsonlite::stream_out(LitL_pass, file(paste0('../NLI_data/3_Ling_in_loop_protocol/val_',round,'_LitL.jsonl')))
-jsonlite::stream_out(LitL_transformed, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_LitL_alldata.jsonl')))
+jsonlite::stream_out(LitL_transformed2, file(paste0('../../SECRET/ling_in_loop_SECRET/full_validation_files/val_',round,'_LitL_alldata.jsonl')))
+
+#################### MAKE COMBINED FILES #########################
+
+# function for reading in .jsonl files
+read_json_lines <- function(file){
+  con <- file(file, open = "r")
+  on.exit(close(con))
+  jsonlite::stream_in(con, verbose = FALSE)
+}
+
+base_jsonl_files<-list.files('../NLI_data/1_Baseline_protocol/',full.names=T, pattern = "val_.*_base.jsonl")
+LotS_jsonl_files<-list.files('../NLI_data/2_Ling_on_side_protocol/',full.names=T, pattern = "val_.*_LotS.jsonl")
+LitL_jsonl_files<-list.files('../NLI_data/3_Ling_in_loop_protocol/',full.names=T, pattern = "val_.*_LitL.jsonl")
+
+all_base_jsonl = NULL
+all_LotS_jsonl = NULL
+all_LitL_jsonl = NULL
+
+for(i in 1:length(base_jsonl_files)){
+  temp = read_json_lines(base_jsonl_files[i])
+  all_base_jsonl = rbind(all_base_jsonl,temp)
+}
+for(i in 1:length(LotS_jsonl_files)){
+  temp = read_json_lines(LotS_jsonl_files[i])
+  if(!"heuristic" %in% colnames(temp)){
+    temp$heuristic = NA
+    temp$heuristic_labels = NA
+    temp$heuristic_gold_label = NA
+    temp$glue_labels = NA
+  }
+  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
+}
+for(i in 1:length(LitL_jsonl_files)){
+  temp = read_json_lines(LitL_jsonl_files[i])
+  if(!"heuristic" %in% colnames(temp)){
+    temp$heuristic = NA
+    temp$heuristic_labels = NA
+    temp$heuristic_gold_label = NA
+    temp$glue_labels = NA
+  }
+  all_LitL_jsonl = rbind(all_LitL_jsonl,temp)
+}
+
+jsonlite::stream_out(all_base_jsonl, file(paste0('../NLI_data/1_Baseline_protocol/val_',round,'_base_combined.jsonl')))
+jsonlite::stream_out(all_LotS_jsonl, file(paste0('../NLI_data/2_Ling_on_side_protocol/val_',round,'_LotS_combined.jsonl')))
+jsonlite::stream_out(all_LitL_jsonl, file(paste0('../NLI_data/3_Ling_in_loop_protocol/val_',round,'_LitL_combined.jsonl')))
 
