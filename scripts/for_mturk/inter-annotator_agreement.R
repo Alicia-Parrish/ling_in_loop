@@ -10,7 +10,7 @@ library(grid)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round="round2"
+round="round3"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -76,16 +76,17 @@ abline(v = c(ci3_lo,ci3_hi,as.character(bt3[1])), col=c("red","red","blue"), lwd
 par(mfrow = c(1, 1))
 
 ############### BY HEURISTIC RESULTS #################
+n_heuristics = 5
 
 par(mar=c(2,2,2,2))
-par(mfrow = c(7, 2))
+par(mfrow = c(n_heuristics, 2))
 all_heuristics = unique(LotS_val$heuristic)
 
 ## LING ON SIDE
 dats<-list(LotS_val,LitL_val)
 names(dats) <- c("LotS", "LitL")
 
-n <- 14 # number of plots
+n <- n_heuristics*2 # number of plots
 list_plot <- vector(mode = "list", length = n)
 names(list_plot) <- paste("plot", 1:n)
 
@@ -115,7 +116,7 @@ for(i in 1:length(all_heuristics)){
 
 twocols<-c(cols[8],cols[4])
 for(i in 1:14){
-  plt_x<-plot(list_plot[[i]], col = twocols[(i%%2)+1], xlim = c(0.4, .85), ylim = c(0,80),main=names(list_plot)[i], xlab="kappa", ylab="count")
+  plt_x<-plot(list_plot[[i]], col = twocols[(i%%2)+1], xlim = c(0.48, .85), ylim = c(0,80),main=names(list_plot)[i], xlab="kappa", ylab="count")
   abline(v = c(unlist(ci_lows[[i]]),unlist(ci_his[[i]]),as.character(boots[[i]][1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
 }
 
@@ -156,7 +157,7 @@ heur_rates_LotS<-get_heur_ns(LotS_val_final)
 heur_rates_LitL<-get_heur_ns(LitL_val_final)
 
 weighted.mean(heur_rates_LotS$Yes_resp_validated,heur_rates_LotS$Yes_ann,na.rm=T)
-weighted.mean(heur_rates_LitL$Yes_resp_validated,heur_rates_LitL$Yes_ann,na.rm=T,na.rm=T)
+weighted.mean(heur_rates_LitL$Yes_resp_validated,heur_rates_LitL$Yes_ann,na.rm=T)
 
 weighted.mean(heur_rates_LotS$No_resp_validated,heur_rates_LotS$No_ann,na.rm=T)
 weighted.mean(heur_rates_LitL$No_resp_validated,heur_rates_LitL$No_ann,na.rm=T)

@@ -8,7 +8,7 @@ library(data.table)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round2"
+round = "round3"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){

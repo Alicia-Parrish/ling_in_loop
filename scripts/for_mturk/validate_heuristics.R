@@ -5,7 +5,7 @@ library(jsonlite)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round2"
+round = "round3"
 
 # banned words in round 2
 #words_e <- c("some", "there", "something", "people")
@@ -119,6 +119,15 @@ LitL_banned_words = identify_banned_words(LitLs)
 LitL_banned_words_summary = LitL_banned_words %>%
   group_by(label)%>%
   summarise(total=mean(score),count=n())
+
+#combine
+bases_banned_words_summary$group = "base"
+LotS_banned_words_summary$group = "LotS"
+LitL_banned_words_summary$group = "LitL"
+
+all_banned_words = rbind(bases_banned_words_summary,
+                         LotS_banned_words_summary,
+                         LitL_banned_words_summary)
 
 #################### HEURISTIC: RESTRICTED WORD IN DIFF LABEL (JUST VAL) ####################
 # LotS
