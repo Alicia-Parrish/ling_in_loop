@@ -27,7 +27,6 @@ for(g in 1:length(groups)){
 }
 
 (plt<-ggplot(data=all_data,aes(x=round,y=pmi,col=label,label=X))+
-    #geom_text(aes(label=X),position=position_dodge(width=3))+
     geom_text(position=position_jitter(width=0.39,height=0),
               check_overlap = T)+
     theme(legend.position = "none")+
@@ -54,7 +53,6 @@ for(g in 1:length(groups)){
 }
 
 (plt2<-ggplot(data=combined_data,aes(x=label,y=pmi,col=label,label=X))+
-    #geom_text(aes(label=X),position=position_dodge(width=3))+
     geom_text(position=position_jitter(width=0.39,height=0),
               check_overlap = T)+
     theme(legend.position = "none")+
