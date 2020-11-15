@@ -183,6 +183,11 @@ all_LitL_jsonl = NULL
 
 for(i in 1:length(base_jsonl_files)){
   temp = read_json_lines(base_jsonl_files[i])
+  temp = temp %>%
+    filter(!is.na(hypothesis))%>%
+    filter(hypothesis!="")%>%
+    filter(hypothesis!="{}")
+  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
   all_base_jsonl = rbind(all_base_jsonl,temp)
 }
 for(i in 1:length(LotS_jsonl_files)){
@@ -192,6 +197,10 @@ for(i in 1:length(LotS_jsonl_files)){
     temp$heuristic_checked = NA
     temp$glue_labels = NA
   }
+  temp = temp %>%
+    filter(!is.na(hypothesis))%>%
+    filter(hypothesis!="")%>%
+    filter(hypothesis!="{}")
   all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
 }
 for(i in 1:length(LitL_jsonl_files)){
@@ -201,10 +210,20 @@ for(i in 1:length(LitL_jsonl_files)){
     temp$heuristic_checked = NA
     temp$glue_labels = NA
   }
+  temp = temp %>%
+    filter(!is.na(hypothesis))%>%
+    filter(hypothesis!="")%>%
+    filter(hypothesis!="{}")
+  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
   all_LitL_jsonl = rbind(all_LitL_jsonl,temp)
 }
 
+all_LotS_jsonl2 = all_LotS_jsonl %>%
+  filter(!is.na(hypothesis))%>%
+  filter(hypothesis!="")%>%
+  filter(hypothesis!="{}")
+
 jsonlite::stream_out(all_base_jsonl, file(paste0('../NLI_data/1_Baseline_protocol/train_',round,'_baseline_combined.jsonl')))
-jsonlite::stream_out(all_LotS_jsonl, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS_combined.jsonl')))
+jsonlite::stream_out(all_LotS_jsonl2, file(paste0('../NLI_data/2_Ling_on_side_protocol/train_',round,'_LotS_combined.jsonl')))
 jsonlite::stream_out(all_LitL_jsonl, file(paste0('../NLI_data/3_Ling_in_loop_protocol/train_',round,'_LitL_combined.jsonl')))
 
