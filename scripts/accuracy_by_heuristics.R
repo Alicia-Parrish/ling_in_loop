@@ -54,3 +54,43 @@ all_acc4<-all_acc3 %>%
 
 ggsave("figures/accuracyHeuristic_round2_combined.png", plot=plt, width = 12, height = 6)
 
+########### DON'T SEPARATE BY INDIVIDUAL HEURISTIC ############
+
+accuracies<-function(dat,heur){
+  if(!heur){dat$heuristic_gold_label = "No"}
+  dat2<-dat%>%
+    mutate(score = case_when(correct=="True" ~ 1,
+                             correct=="False" ~ 0))%>%
+    {if(heur) select(.,-heuristic) else .}%>%
+    group_by(heuristic_gold_label,label,group,round)%>%
+    summarise(accuracy=mean(score),count=n())
+  return(dat2)
+}
+
+base_accs<-accuracies(base_pred,F)
+LotS_accs<-accuracies(LotS_pred,T)
+LitL_accs<-accuracies(LitL_pred,T)
+
+all_accs<-rbind(base_accs,LotS_accs,LitL_accs)
+all_accs2<-all_accs%>%
+  mutate(heuristic_applied=ifelse(heuristic_gold_label=="","No",heuristic_gold_label))%>%
+  select(-heuristic_gold_label)
+
+overall_accs<-all_accs2%>%
+  group_by(group,round)%>%
+  summarise(overall_acc = weighted.mean(accuracy,count))
+
+all_accs3<-merge(all_accs2,overall_accs)
+all_accs4<-all_accs3 %>%
+  mutate(acc_diff = (accuracy - overall_acc)*100)
+
+(plt2<-ggplot(data=all_accs4,aes(x=round,y=acc_diff,fill=label))+
+    geom_bar(stat='identity',position=position_dodge2(preserve = "single", padding = 0))+
+    geom_text(aes(label=count),position=position_dodge(width = 1),size=2,face="bold")+
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+    ylab("Accuracy difference from mean")+
+    facet_grid(heuristic_applied ~ group)
+)
+
+ggsave("figures/accuracyHeuristicApplied_round2_combined.png", plot=plt2, width = 8, height = 4)
+
