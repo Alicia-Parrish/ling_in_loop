@@ -10,12 +10,15 @@ sh eval-models.sh <test> <lr> <bs> roberta-large
 
 sh create-task-configs-all.sh <round>
 sh tokenization-and-cache-all.sh <round> roberta-large
-sh train-models-all.sh <round> roberta-large <3000>
+sh train-models-all.sh <round> roberta-large 3000
 sh get-best-all.sh <round>
 sh eval-models-all.sh <test> <lr> <bs> roberta-large
+
+#
 
 python corpus_stats.py --verbose --pushstats --round 2 --fname C:\Users\Willi\Documents\NYU\2020_Fall\semantics_seminar\lip\ling_in_loop\NLI_data\1_Baseline_protocol\train_round2_baseline.jsonl
 
 python summarize_evals.py C:\Users\Willi\Documents\NYU\2020_Fall\semantics_seminar\lip\ling_in_loop\tasks\data\iterative_eval\val_itercombined.jsonl C:\Users\Willi\Documents\NYU\2020_Fall\semantics_seminar\lip\ling_in_loop\predictions\4_iterevals\1_Baseline_protocol\r1\combined\val_preds.p
 
+python get_plots_tables.py
 python get_plots_tables.py --combined
