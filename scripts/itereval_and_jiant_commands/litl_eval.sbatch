@@ -9,7 +9,7 @@
 #SBATCH --mail-user=wh629@nyu.edu
 #SBATCH --output=/scratch/wh629/research/litl/logs/slurm_%j.out
 
-BASE_DIR=/scratch/wh629/research/litl
+BASE_DIR=/scratch/wh629/research/litl/ling_in_loop
 
 venv_path=${BASE_DIR}/env
 source activate $venv_path

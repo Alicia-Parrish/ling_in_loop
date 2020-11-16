@@ -9,6 +9,6 @@ do
 
 	sh get-best.sh ${fdir}
 	sh get-best.sh ${fdir}_separate
-	sh get-best.sh ${fdir} true
-	sh get-best.sh ${fdir}_separate true
+	sh get-best.sh ${fdir}_hyp
+	sh get-best.sh ${fdir}_separate_hyp
 done
