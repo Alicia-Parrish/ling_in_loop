@@ -52,7 +52,9 @@ all_acc4<-all_acc3 %>%
     facet_grid(heuristic_gold_label ~ group*round ,scales="free_x")
   )
 
-ggsave("figures/accuracyHeuristic_round2_combined.png", plot=plt, width = 12, height = 6)
+ggsave(paste0("figures/accuracyHeuristic_",round,"_combined.png"), plot=plt, width = 12, height = 6)
+
+
 
 ########### DON'T SEPARATE BY INDIVIDUAL HEURISTIC ############
 
@@ -92,5 +94,5 @@ all_accs4<-all_accs3 %>%
     facet_grid(heuristic_applied ~ group)
 )
 
-ggsave("figures/accuracyHeuristicApplied_round2_combined.png", plot=plt2, width = 8, height = 4)
+ggsave(paste0("figures/accuracyHeuristicApplied_",round,"_combined.png"), plot=plt2, width = 8, height = 4)
 
