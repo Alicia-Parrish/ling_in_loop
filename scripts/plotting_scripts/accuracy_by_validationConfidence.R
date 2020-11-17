@@ -4,11 +4,12 @@ library(ggplot2)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round2"
+round = "round3"
+r = "r3"
 
-base_pred<-read.csv("../predictions/1_Baseline_protocol/r2/combined/full/val_round2_base_combined_preds.csv")
-LotS_pred<-read.csv("../predictions/2_Ling_on_side_protocol/r2/combined/full/val_round2_LotS_combined_preds.csv")
-LitL_pred<-read.csv("../predictions/3_Ling_in_loop_protocol/r2/combined/full/val_round2_LitL_combined_preds.csv")
+base_pred<-read.csv(paste0("../predictions/1_Baseline_protocol/",r,"/combined/full/val_",round,"_base_combined_preds.csv"))
+LotS_pred<-read.csv(paste0("../predictions/2_Ling_on_side_protocol/",r,"/combined/full/val_",round,"_LotS_combined_preds.csv"))
+LitL_pred<-read.csv(paste0("../predictions/3_Ling_in_loop_protocol/",r,"/combined/full/val_",round,"_LitL_combined_preds.csv"))
 
 accuracy_by_validationConfidence<-function(dat){
   dat$num_label<-NA
@@ -39,4 +40,4 @@ all_preds<-rbind(base_pred2,LotS_pred2,LitL_pred2)
   scale_x_continuous(breaks=c(3,4,5))+
   facet_wrap(~group))
 
-ggsave("figures/acc_by_confidence_round2_combined.png", plot=plt, width = 7, height = 5)
+ggsave("figures/acc_by_confidence_round3_combined.png", plot=plt, width = 7, height = 5)

@@ -7,7 +7,7 @@ set.seed(42)
 
 ################## BY ROUND ###################
 
-rounds <- c("r1","r2")
+rounds <- c("r1","r2","r3")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
 labels <- c("entailment","neutral","contradiction")
 group_nums <- c("1","2","3")
@@ -61,5 +61,5 @@ hyp_lengths<-filter(hyp_lengths,X0<40)
     theme(plot.title = element_text(hjust = 0.5))+
     facet_wrap(~group))
 
-ggsave("figures/hyp_length_over_time_round2.png", plot=plt2, width = 12, height = 9)
+ggsave("figures/hyp_length_over_time_round3.png", plot=plt2, width = 12, height = 9)
 

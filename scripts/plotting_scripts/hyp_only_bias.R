@@ -4,8 +4,8 @@ library(ggplot2)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round2"
-r = "r2"
+round = "round3"
+r = "r3"
 
 base_pred<-read.csv(paste0("../predictions/1_Baseline_protocol/",r,"/combined/hyp/val_",round,"_base_combined_preds.csv"))
 LotS_pred<-read.csv(paste0("../predictions/2_Ling_on_side_protocol/",r,"/combined/hyp/val_",round,"_LotS_combined_preds.csv"))
@@ -42,14 +42,15 @@ overall_acc<-all_acc2%>%
 
 all_acc3<-merge(all_acc2,overall_acc)
 all_acc4<-all_acc3 %>%
-  mutate(acc_diff = (accuracy - overall_acc)*100)
+  mutate(acc_diff = (accuracy - overall_acc)*100)%>%
+  filter(heuristic_gold_label!="no_winner")
 
 (plt<-ggplot(data=all_acc4,aes(x=heuristic,y=acc_diff,fill=label))+
     geom_bar(stat='identity',position=position_dodge2(preserve = "single", padding = 0))+
     geom_text(aes(label=count),position=position_dodge(width = 1),size=2,face="bold")+
     theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
     ylab("Accuracy difference from mean")+
-    ggtitle("Hypothesis only bias after Round 2")+
+    ggtitle("Hypothesis only bias after Round 3")+
     facet_grid(heuristic_gold_label ~ group*round ,scales="free_x")
 )
 ggsave(paste0("figures/HypOnlyaccuracyHeuristic_",round,"_combined.png"), plot=plt, width = 12, height = 6)
@@ -82,14 +83,15 @@ overall_accs<-all_accs2%>%
 
 all_accs3<-merge(all_accs2,overall_accs)
 all_accs4<-all_accs3 %>%
-  mutate(acc_diff = (accuracy - overall_acc)*100)
+  mutate(acc_diff = (accuracy - overall_acc)*100)%>%
+  filter(heuristic_gold_label!="no_winner")
 
 (plt2<-ggplot(data=all_accs4,aes(x=round,y=acc_diff,fill=label))+
     geom_bar(stat='identity',position=position_dodge2(preserve = "single", padding = 0))+
     geom_text(aes(label=count),position=position_dodge(width = 1),size=2,face="bold")+
     theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
     ylab("Accuracy difference from mean")+
-    ggtitle("Hypothesis only bias after Round 2")+
+    ggtitle("Hypothesis only bias after Round 3")+
     facet_grid(heuristic_applied ~ group)
 )
 
@@ -101,8 +103,8 @@ agg_accuracies2<-function(dat){
   dat2<-dat%>%
     mutate(score = case_when(correct=="True" ~ 1,
                              correct=="False" ~ 0))%>%
-    #group_by(label,group,round)%>%
-    group_by(group,round)%>%
+    group_by(label,group,round)%>%
+    #group_by(group,round)%>%
     summarise(accuracy=mean(score),count=n())
   return(dat2)
 }
@@ -128,7 +130,7 @@ agg_accs3<-merge(all_agg,mean_accs)
     #geom_text(aes(label=count),position=position_dodge(width = 1),size=2)+
     #theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
     ylab("Accuracy")+
-    ggtitle("Hypothesis only bias after Round 2")+
+    ggtitle("Hypothesis only bias after Round 3")+
     facet_wrap(~group)
 )
 

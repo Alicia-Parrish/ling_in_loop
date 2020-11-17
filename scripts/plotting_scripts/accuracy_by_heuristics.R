@@ -4,8 +4,8 @@ library(ggplot2)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round2"
-r = "r2"
+round = "round3"
+r = "r3"
 
 base_pred<-read.csv(paste0("../predictions/1_Baseline_protocol/",r,"/combined/full/val_",round,"_base_combined_preds.csv"))
 LotS_pred<-read.csv(paste0("../predictions/2_Ling_on_side_protocol/",r,"/combined/full/val_",round,"_LotS_combined_preds.csv"))
@@ -23,7 +23,7 @@ accuracy_by_heuristic<-function(dat,heur){
                              correct=="False" ~ 0))%>%
     {if(!heur) group_by(.,heuristic,label,group,round) else .}%>%
     {if(heur) group_by(.,heuristic,label,group,round,heuristic_gold_label) else .}%>%
-    summarise(accuracy=mean(score),count=n())%>%
+    summarise(accuracy=mean(score),count=n())
   if(!heur){dat3$heuristic_gold_label = "No"}
   return(dat3)
 }
@@ -42,7 +42,8 @@ overall_acc<-all_acc2%>%
 
 all_acc3<-merge(all_acc2,overall_acc)
 all_acc4<-all_acc3 %>%
-  mutate(acc_diff = (accuracy - overall_acc)*100)
+  mutate(acc_diff = (accuracy - overall_acc)*100)%>%
+  filter(heuristic_gold_label!="no_winner")
 
 (plt<-ggplot(data=all_acc4,aes(x=heuristic,y=acc_diff,fill=label))+
     geom_bar(stat='identity',position=position_dodge2(preserve = "single", padding = 0))+
@@ -84,7 +85,8 @@ overall_accs<-all_accs2%>%
 
 all_accs3<-merge(all_accs2,overall_accs)
 all_accs4<-all_accs3 %>%
-  mutate(acc_diff = (accuracy - overall_acc)*100)
+  mutate(acc_diff = (accuracy - overall_acc)*100)%>%
+  filter(heuristic_gold_label!="no_winner")
 
 (plt2<-ggplot(data=all_accs4,aes(x=round,y=acc_diff,fill=label))+
     geom_bar(stat='identity',position=position_dodge2(preserve = "single", padding = 0))+
