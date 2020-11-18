@@ -225,6 +225,9 @@ LitL_weighted_heuristics <- calculate_wighted_heuristics(LitL_heuristics)
 #see how each individual did in different heuristicss
 LitL_heur_by_worker <- calculate_checkbox_accuracy(LitL_val_final, by_heur=T)
 
+LitL_heur_by_worker2<-LitL_heur_by_worker %>% mutate(count_vals = count_vals*3)
+write.csv(LitL_heur_by_worker2,paste0("files/worker_data/",round,"_worker_heuristic_error_rates.csv"))
+
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
