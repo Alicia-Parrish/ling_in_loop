@@ -31,7 +31,7 @@ LotS_val_final<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/val_
 LitL_val_final<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL.jsonl"))
 
 ######### calculate number of HITs bonus #########
-calculate_numHIT_bonus<-function(writing_file,validation_file){
+calculate_numHIT_bonus<-function(writing_file,validation_file,multiplier){
   val_completions<-validation_file$annotator_ids
   val_completions2<-unlist(lapply(val_completions, function(x) x[2:5]))
   val_completions_summary<-ceiling(table(val_completions2)/6)
@@ -61,20 +61,20 @@ calculate_numHIT_bonus<-function(writing_file,validation_file){
   numHIT_totals <- totals %>%
     replace(is.na(.), 0) %>%
     mutate(sum = rowSums(.[2:4]))%>%
-    mutate(numHIT_bonus = ifelse(sum>=100, 16,
-                                 ifelse(sum>=50, 6,
-                                        ifelse(sum>=10,1,0))))
+    mutate(numHIT_bonus = ifelse(sum>=100, 16*multiplier,
+                                 ifelse(sum>=50, 6*multiplier,
+                                        ifelse(sum>=10,1*multiplier,0))))
   return(numHIT_totals)
 }
 
 # BASELINE
-base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val)
+base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.1)
 
 # LING ON SIDE
-LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val)
+LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.1)
 
 # LING IN LOOP
-LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val)
+LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val,1.1)
 
 
 ######### calculate validation pass bonus #########
@@ -172,11 +172,22 @@ LitL_val_accuracies<-calculate_validation_accuracy(LitL_val)
 weighted.mean(LitL_val_accuracies$mean_agree,LitL_val_accuracies$count,na.rm=T)
 
 ######### calculate heuristic checkboxes bonus #########
+# this one used in round 2, not relevant after that
+# calculate_checkbox_numbers<-function(dat){
+#   dat2<-dat%>%
+#     group_by(AnonId,heuristic_checked)%>%
+#     summarise(count_writing=n()/3)%>%
+#     rename("writer_label"=heuristic_checked)
+# }
+
 calculate_checkbox_numbers<-function(dat){
-  dat2<-dat%>%
+  bonus_amts<-read.csv(paste0("for_mturk/heuristic_payment_",round,".csv"))
+  dat2<-merge(dat,bonus_amts,all=T)
+  dat3<-dat2%>%
     group_by(AnonId,heuristic_checked)%>%
-    summarise(count_writing=n()/3)%>%
+    summarise(chkbox_amt_writing = sum(bonus), count_writing=n())%>%
     rename("writer_label"=heuristic_checked)
+  return(dat3)
 }
 
 calculate_checkbox_accuracy<-function(dat,by_heur=F){
@@ -187,22 +198,29 @@ calculate_checkbox_accuracy<-function(dat,by_heur=F){
     dat$AnonId[i]<-dat$annotator_ids[i][[1]][1]
   }
   
-  dat_accuracy<-dat%>%
+  bonus_amts<-read.csv(paste0("for_mturk/heuristic_payment_",round,".csv"))
+  dat2<-merge(dat,bonus_amts,all=T)
+  
+  dat_accuracy<-dat2%>%
     mutate(accuracy=case_when(heuristic_gold_label==writer_label ~ 1,
                               heuristic_gold_label!=writer_label ~0))%>%
     {if(by_heur) dplyr::group_by(.,AnonId,heuristic,writer_label) else . } %>%
     {if(!by_heur) dplyr::group_by(.,AnonId,writer_label) else . } %>%
-    dplyr::summarise(pct_correct = mean(accuracy), count_vals=dplyr::n()/3)
+    dplyr::summarise(pct_correct = mean(accuracy), 
+                     chkbox_amt_val = sum(bonus),
+                     count_vals=dplyr::n())
   return(dat_accuracy)
 }
 
 calculate_wighted_heuristics<-function(dat){
   dat2<-dat%>%
-    mutate(weighted_total = (count_writing + count_vals)*plyr::round_any(pct_correct, .1, f = ceiling))%>%
-    mutate(weighted_total = ifelse(is.na(count_vals), count_writing, weighted_total))%>%
+    #mutate(weighted_total = (count_writing + count_vals)*plyr::round_any(pct_correct, .1, f = ceiling))%>%
+    mutate(weighted_total = (chkbox_amt_writing + chkbox_amt_val)*plyr::round_any(pct_correct, .1, f = ceiling))%>%
+    #mutate(weighted_total = ifelse(is.na(count_vals), count_writing, weighted_total))%>%
+    mutate(weighted_total = ifelse(is.na(chkbox_amt_val), chkbox_amt_writing, weighted_total))%>%
     mutate(weighted_total = case_when(writer_label=="No" ~ 0,
                                       writer_label=="Yes" ~ weighted_total))%>%
-    mutate(heur_bonus_total = round(weighted_total * 0.13, digits=2))%>%
+    mutate(heur_bonus_total = round(weighted_total, digits=2))%>%
     filter(writer_label=="Yes")
   return(dat2)
 }
@@ -231,27 +249,28 @@ write.csv(LitL_heur_by_worker2,paste0("files/worker_data/",round,"_worker_heuris
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
-slack<-read.csv("../slack_data/slack_data-11-3-to-11-9.csv",stringsAsFactors = F)
+slack<-read.csv("../slack_data/slack-data-11-10-to-11-16.csv",stringsAsFactors = F)
 slack<-rename(slack,"AnonId"=anon_id)
 slack_names<-read.csv("../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")
-slacks=merge(slack,slack_names,by="AnonId")
+slacks=merge(slack,slack_names,by="AnonId",all=T)
 
 slack_bonus<-slacks%>%
   select(AnonId,Slack_name,total_msgs)%>%
   filter(AnonId!="admin")%>%
+  filter(!is.na(total_msgs))%>%
   mutate(slack_bonus = ifelse(total_msgs>10,10,
                               ifelse(total_msgs>0,1.5,0)))
 
 # Add any per-person adjustmetnts to the bonus here
-smaller_bonus<-c('315') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
-higher_bonus<-c('310')
+smaller_bonus<-c('336') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
+higher_bonus<-c('')
 for(i in 1:length(smaller_bonus)){
   slack_bonus$slack_bonus[slack_bonus$AnonId==smaller_bonus[i]]<-1.5
   slack_bonus$slack_bonus[slack_bonus$AnonId==higher_bonus[i]]<-10
 }
 
 # This person added a helpful comment after data was pulled, so including them here
-slack_bonus[nrow(slack_bonus) + 1,] = c("342","TK",1,1.5)
+#slack_bonus[nrow(slack_bonus) + 1,] = c("342","TK",1,1.5)
 
 
 ######### TOTAL BONUSES FOR EACH WORKER #########
@@ -282,17 +301,17 @@ pay_bonus<-filter(bonus_with_ass_ids,total_bonus!=0)
 
 write.csv(pay_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_bonuses.csv"))
 
-update_bonus<-pay_bonus%>%
-  select(WorkerId,AssignmentId,AnonId,total_bonus,numHIT_bonus)%>%
-  mutate(updated_bonus = case_when(numHIT_bonus == 1 ~ 0.05,
-                                   numHIT_bonus == 6 ~ 0.3,
-                                   numHIT_bonus == 16 ~ 0.8,
-                                   numHIT_bonus == 0 ~ 0))%>%
-  select(-numHIT_bonus,-total_bonus)%>%
-  filter(updated_bonus!=0)
-write.csv(update_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_UPDATED_bonuses.csv"))
-to_push2<-select(update_bonus, -WorkerId)
-write.csv(to_push2,paste0("files/worker_data/",round,"_UPDATED_bonuses.csv"))
+# update_bonus<-pay_bonus%>%
+#   select(WorkerId,AssignmentId,AnonId,total_bonus,numHIT_bonus)%>%
+#   mutate(updated_bonus = case_when(numHIT_bonus == 1 ~ 0.05,
+#                                    numHIT_bonus == 6 ~ 0.3,
+#                                    numHIT_bonus == 16 ~ 0.8,
+#                                    numHIT_bonus == 0 ~ 0))%>%
+#   select(-numHIT_bonus,-total_bonus)%>%
+#   filter(updated_bonus!=0)
+# write.csv(update_bonus,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_UPDATED_bonuses.csv"))
+# to_push2<-select(update_bonus, -WorkerId)
+# write.csv(to_push2,paste0("files/worker_data/",round,"_UPDATED_bonuses.csv"))
 
 ######### AGGREGATE ERROR RATES PER WORKER #########
 all_validation_rates<-rbind(base_val_accuracies,LotS_val_accuracies,LitL_val_accuracies)
