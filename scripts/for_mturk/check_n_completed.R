@@ -21,3 +21,4 @@ LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
 LitL_anon_transformed <- LitL_anon %>%
   group_by(AnonId, WorkerId)%>%
   summarise(count=n())
+
