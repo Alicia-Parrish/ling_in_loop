@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","label","hypothesis","pairID"
+139,71773,"A 1997 Henry J. Kaiser Family Foundation survey found that Americans in managed care plans are basically content with their own care.","contradiction","Americans have ever been content with their care in managed care plans.","71773c"
+139,37287,"They just don't like it as much as men do.","neutral","This has not always been the case.","37287n"
+136,4179,"Vatican II gave rise to a less hierarchical and more outward-looking Catholicism and set the stage for once-unthinkable innovations like plainclothes nuns and the celebration of the Mass in English and other modern languages.","entailment","Mass celebration is now in English and other modern languages.","4179e"

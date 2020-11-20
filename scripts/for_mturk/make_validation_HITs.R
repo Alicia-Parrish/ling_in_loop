@@ -7,7 +7,7 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
 
-round = "round3" # change this value each round
+round = "round4" # change this value each round
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 heur_mapping<-read.csv(paste0("for_mturk/heuristic_definitions_",round,".csv"))
@@ -170,13 +170,12 @@ full_LotS_val_heur<-merge(full_LotS_val,heur_mapping,by="heuristic_1")
 
 # Set up with rest of them
 full_LotS_val_withHeur1 <- full_LotS_val_heur %>% 
-  filter(heuristic_1 == "hypernym" |
-         heuristic_1 == "reverse_argument_order")
+  filter(heuristic_1 == "no_overlap")
 full_LotS_val_withHeur2 <- full_LotS_val_heur %>% 
-  filter(heuristic_1 == "hyponym" |
-         heuristic_1 == "antonym")
+  filter(heuristic_1 == "not_obvious" |
+         heuristic_1 == "grammar_change")
 full_LotS_val_withHeur3 <- full_LotS_val_heur %>% 
-  filter(heuristic_1 == "sub_part")
+  filter(heuristic_1 == "all_overlap")
   
 write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch1_withHeur.csv"),full_LotS_val_withHeur1,row.names = F)
 write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group2_LotS_batch2_withHeur.csv"),full_LotS_val_withHeur2,row.names = F)
@@ -224,13 +223,12 @@ full_LitL_val_heur<-merge(full_LitL_val,heur_mapping,by="heuristic_1")
 
 # Set up with rest of them
 full_LitL_val_withHeur1 <- full_LitL_val_heur %>% 
-  filter(heuristic_1 == "hypernym" |
-           heuristic_1 == "reverse_argument_order")
+  filter(heuristic_1 == "no_overlap")
 full_LitL_val_withHeur2 <- full_LitL_val_heur %>% 
-  filter(heuristic_1 == "hyponym" |
-           heuristic_1 == "antonym")
+  filter(heuristic_1 == "not_obvious" |
+           heuristic_1 == "grammar_change")
 full_LitL_val_withHeur3 <- full_LitL_val_heur %>% 
-  filter(heuristic_1 == "sub_part")
+  filter(heuristic_1 == "all_overlap")
 
 write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch1_withHeur.csv"),full_LitL_val_withHeur1,row.names = F)
 write.csv(file=paste0("files/VALIDATION_csv_for_mturk_upload/",round,"/",round,"_group3_LitL_batch2_withHeur.csv"),full_LitL_val_withHeur2,row.names = F)

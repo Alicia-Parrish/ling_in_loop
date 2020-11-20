@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","label","hypothesis","heuristic_checked","pairID"
+231,32965,"Nothing weird here--instead, a shot of a plaque that once acknowledged this employee's sustained superior performance and must now be packed away.","no_overlap","neutral","We're looking at a camera shot of an employee performance plaque sitting in a box.","No","32965n"
+229,101940,"They encourage the view that there's nothing--from Iraqi germ weapons programs to Serbian atrocities--that a few invisible planes can't fix.","no_overlap","neutral","They are more than happy and capable to go to war.","Yes","101940n"
+231,21671,"It may be that the best way to read this text in the years ahead will not be with a magnifying glass, but through the looking glass--as a prism to discern what the political culture that produced Nixon shares with our own.","no_overlap","neutral","Comparing past administrations muddies the waters.","Yes","21671n"

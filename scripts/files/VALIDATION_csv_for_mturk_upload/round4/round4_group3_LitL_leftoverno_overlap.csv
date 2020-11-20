@@ -1,0 +1,4 @@
+"AnonId","promptID","premise","heuristic","label","hypothesis","heuristic_checked","pairID"
+331,86184,"In a further role reversal, Gingrich may have positioned himself to fill it.","no_overlap","contradiction","Gingrich has remained in the same role, which has caused his position to worsen making him a bad fit to fill the position.","No","86184c"
+331,98608,"and she doesn't floss while driving.","no_overlap","contradiction","She flosses while driving.","No","98608c"
+306,32965,"Nothing weird here--instead, a shot of a plaque that once acknowledged this employee's sustained superior performance and must now be packed away.","no_overlap","entailment","The only thing left in his office is a plaque on the wall.","No","32965e"
