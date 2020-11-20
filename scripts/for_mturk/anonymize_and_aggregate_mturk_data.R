@@ -8,7 +8,7 @@ set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
-round = "round3" # change this value each round
+round = "round4" # change this value each round
 
 #################### FUNCTIONS ####################
 transform_data = function(dat,heur){
@@ -126,20 +126,24 @@ for(i in 1:nrow(LitL_anon_transformed)){
 
 
 #################### ADD RELELVANT GLUE LABELS ####################
-glue_labels = data.frame(matrix(ncol = 2, nrow = 5))
+glue_labels = data.frame(matrix(ncol = 2, nrow = 4))
 colnames(glue_labels)<-c("heuristic","glue_labels")
 
 glue_labels$heuristic = unique(LotS_anon_transformed$heuristic)
 
 # need to do each of these individually each time
-glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
 #glue_labels$glue_labels[glue_labels$heuristic=="temporal_reasoning"] = list(c("Temporal", "Temporal;Intervals/Numbers"))
 #glue_labels$glue_labels[glue_labels$heuristic=="restricted_word_in_diff_label"] = list(c(""))
 #glue_labels$glue_labels[glue_labels$heuristic=="relative_clause"] = list(c("Relative clauses;Restrictivity", "Relative clauses"))
-glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
-glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
-glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
-glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
+#glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
+#glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
+glue_labels$glue_labels[glue_labels$heuristic=="no_overlap"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="all_overlap"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="not_obvious"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="grammar_change"] = list(c(""))
 
 # add to LotS
 LotS_glue = merge(LotS_anon_transformed, glue_labels)
@@ -187,9 +191,9 @@ for(i in 1:length(base_jsonl_files)){
     filter(!is.na(hypothesis))%>%
     filter(hypothesis!="")%>%
     filter(hypothesis!="{}")
-  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
   all_base_jsonl = rbind(all_base_jsonl,temp)
 }
+
 for(i in 1:length(LotS_jsonl_files)){
   temp = read_json_lines(LotS_jsonl_files[i])
   if(!"heuristic" %in% colnames(temp)){
@@ -203,6 +207,7 @@ for(i in 1:length(LotS_jsonl_files)){
     filter(hypothesis!="{}")
   all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
 }
+
 for(i in 1:length(LitL_jsonl_files)){
   temp = read_json_lines(LitL_jsonl_files[i])
   if(!"heuristic" %in% colnames(temp)){
@@ -214,7 +219,6 @@ for(i in 1:length(LitL_jsonl_files)){
     filter(!is.na(hypothesis))%>%
     filter(hypothesis!="")%>%
     filter(hypothesis!="{}")
-  all_LotS_jsonl = rbind(all_LotS_jsonl,temp)
   all_LitL_jsonl = rbind(all_LitL_jsonl,temp)
 }
 
