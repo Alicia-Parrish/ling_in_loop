@@ -7,7 +7,7 @@ set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
-round = "round3" # change this value each round
+round = "round4" # change this value each round
 
 LotS<-NULL
 LitL<-NULL
@@ -70,7 +70,7 @@ LitLanon2$group="LitL"
 
 for_plt <-  rbind(LotSanon2,LitLanon2)
 
-heur_paymnt <- read.csv("for_mturk/heuristic_payment.csv")
+heur_paymnt <- read.csv(paste0("for_mturk/heuristic_payment_",round,".csv"))
 
 for_plt2<-merge(for_plt,heur_paymnt)
 
@@ -79,9 +79,10 @@ for_plt2<-merge(for_plt,heur_paymnt)
     geom_text(aes(x=Label, y=0.8, label=paste0("$",Bonus)))+
     labs(title = "How often workers checked the box on a heuristic")+
     ylab("percent")+
+    ggtitle("Heuristics attempted round 4")+
     theme(plot.title = element_text(hjust = 0.5))+
     facet_wrap(~ Heuristic + group, ncol = 2))
 
 ggsave(plot=plt, 
-       filename="figures/heuristic_distributions_round3.png",
+       filename="figures/heuristic_distributions_round4.png",
        width = 6, height = 8.5)

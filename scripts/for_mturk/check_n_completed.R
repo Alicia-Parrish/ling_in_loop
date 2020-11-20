@@ -9,16 +9,19 @@ set.seed(42)
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
 round = "round4" # change this value each round
+groups = c("Group1_baseline","Group2_ling_on_side","Group3_ling_in_loop")
+group = groups[1]
 
-LitL<-NULL
-LitL_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group3_ling_in_loop/",round,"_writing"),full.names=T, pattern = "*.csv")
-for(i in 1:length(LitL_files)){
-  temp = read.csv(LitL_files[i])
-  LitL = rbind(LitL,temp)
+dat<-NULL
+dat_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/",group,"/",round,"_writing"),full.names=T, pattern = "*.csv")
+for(i in 1:length(dat_files)){
+  temp = read.csv(dat_files[i])
+  dat = rbind(dat,temp)
 }
 
-LitL_anon<-merge(LitL,anon_codes,by="WorkerId")
-LitL_anon_transformed <- LitL_anon %>%
+dat_anon<-merge(dat,anon_codes,by="WorkerId")
+dat_anon_transformed <- dat_anon %>%
   group_by(AnonId, WorkerId)%>%
   summarise(count=n())
 
+View(dat_anon_transformed)
