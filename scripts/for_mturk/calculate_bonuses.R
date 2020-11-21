@@ -8,7 +8,7 @@ library(data.table)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round3"
+round = "round4"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -68,15 +68,15 @@ calculate_numHIT_bonus<-function(writing_file,validation_file,multiplier){
 }
 
 # BASELINE
-base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.1)
+base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.15)
 # round 4: for worker AP..........K add 10 to final HITs number when calculating bonus
 do thing
 
 # LING ON SIDE
-LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.1)
+LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.15)
 
 # LING IN LOOP
-LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val,1.1)
+LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val,1.15)
 
 
 ######### calculate validation pass bonus #########
@@ -244,10 +244,6 @@ LitL_heuristics <- merge(LitL_heur_numbers,LitL_heur_accuracy, all=T)
 LitL_weighted_heuristics <- calculate_wighted_heuristics(LitL_heuristics)
 #see how each individual did in different heuristicss
 LitL_heur_by_worker <- calculate_checkbox_accuracy(LitL_val_final, by_heur=T)
-
-LitL_heur_by_worker2<-LitL_heur_by_worker %>% mutate(count_vals = count_vals*3)
-write.csv(LitL_heur_by_worker2,paste0("files/worker_data/",round,"_worker_heuristic_error_rates.csv"))
-
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
