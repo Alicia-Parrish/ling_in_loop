@@ -8,7 +8,7 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
-round = "round3" # change this value each round
+round = "round4" # change this value each round
 
 #################### FUNCTIONS ####################
 smaller_data <- function(dat){
@@ -189,20 +189,24 @@ LitL_transformed<-filter(LitL_transformed,!is.na(promptID))
 
 
 #################### ADD RELELVANT GLUE LABELS ####################
-glue_labels = data.frame(matrix(ncol = 2, nrow = 5))
+glue_labels = data.frame(matrix(ncol = 2, nrow = 4))
 colnames(glue_labels)<-c("heuristic","glue_labels")
 
-glue_labels$heuristic = unique(LitL_pass$heuristic)
+glue_labels$heuristic = unique(LotS_transformed$heuristic)
 
 # need to do each of these individually each time
-glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="antonym"] = list(c("Lexical entailment"))
 #glue_labels$glue_labels[glue_labels$heuristic=="temporal_reasoning"] = list(c("Temporal", "Temporal;Intervals/Numbers"))
 #glue_labels$glue_labels[glue_labels$heuristic=="restricted_word_in_diff_label"] = list(c(""))
 #glue_labels$glue_labels[glue_labels$heuristic=="relative_clause"] = list(c("Relative clauses;Restrictivity", "Relative clauses"))
-glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
-glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
-glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
-glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
+#glue_labels$glue_labels[glue_labels$heuristic=="sub_part"] = list(c("World knowledge"))
+#glue_labels$glue_labels[glue_labels$heuristic=="hyponym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="hypernym"] = list(c("Lexical entailment"))
+#glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
+glue_labels$glue_labels[glue_labels$heuristic=="no_overlap"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="all_overlap"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="not_obvious"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="grammar_change"] = list(c(""))
 
 # add to LotS
 LotS_glue = merge(LotS_transformed, glue_labels)

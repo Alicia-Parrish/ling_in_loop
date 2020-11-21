@@ -10,8 +10,8 @@ anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv"
 
 round = "round4" # change this value each round
 groups = c("Group1_baseline","Group2_ling_on_side","Group3_ling_in_loop")
-group = groups[3]
-split = "writing" # "validation" #
+group = groups[1]
+split = "validation" # "writing" # 
 
 dat<-NULL
 dat_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/",group,"/",round,"_",split),full.names=T, pattern = "*.csv")
