@@ -31,6 +31,15 @@ do
 		--round ${round} \
 		--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}.jsonl
 
+	if [ $round != '1' ]
+	then
+		python ${SCRIPT_DIR}/corpus_stats.py \
+			--verbose \
+			--pushstats \
+			--round ${round} \
+			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
+	fi
+
 	# predictions
 	if [ $treatment == 'baseline' ]
 	then
@@ -47,7 +56,7 @@ do
 		else
 			valfile=${valname}.jsonl
 		fi
-		
+
 		# in-distribution validations
 		for input in "${inputs[@]}"
 		do
