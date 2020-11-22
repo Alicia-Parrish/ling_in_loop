@@ -33,6 +33,7 @@ do
 
 	if [ $round != '1' ]
 	then
+		echo $round
 		python ${SCRIPT_DIR}/corpus_stats.py \
 			--verbose \
 			--pushstats \

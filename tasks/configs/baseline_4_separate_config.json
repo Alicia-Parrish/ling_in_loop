@@ -1,0 +1,8 @@
+{
+  "task": "mnli",
+  "paths": {
+    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/baseline_4_separate/val_round4_base.jsonl",
+    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/baseline_4_separate/train_round4_baseline.jsonl"
+  },
+  "name": "mnli"
+}
