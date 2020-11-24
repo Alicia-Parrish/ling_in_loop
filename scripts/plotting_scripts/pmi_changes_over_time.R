@@ -7,10 +7,10 @@ set.seed(42)
 
 ################## BY ROUND ###################
 
-rounds <- c("r1","r2","r3")
+rounds <- c("r1","r2","r3","r4")
 labels <- c("entailment","neutral","contradiction")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
-group_nums <- c("1","2","3")
+group_nums <- c("1","2","3","4")
 
 all_data<-NULL
 
@@ -30,13 +30,14 @@ for(g in 1:length(groups)){
     geom_text(position=position_jitter(width=0.32,height=0),
               check_overlap = T)+
     theme(legend.position = "none")+
+    ggtitle("Round 4 PMI changes")+
     facet_wrap(~group*label))
 
-ggsave("figures/pmis_round3_byRound.png", plot=plt, width = 18, height = 18)
+ggsave("figures/pmis_round4_byRound.png", plot=plt, width = 18, height = 18)
 
 ################## COMBINED ###################
 
-round <- "r3"
+round <- "r4"
 labels <- c("entailment","neutral","contradiction")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
 group_nums <- c("1","2","3")
@@ -56,6 +57,7 @@ for(g in 1:length(groups)){
     geom_text(position=position_jitter(width=0.39,height=0),
               check_overlap = T)+
     theme(legend.position = "none")+
+    ggtitle("Round 4 combined PMI")+
     facet_wrap(~group))
 
-ggsave("figures/pmis_round2_combined.png", plot=plt2, width = 18, height = 18)
+ggsave("figures/pmis_round4_combined.png", plot=plt2, width = 18, height = 18)

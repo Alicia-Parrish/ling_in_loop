@@ -4,8 +4,8 @@ library(ggplot2)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round3"
-r = "r3"
+round = "round4"
+r = "r4"
 
 base_pred<-read.csv(paste0("../predictions/1_Baseline_protocol/",r,"/combined/full/val_",round,"_base_combined_preds.csv"))
 LotS_pred<-read.csv(paste0("../predictions/2_Ling_on_side_protocol/",r,"/combined/full/val_",round,"_LotS_combined_preds.csv"))
