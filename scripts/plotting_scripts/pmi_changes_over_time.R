@@ -61,3 +61,20 @@ for(g in 1:length(groups)){
     facet_wrap(~group))
 
 ggsave("figures/pmis_round4_combined.png", plot=plt2, width = 18, height = 18)
+
+############################################
+# Without words
+
+(plt3<-ggplot(data=all_data,aes(x=round,y=pmi,col=label))+
+   geom_point(position=position_jitter(width=0.32,height=0),alpha=0.5)+
+   ggtitle("Round 4 PMI changes")+
+   facet_wrap(~group))
+
+ggsave("figures/pmis_round4_byRound_noText.png", plot=plt3, width = 6, height = 5)
+
+(plt4<-ggplot(data=combined_data,aes(x=label,y=pmi,col=label))+
+    geom_point(position=position_jitter(width=0.5,height=0),alpha=0.5)+
+    ggtitle("Round 4 combined PMI")+
+    facet_wrap(~group))
+
+ggsave("figures/pmis_round4_combined_noText.png", plot=plt4, width = 8.5, height = 4.5)
