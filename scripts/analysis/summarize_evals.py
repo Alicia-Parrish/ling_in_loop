@@ -14,9 +14,12 @@ def load_data_preds(args):
         preds = torch.load(f)
 
     if os.path.basename(os.path.dirname(args.preds)) == 'hyp':
-        return ex, preds['mnli_hyp']['preds']
+        preds_list = preds['mnli_hyp']['preds']
     else:
-        return ex, preds['mnli']['preds']
+        preds_list = preds['mnli']['preds']
+
+    assert len(ex) == len(preds_list), f'Length mismatch\nExamples: {len(ex)}\nPreds: {len(preds_list)}'
+    return ex, preds_list
 
 
 def summarize_itereval(args):
@@ -228,7 +231,13 @@ def summarize_itereval(args):
 
 
 
-def summarize_val(args):
+def summarize_val(args, data=None, preds=None, with_return=False):
+    if not data is None:
+        args.data = data
+
+    if not preds is None:
+        args.preds = preds
+
     exs, preds = load_data_preds(args)
 
     pred2label = {
@@ -250,6 +259,9 @@ def summarize_val(args):
             f'{os.path.basename(args.data).split(".")[0]}_preds.csv'
         )
     )
+
+    if with_return:
+        return pd.DataFrame(summary)
 
 
 if __name__ == '__main__':

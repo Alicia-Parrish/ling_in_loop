@@ -12,3 +12,5 @@ do
 	sh create-task-configs.sh ${fdir} true
 	sh create-task-configs.sh ${fdir}_separate true
 done
+
+sh create-cross-configs.sh ${round}
