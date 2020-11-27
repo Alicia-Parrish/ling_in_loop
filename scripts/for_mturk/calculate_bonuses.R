@@ -70,7 +70,7 @@ calculate_numHIT_bonus<-function(writing_file,validation_file,multiplier){
 # BASELINE
 base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.15)
 # round 4: for worker AP..........K add 10 to final HITs number when calculating bonus
-do thing
+if(round=="round4"){base_numHIT_totals$numHIT_bonus[base_numHIT_totals$AnonId==127]=18.40}
 
 # LING ON SIDE
 LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.15)

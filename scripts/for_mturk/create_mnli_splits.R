@@ -46,7 +46,7 @@ dat_train3<-dat_train2%>%
 
 
 n_per_round = ceiling(3500/3)
-n_dev = floor(nrow(dat_dev3)/2) # two rounds left
+n_dev = floor(nrow(dat_dev3)) # two rounds left
 n_train = n_per_round-n_dev
 add_dev = ceiling(500/3)-n_dev
 
@@ -60,10 +60,12 @@ dat_train_reorder <- dat_train3[sample(1:nrow(dat_train3)), ]
 #round2$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
 #round3<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
 #round3$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
-round4<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
-round4$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
-round5<-rbind(dat_train_reorder[(n_train+1):(n_train*2),],dat_dev_reorder[(n_dev+1):(n_dev*2),])
-round5$splits[1:add_dev]<-"dev"
+#round4<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
+#round4$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
+round5<-rbind(dat_train_reorder[1:n_train,],dat_dev_reorder[1:n_dev,])
+round5$splits[1:add_dev]<-"dev" # need to add more rows for 500 dev examples per round
+#round5<-rbind(dat_train_reorder[(n_train+1):(n_train*2),],dat_dev_reorder[(n_dev+1):(n_dev*2),])
+#round5$splits[1:add_dev]<-"dev"
 #round5<-rbind(dat_train_reorder[((n_train*2)+1):(n_train*3),],dat_dev_reorder[((n_dev*2)+1):(n_dev*3),])
 #round5$splits[1:add_dev]<-"dev"
 # round5<-rbind(dat_train_reorder[((n_train*3)+1):(n_train*4),],dat_dev_reorder[((n_dev*3)+1):(n_dev*4),])
@@ -74,52 +76,52 @@ round5$splits[1:add_dev]<-"dev"
 #round1_reorder<-round1[sample(1:nrow(round1)), ]
 #round2_reorder<-round2[sample(1:nrow(round2)), ]
 #round3_reorder<-round3[sample(1:nrow(round3)), ]
-round4_reorder<-round4[sample(1:nrow(round4)), ]
+#round4_reorder<-round4[sample(1:nrow(round4)), ]
 round5_reorder<-round5[sample(1:nrow(round5)), ]
 
 #check that I didn't duplicate anything accidentally
-Reduce(intersect, list(round4_reorder$promptID,round5_reorder$promptID)) #round1_reorder$promptID, round2_reorder$promptID
+Reduce(intersect, list(round5_reorder$promptID)) #round1_reorder$promptID, round2_reorder$promptID, round4_reorder$promptID,
 
 #check that I got the right number of dev items
 #nrow(filter(round1_reorder,splits=="dev"))==167
 #nrow(filter(round2_reorder,splits=="dev"))==167
 #nrow(filter(round3_reorder,splits=="dev"))==167
-nrow(filter(round4_reorder,splits=="dev"))==167
+#nrow(filter(round4_reorder,splits=="dev"))==167
 nrow(filter(round5_reorder,splits=="dev"))==167
 
 #round1_reorder <- apply(round1_reorder,2,as.character)
 #round2_reorder <- apply(round2_reorder,2,as.character)
 #round3_reorder <- apply(round3_reorder,2,as.character)
-round4_reorder <- apply(round4_reorder,2,as.character)
+#round4_reorder <- apply(round4_reorder,2,as.character)
 round5_reorder <- apply(round5_reorder,2,as.character)
 
 ######### CREATE FILES FOR UPLOAD ##########
 
-round = 'round4'
+round = 'round5'
 batches = 4
 
 # break into batches
-r4_b1<-round4_reorder[1:290,]
-r4_b2<-round4_reorder[291:580,]
-r4_b3<-round4_reorder[581:870,]
-r4_b4<-round4_reorder[871:nrow(round4_reorder),]
+r5_b1<-round5_reorder[1:290,]
+r5_b2<-round5_reorder[291:580,]
+r5_b3<-round5_reorder[581:870,]
+r5_b4<-round5_reorder[871:nrow(round5_reorder),]
 #r3_b5<-round3_reorder[933:nrow(round3_reorder),]
 
-heurs_g2<-read.csv("files/round4_heuristics_group2.csv")
-heurs_g3<-read.csv("files/round4_heuristics_group3.csv")
+heurs_g2<-read.csv("files/round5_heuristics_group2.csv")
+heurs_g3<-read.csv("files/round5_heuristics_group3.csv")
 
-base_csvs<-list(r4_b1,r4_b2,r4_b3,r4_b4)
+base_csvs<-list(r5_b1,r5_b2,r5_b3,r5_b4)
 LotS_csvs<-list(
-  merge(r4_b1, heurs_g2[2,]),
-  merge(r4_b2, heurs_g2[1,]),
-  merge(r4_b3, heurs_g2[3,]),
-  merge(r4_b4, heurs_g2[4,])
+  merge(r5_b1, heurs_g2[2,]),
+  merge(r5_b2, heurs_g2[1,]),
+  merge(r5_b3, heurs_g2[4,]),
+  merge(r5_b4, heurs_g2[3,])
 )
 LitL_csvs<-list(
-  merge(r4_b1, heurs_g3[2,]),
-  merge(r4_b2, heurs_g3[1,]),
-  merge(r4_b3, heurs_g3[3,]),
-  merge(r4_b4, heurs_g3[4,])
+  merge(r5_b1, heurs_g3[2,]),
+  merge(r5_b2, heurs_g3[1,]),
+  merge(r5_b3, heurs_g3[4,]),
+  merge(r5_b4, heurs_g3[3,])
 )
 
 for(i in 1:length(base_csvs)){
