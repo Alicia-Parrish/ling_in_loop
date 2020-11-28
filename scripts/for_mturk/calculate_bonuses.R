@@ -247,7 +247,7 @@ LitL_heur_by_worker <- calculate_checkbox_accuracy(LitL_val_final, by_heur=T)
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
-slack<-read.csv("../slack_data/slack-data-11-10-to-11-16.csv",stringsAsFactors = F)
+slack<-read.csv("../slack_data/slack-11-17-to-27.csv",stringsAsFactors = F)
 slack<-rename(slack,"AnonId"=anon_id)
 slack_names<-read.csv("../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")
 slacks=merge(slack,slack_names,by="AnonId",all=T)
@@ -260,7 +260,7 @@ slack_bonus<-slacks%>%
                               ifelse(total_msgs>0,1.5,0)))
 
 # Add any per-person adjustmetnts to the bonus here
-smaller_bonus<-c('336') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
+smaller_bonus<-c('309','336','327','324') # these workers had a high number of interactions, but it was mostly to ask when more HITs are coming
 higher_bonus<-c('')
 for(i in 1:length(smaller_bonus)){
   slack_bonus$slack_bonus[slack_bonus$AnonId==smaller_bonus[i]]<-1.5
@@ -269,6 +269,12 @@ for(i in 1:length(smaller_bonus)){
 
 # This person added a helpful comment after data was pulled, so including them here
 #slack_bonus[nrow(slack_bonus) + 1,] = c("342","TK",1,1.5)
+
+slack_bonus = data.frame("AnonId" = c(301:340), "slack_bonus" = NA)
+
+slack_final_bonus = merge(slack_bonus, anon_codes)
+slack_final_bonus2 = merge(slack_final_bonus, ass_ids[2:3],by="WorkerId")
+write.csv(slack_final_bonus2,paste0("../../SECRET/ling_in_loop_SECRET/",round,"_slackbonuses.csv"))
 
 
 ######### TOTAL BONUSES FOR EACH WORKER #########

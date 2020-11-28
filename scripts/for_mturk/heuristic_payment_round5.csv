@@ -2,9 +2,9 @@ heuristic,label,bonus
 external_knowledge,entailment,0.07
 external_knowledge,neutral,0.07
 external_knowledge,contradiction,0.07
-change_formality,entailment,0.07
-change_formality,neutral,0.07
-change_formality,contradiction,0.07
+register_change,entailment,0.07
+register_change,neutral,0.07
+register_change,contradiction,0.07
 no_overlap,entailment,0.1
 no_overlap,neutral,0.05
 no_overlap,contradiction,0.05

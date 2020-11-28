@@ -7,7 +7,7 @@ set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
-round = "round4" # change this value each round
+round = "round5" # change this value each round
 
 LotS<-NULL
 LitL<-NULL
@@ -37,15 +37,15 @@ LotSanon<-merge(LotS,anon_codes,by="WorkerId")
 
 LotSanon2<-LotSanon%>%
   select(AnonId,Answer.constraint_contradiciton,Answer.constraint_entailment,Answer.constraint_neutral,Input.heuristic_value)%>%
-  rename("Contradiction" = Answer.constraint_contradiciton,
-         "Entailment" = Answer.constraint_entailment,
-         "Neutral" = Answer.constraint_neutral,
-         "Heuristic" = Input.heuristic_value)%>%
-  gather("Label","Value",-AnonId,-Heuristic)%>%
+  rename("contradiction" = Answer.constraint_contradiciton,
+         "entailment" = Answer.constraint_entailment,
+         "neutral" = Answer.constraint_neutral,
+         "heuristic" = Input.heuristic_value)%>%
+  gather("label","Value",-AnonId,-heuristic)%>%
   mutate(Value = case_when(Value == "" ~ "No",
                            Value != "" ~ "Yes"))%>%
   #group_by(AnonId,Label,Value)%>%
-  group_by(Label,Value,Heuristic)%>%
+  group_by(label,Value,heuristic)%>%
   summarise(count=n())
 
 # Ling in loop
@@ -53,15 +53,15 @@ LitLanon<-merge(LitL,anon_codes,by="WorkerId")
 
 LitLanon2<-LitLanon%>%
   select(AnonId,Answer.constraint_contradiciton,Answer.constraint_entailment,Answer.constraint_neutral,Input.heuristic_value)%>%
-  rename("Contradiction" = Answer.constraint_contradiciton,
-         "Entailment" = Answer.constraint_entailment,
-         "Neutral" = Answer.constraint_neutral,
-         "Heuristic" = Input.heuristic_value)%>%
-  gather("Label","Value",-AnonId,-Heuristic)%>%
+  rename("contradiction" = Answer.constraint_contradiciton,
+         "entailment" = Answer.constraint_entailment,
+         "neutral" = Answer.constraint_neutral,
+         "heuristic" = Input.heuristic_value)%>%
+  gather("label","Value",-AnonId,-heuristic)%>%
   mutate(Value = case_when(Value == "" ~ "No",
                            Value != "" ~ "Yes"))%>%
   #group_by(AnonId,Label,Value)%>%
-  group_by(Label,Value,Heuristic)%>%
+  group_by(label,Value,heuristic)%>%
   summarise(count=n())
 
 ############# PLOT DISTRIBUTION ###############
@@ -74,15 +74,15 @@ heur_paymnt <- read.csv(paste0("for_mturk/heuristic_payment_",round,".csv"))
 
 for_plt2<-merge(for_plt,heur_paymnt)
 
-(plt<-ggplot(for_plt2,aes(fill=Value, y=count, x=Label)) + 
+(plt<-ggplot(for_plt2,aes(fill=Value, y=count, x=label)) + 
     geom_bar(position="fill", stat="identity")+
-    geom_text(aes(x=Label, y=0.8, label=paste0("$",Bonus)))+
+    geom_text(aes(x=label, y=0.8, label=paste0("$",bonus)))+
     labs(title = "How often workers checked the box on a heuristic")+
     ylab("percent")+
-    ggtitle("Heuristics attempted round 4")+
+    ggtitle("Heuristics attempted round 5")+
     theme(plot.title = element_text(hjust = 0.5))+
-    facet_wrap(~ Heuristic + group, ncol = 2))
+    facet_wrap(~ heuristic + group, ncol = 2))
 
 ggsave(plot=plt, 
-       filename="figures/heuristic_distributions_round4.png",
+       filename="figures/heuristic_distributions_round5.png",
        width = 6, height = 8.5)
