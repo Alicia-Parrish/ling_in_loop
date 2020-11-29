@@ -8,7 +8,7 @@ set.seed(42)
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
-round = "round4" # change this value each round
+round = "round5" # change this value each round
 
 #################### FUNCTIONS ####################
 transform_data = function(dat,heur){
@@ -142,8 +142,10 @@ glue_labels$heuristic = unique(LotS_anon_transformed$heuristic)
 #glue_labels$glue_labels[glue_labels$heuristic=="reverse_argument_order"] = list(c("Active/Passive"))
 glue_labels$glue_labels[glue_labels$heuristic=="no_overlap"] = list(c(""))
 glue_labels$glue_labels[glue_labels$heuristic=="all_overlap"] = list(c(""))
-glue_labels$glue_labels[glue_labels$heuristic=="not_obvious"] = list(c(""))
-glue_labels$glue_labels[glue_labels$heuristic=="grammar_change"] = list(c(""))
+#glue_labels$glue_labels[glue_labels$heuristic=="not_obvious"] = list(c(""))
+#glue_labels$glue_labels[glue_labels$heuristic=="grammar_change"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="external_knowledge"] = list(c(""))
+glue_labels$glue_labels[glue_labels$heuristic=="register_change"] = list(c(""))
 
 # add to LotS
 LotS_glue = merge(LotS_anon_transformed, glue_labels)
