@@ -85,4 +85,4 @@ for_plt2<-merge(for_plt,heur_paymnt)
 
 ggsave(plot=plt, 
        filename="figures/heuristic_distributions_round5.png",
-       width = 6, height = 8.5)
+       width = 6, height = 7)

@@ -1,7 +1,7 @@
 heuristic,label,bonus
-external_knowledge,entailment,0.07
-external_knowledge,neutral,0.07
-external_knowledge,contradiction,0.07
+external_knowledge,entailment,0.1
+external_knowledge,neutral,0.1
+external_knowledge,contradiction,0.1
 register_change,entailment,0.07
 register_change,neutral,0.07
 register_change,contradiction,0.07

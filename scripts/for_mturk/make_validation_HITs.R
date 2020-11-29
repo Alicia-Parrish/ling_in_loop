@@ -7,7 +7,7 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
 
-round = "round4" # change this value each round
+round = "round5" # change this value each round
 
 anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 heur_mapping<-read.csv(paste0("for_mturk/heuristic_definitions_",round,".csv"))
@@ -172,8 +172,8 @@ full_LotS_val_heur<-merge(full_LotS_val,heur_mapping,by="heuristic_1")
 full_LotS_val_withHeur1 <- full_LotS_val_heur %>% 
   filter(heuristic_1 == "no_overlap")
 full_LotS_val_withHeur2 <- full_LotS_val_heur %>% 
-  filter(heuristic_1 == "not_obvious" |
-         heuristic_1 == "grammar_change")
+  filter(heuristic_1 == "external_knowledge" |
+         heuristic_1 == "register_change")
 full_LotS_val_withHeur3 <- full_LotS_val_heur %>% 
   filter(heuristic_1 == "all_overlap")
   
@@ -225,8 +225,8 @@ full_LitL_val_heur<-merge(full_LitL_val,heur_mapping,by="heuristic_1")
 full_LitL_val_withHeur1 <- full_LitL_val_heur %>% 
   filter(heuristic_1 == "no_overlap")
 full_LitL_val_withHeur2 <- full_LitL_val_heur %>% 
-  filter(heuristic_1 == "not_obvious" |
-           heuristic_1 == "grammar_change")
+  filter(heuristic_1 == "external_knowledge" |
+           heuristic_1 == "register_change")
 full_LitL_val_withHeur3 <- full_LitL_val_heur %>% 
   filter(heuristic_1 == "all_overlap")
 
