@@ -10,7 +10,7 @@ library(grid)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round="round4"
+round="round5"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -66,11 +66,11 @@ p3<-hist(bt3$t, freq = FALSE, breaks = 50)
 par(mfrow = c(3, 1))
 cols<-brewer.pal(12, "Set3")
 
-plt1<-plot(p1, col = cols[1], xlim = c(0.58, .78), ylim = c(0,60),main="Baseline", xlab="kappa", ylab="count")
+plt1<-plot(p1, col = cols[1], xlim = c(0.58, .82), ylim = c(0,60),main="Baseline", xlab="kappa", ylab="count")
 abline(v = c(ci1_lo,ci1_hi,as.character(bt1[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
-plt2<-plot(p2, col = cols[4], xlim = c(0.58, .78), ylim = c(0,60),main="Linguist on the side", xlab="kappa", ylab="count")
+plt2<-plot(p2, col = cols[4], xlim = c(0.58, .82), ylim = c(0,60),main="Linguist on the side", xlab="kappa", ylab="count")
 abline(v = c(ci2_lo,ci2_hi,as.character(bt2[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
-plt3<-plot(p3, col = cols[8], xlim = c(0.58, .78), ylim = c(0,60),main="Linguist in the loop", xlab="kappa", ylab="count")
+plt3<-plot(p3, col = cols[8], xlim = c(0.58, .82), ylim = c(0,60),main="Linguist in the loop", xlab="kappa", ylab="count")
 abline(v = c(ci3_lo,ci3_hi,as.character(bt3[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
 
 par(mfrow = c(1, 1))
