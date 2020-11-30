@@ -271,7 +271,7 @@ if __name__ == '__main__':
     parser.add_argument('--combined', help='whether datasets are combined over iterations', action='store_true')
     parser.add_argument('--itereval_base', help='base directory of iterative evaluations', default='')
     parser.add_argument('--best_config', help='best configuration summary file', default='')
-    parser.add_argument('--out_base', help='base directory for results', default=os.path.join(repo, 'eval_summary'))
+    parser.add_argument('--out_base', help='base directory for results', default='')
     parser.add_argument('--verbose', help='whether to print statements', action='store_true')
 
     # plot arguments
@@ -290,6 +290,9 @@ if __name__ == '__main__':
 
     if args.best_config == '':
         args.best_config = os.path.join(pred, 'best_configs', 'best_configs.csv')
+
+    if args.out_base == '':
+        args.out_base = os.path.join(repo, 'eval_summary', args.model)
 
     out_dir = summarize(args)
 
