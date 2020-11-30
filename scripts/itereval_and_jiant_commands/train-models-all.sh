@@ -11,8 +11,8 @@ do
 
 	comb_size=$(( $round*$iteramount ))
 
-	sh train-models.sh ${fdir} ${model} ${comb_size}
-	sh train-models.sh ${fdir}_separate ${model} ${iteramount}
-	sh train-models.sh ${fdir} ${model} ${comb_size} true
-	sh train-models.sh ${fdir}_separate ${model} ${iteramount} true
+	sh $PWD/single/train-models.sh ${fdir} ${model} ${comb_size}
+	sh $PWD/single/train-models.sh ${fdir}_separate ${model} ${iteramount}
+	sh $PWD/single/train-models.sh ${fdir} ${model} ${comb_size} true
+	sh $PWD/single/train-models.sh ${fdir}_separate ${model} ${iteramount} true
 done

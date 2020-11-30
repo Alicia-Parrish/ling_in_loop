@@ -38,5 +38,6 @@ $venv_path/bin/python \
        --eval_every_steps $VAL_INTERVAL \
        --no_improvements_for_n_evals $NO_IMP \
        --save_checkpoint_every_steps $VAL_INTERVAL \
+       --delete_checkpoint_if_done \
        --output_dir ${OUTPUT_DIR} \
        --write_val_preds 

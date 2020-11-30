@@ -7,10 +7,10 @@ do
 	fdir=${treatment}_${round}
 	echo $fdir
 
-	sh create-task-configs.sh ${fdir}
-	sh create-task-configs.sh ${fdir}_separate
-	sh create-task-configs.sh ${fdir} true
-	sh create-task-configs.sh ${fdir}_separate true
+	sh $PWD/single/create-task-configs.sh ${fdir}
+	sh $PWD/single/create-task-configs.sh ${fdir}_separate
+	sh $PWD/single/create-task-configs.sh ${fdir} true
+	sh $PWD/single/create-task-configs.sh ${fdir}_separate true
 done
 
-sh create-cross-configs.sh ${round}
+sh $PWD/single/create-cross-configs.sh ${round}

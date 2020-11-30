@@ -36,14 +36,22 @@ fi
 echo Task config ${TASK_NAME_HYP}
 echo ${MNLI_HYP}
 
+if [ "${MODEL_TYPE}" == "roberta-large"* ]
+then
+    CACHE_MODEL="roberta-large"
+    echo CACHE MODEL: $CACHE_MODEL
+else
+    CACHE_MODEL=${MODEL_TYPE}
+fi
+
 for LR in "${LRS[@]}"
 do
     for TRAIN_BATCH in "${BATCHES[@]}"
     do
         VAL_INTERVAL=$(( SIZE / TRAIN_BATCH ))
-        echo LR: $LR, BATCH: $TRAIN_BATCH, VAL_INT: $VAL_INTERVAL
+        echo LR: $LR, BATCH: $TRAIN_BATCH, VAL_INT: $VAL_INTERVAL, MODEL: $MODEL_TYPE
 
-        OUTPUT_DIR=${BASE_DIR}/experiments/${TASK_NAME_HYP}/${LR}_${TRAIN_BATCH}
+        OUTPUT_DIR=${BASE_DIR}/experiments/${MODEL_TYPE}/${TASK_NAME_HYP}/${LR}_${TRAIN_BATCH}
         RUN_CONFIG=${RUN_CONFIG_DIR}/${MODEL_TYPE}/${TASK_NAME_HYP}_${LR}_${TRAIN_BATCH}.json
 
         # Generate run configs
@@ -52,7 +60,7 @@ do
             --task_name ${MNLI_HYP} \
             --train_batch_size ${TRAIN_BATCH} \
             --task_config_path ${DATA_DIR}/configs/${TASK_NAME_HYP}_config.json \
-            --task_cache_path ${CACHE_DIR}/${MODEL_TYPE}/${TASK_NAME_HYP} \
+            --task_cache_path ${CACHE_DIR}/${CACHE_MODEL}/${TASK_NAME_HYP} \
             --eval_batch_multiplier ${EVAL_BATCH_MULT} \
             --epochs ${EPOCHS} \
             --do_train \
