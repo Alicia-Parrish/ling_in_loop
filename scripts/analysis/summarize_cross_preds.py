@@ -28,11 +28,13 @@ def move_best(args):
     for cross_eval in cross_evals:
         train, val = cross_eval.split('-')
         train_treat, val_treat = train.split('_')[0], val.split('_')[0]
+        iteration = train.split('_')[1]
         comb = 'combined' if len(train.split('_')) == 2 else train.split('_')[-1]
 
         target_dir = os.path.join(
             pred_dir,
             'cross_evals',
+            f'r{iteration}',
             treat2dir[train_treat],
             comb,
             treat2dir[val_treat]
@@ -73,7 +75,6 @@ def move_best(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    # Optional arguments
     parser.add_argument('cross_base', help='base directory of cross evals')
 
     args = parser.parse_args()
