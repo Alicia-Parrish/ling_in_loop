@@ -8,7 +8,7 @@ library(data.table)
 setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
-round = "round4"
+round = "round5"
 
 # function for reading in .jsonl files
 read_json_lines <- function(file){
@@ -68,15 +68,15 @@ calculate_numHIT_bonus<-function(writing_file,validation_file,multiplier){
 }
 
 # BASELINE
-base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.15)
+base_numHIT_totals=calculate_numHIT_bonus(base_writing,base_val,1.2)
 # round 4: for worker AP..........K add 10 to final HITs number when calculating bonus
 if(round=="round4"){base_numHIT_totals$numHIT_bonus[base_numHIT_totals$AnonId==127]=18.40}
 
 # LING ON SIDE
-LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.15)
+LotS_numHIT_totals=calculate_numHIT_bonus(LotS_writing,LotS_val,1.2)
 
 # LING IN LOOP
-LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val,1.15)
+LitL_numHIT_totals=calculate_numHIT_bonus(LitL_writing,LitL_val,1.2)
 
 
 ######### calculate validation pass bonus #########
