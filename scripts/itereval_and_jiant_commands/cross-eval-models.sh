@@ -20,9 +20,18 @@ EVAL_BATCH_MULT=2
 
 echo LR: $LR, BATCH: $TRAIN_BATCH
 
-OUTPUT_DIR=${BASE_DIR}/experiments/cross_evals/${TASK_NAME}-${TARGET_NAME}
-MODEL_PATH=${BASE_DIR}/experiments/${TASK_NAME}/${LR}_${TRAIN_BATCH}/best_model.p
+OUTPUT_DIR=${BASE_DIR}/experiments/${MODEL_TYPE}/cross_evals/${TASK_NAME}-${TARGET_NAME}
+MODEL_PATH=${BASE_DIR}/experiments/${MODEL_TYPE}/${TASK_NAME}/${LR}_${TRAIN_BATCH}/best_model.p
 RUN_CONFIG=${RUN_CONFIG_DIR}/${MODEL_TYPE}/eval_${TASK_NAME}_${TARGET_NAME}_${LR}_${TRAIN_BATCH}.json
+
+if [[ "${MODEL_TYPE}" == *"roberta-large"* ]]
+then
+    CACHE_MODEL="roberta-large"
+else
+    CACHE_MODEL=${MODEL_TYPE}
+fi
+
+echo CACHE MODEL: $CACHE_MODEL
 
 # Generate run configs
 python jiant/jiant/proj/main/scripts/configurator.py \
@@ -30,7 +39,7 @@ python jiant/jiant/proj/main/scripts/configurator.py \
     --task_name mnli \
     --train_batch_size ${TRAIN_BATCH} \
     --task_config_path ${DATA_DIR}/configs/${TASK_NAME}-${TARGET_NAME}_config.json \
-    --task_cache_path ${CACHE_DIR}/${MODEL_TYPE}/${TASK_NAME}-${TARGET_NAME} \
+    --task_cache_path ${CACHE_DIR}/${CACHE_MODEL}/${TASK_NAME}-${TARGET_NAME} \
     --eval_batch_multiplier ${EVAL_BATCH_MULT} \
     --do_val
 
