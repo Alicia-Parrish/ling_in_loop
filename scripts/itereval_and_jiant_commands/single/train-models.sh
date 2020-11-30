@@ -36,13 +36,14 @@ fi
 echo Task config ${TASK_NAME_HYP}
 echo ${MNLI_HYP}
 
-if [ "${MODEL_TYPE}" == "roberta-large"* ]
+if [[ "${MODEL_TYPE}" == *"roberta-large"* ]]
 then
     CACHE_MODEL="roberta-large"
-    echo CACHE MODEL: $CACHE_MODEL
 else
     CACHE_MODEL=${MODEL_TYPE}
 fi
+
+echo CACHE MODEL: $CACHE_MODEL
 
 for LR in "${LRS[@]}"
 do
