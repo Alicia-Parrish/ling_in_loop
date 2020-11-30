@@ -14,8 +14,8 @@ sh train-models-all.sh <round> roberta-large 3000
 sh get-best-all.sh <round>
 sh eval-models.sh <run_name> <lr> <bs> roberta-large
 sh cross-eval-models.sh <train_name> <val_name> <lr> <bs> roberta-large
-sh summarize-cross-evals.sh
-sh summarize-evals-all.sh <round>
+sh summarize-cross-evals.sh roberta-large
+sh summarize-evals-all.sh <round> roberta-large
 
 # ================= individual python commands =================  #
 

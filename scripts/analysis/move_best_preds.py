@@ -12,7 +12,7 @@ def move_best(args):
     }
 
     repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-    pred_dir = os.path.join(repo, 'predictions')
+    pred_dir = os.path.join(repo, 'predictions', args.model)
 
     if args.best_runs == '':
         best_configs_fname = os.path.join(pred_dir, 'best_configs', 'best_configs.csv')
@@ -72,6 +72,8 @@ def move_best(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+
+    parser.add_argument('--model', help='name of pretrained model', required=True)
 
     # Optional arguments
     parser.add_argument('--best_runs', help='file name of best runs', default='')

@@ -1,4 +1,6 @@
 round=$1
+model=$2
+training_stats=$3
 
 cd ..
 SCRIPT_DIR=$PWD/analysis
@@ -18,27 +20,30 @@ inputs=( 'full' 'hyp' )
 
 cd ${SCRIPT_DIR}
 
-python ${SCRIPT_DIR}/move_best_preds.py
+python ${SCRIPT_DIR}/move_best_preds.py --model ${model}
 
 for treatment in "${treatments[@]}"
 do
 	treat_dir=${treat2nlidir[$treatment]}
 
 	# training data stats
-	python ${SCRIPT_DIR}/corpus_stats.py \
-		--verbose \
-		--pushstats \
-		--round ${round} \
-		--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}.jsonl
-
-	if [ $round != '1' ]
+	if [ "$training_stats" == "true" ]
 	then
-		echo $round
 		python ${SCRIPT_DIR}/corpus_stats.py \
 			--verbose \
 			--pushstats \
 			--round ${round} \
-			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
+			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}.jsonl
+
+		if [ $round != '1' ]
+		then
+			echo $round
+			python ${SCRIPT_DIR}/corpus_stats.py \
+				--verbose \
+				--pushstats \
+				--round ${round} \
+				--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
+		fi
 	fi
 
 	# predictions
@@ -63,15 +68,15 @@ do
 		do
 			python ${SCRIPT_DIR}/summarize_evals.py \
 				${NLI_DATA}/${treat_dir}/${valfile} \
-				${PRED_DATA}/${treat_dir}/r${round}/${combined}/${input}/val_preds.p
+				${PRED_DATA}/${model}/${treat_dir}/r${round}/${combined}/${input}/val_preds.p
 		done
 
 		# iterative evaluations
 		python ${SCRIPT_DIR}/summarize_evals.py \
 			${ITEREVAL} \
-			${PRED_DATA}/4_iterevals/${treat_dir}/r${round}/${combined}/val_preds.p
+			${PRED_DATA}/${model}/4_iterevals/${treat_dir}/r${round}/${combined}/val_preds.p
 	done
 done
 
-python ${SCRIPT_DIR}/get_plots_tables.py
-python ${SCRIPT_DIR}/get_plots_tables.py --combined
+python ${SCRIPT_DIR}/get_plots_tables.py --model ${model}
+python ${SCRIPT_DIR}/get_plots_tables.py --model ${model} --combined

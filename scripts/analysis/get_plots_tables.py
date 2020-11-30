@@ -266,15 +266,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-    pred = os.path.join(repo, 'predictions')
 
+    parser.add_argument('--model', help='name of pretrained model', required=True)
     parser.add_argument('--combined', help='whether datasets are combined over iterations', action='store_true')
-    parser.add_argument('--itereval_base',
-                        help='base directory of iterative evaluations',
-                        default=os.path.join(pred, '4_iterevals'))
-    parser.add_argument('--best_config',
-                        help='best configuration summary file',
-                        default=os.path.join(pred, 'best_configs', 'best_configs.csv'))
+    parser.add_argument('--itereval_base', help='base directory of iterative evaluations', default='')
+    parser.add_argument('--best_config', help='best configuration summary file', default='')
     parser.add_argument('--out_base', help='base directory for results', default=os.path.join(repo, 'eval_summary'))
     parser.add_argument('--verbose', help='whether to print statements', action='store_true')
 
@@ -285,6 +281,15 @@ if __name__ == '__main__':
     parser.add_argument('--plot_type', help='file type for plots', default='jpg')
 
     args = parser.parse_args()
+
+
+    pred = os.path.join(repo, 'predictions', args.model)
+
+    if args.itereval_base == '':
+        args.itereval_base = os.path.join(pred, '4_iterevals')
+
+    if args.best_config == '':
+        args.best_config = os.path.join(pred, 'best_configs', 'best_configs.csv')
 
     out_dir = summarize(args)
 

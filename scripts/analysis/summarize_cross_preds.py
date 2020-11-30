@@ -15,7 +15,7 @@ def move_best(args):
     }
 
     repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-    pred_dir = os.path.join(repo, 'predictions')
+    pred_dir = os.path.join(repo, 'predictions', args.model)
     task_configs = os.path.join(repo, 'tasks', 'configs')
 
     cross_evals = []
@@ -76,6 +76,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('cross_base', help='base directory of cross evals')
+    parser.add_argument('--model', help='pretrained model name', required=True)
 
     args = parser.parse_args()
 
