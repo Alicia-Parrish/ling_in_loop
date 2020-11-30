@@ -34,8 +34,8 @@ def move_best(args):
         target_dir = os.path.join(
             pred_dir,
             'cross_evals',
-            f'r{iteration}',
             treat2dir[train_treat],
+            f'r{iteration}',
             comb,
             treat2dir[val_treat]
         )
