@@ -1,4 +1,5 @@
 round=$1
+model=$2
 
 treatments=('baseline' 'LotS' 'LitL')
 
@@ -7,8 +8,8 @@ do
 	fdir=${treatment}_${round}
 	echo $fdir
 
-	sh get-best.sh ${fdir}
-	sh get-best.sh ${fdir}_separate
-	sh get-best.sh ${fdir}_hyp
-	sh get-best.sh ${fdir}_separate_hyp
+	sh $PWD/single/get-best.sh ${fdir} ${model}
+	sh $PWD/single/get-best.sh ${fdir}_separate ${model}
+	sh $PWD/single/get-best.sh ${fdir}_hyp ${model}
+	sh $PWD/single/get-best.sh ${fdir}_separate_hyp ${model}
 done

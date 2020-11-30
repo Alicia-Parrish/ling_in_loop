@@ -20,7 +20,7 @@ def get_best(args):
 
     if args.best_config_dir == '':
         repo = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath('__file__'))))
-        best_config_dir = os.path.join(repo, 'predictions', 'best_configs')
+        best_config_dir = os.path.join(repo, 'predictions', args.model, 'best_configs')
 
     os.makedirs(best_config_dir, exist_ok=True)
     with open(os.path.join(best_config_dir, 'best_configs.csv'), 'a', newline='') as f:
@@ -34,6 +34,7 @@ if __name__ == '__main__':
 
     # Required arguments
     parser.add_argument('--exp_dir', help='directory for runs to compare', required=True)
+    parser.add_argument('--model', help='pretrained model for training', required=True)
 
     # Optional arguments
     parser.add_argument('--metrics_fname', help='file name of metrics', default='val_metrics.json')
