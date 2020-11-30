@@ -26,11 +26,14 @@ def get_tokens(s):
     return normalize_text(s).split()
 
 
-def get_ex_tokens(ex, hyp_only=True):
-    if hyp_only:
-        return get_tokens(ex['hypothesis'])
+def get_ex_tokens(ex, hyp_only=True, separate=False):
+    if separate:
+        return get_tokens(ex['premise']), get_tokens(ex['hypothesis'])
     else:
-        return get_tokens(ex['premise'] + ' ' + ex['hypothesis'])
+        if hyp_only:
+            return get_tokens(ex['hypothesis'])
+        else:
+            return get_tokens(ex['premise'] + ' ' + ex['hypothesis'])
 
 
 def get_pmi(exs, smooth, alpha, weight, verbose):
@@ -96,6 +99,21 @@ def get_pmi(exs, smooth, alpha, weight, verbose):
     return pmi_stats
 
 
+def stats_by_label(lists_by_label):
+    stats = {label: {} for label in lists_by_label.keys()}
+
+    for label, list_vals in lists_by_label.items():
+        l_series = pd.Series(list_vals)
+        stats[label]['mean'] = l_series.mean()
+        stats[label]['median'] = l_series.median()
+        stats[label]['std'] = l_series.std()
+        stats[label]['25ptile'] = l_series.quantile(q=0.25)
+        stats[label]['75ptile'] = l_series.quantile(q=0.75)
+        stats[label]['min'] = l_series.min()
+        stats[label]['max'] = l_series.max()
+    return stats
+
+
 def get_hyp_lengths(exs, verbose):
     hyp_lengths = {
         'entailment': [],
@@ -113,17 +131,7 @@ def get_hyp_lengths(exs, verbose):
             skipped.append(i+1)
             error_keys.append(ke)
 
-    hyp_stats = {label: {} for label in hyp_lengths.keys()}
-
-    for label, lengths in hyp_lengths.items():
-        l_series = pd.Series(lengths)
-        hyp_stats[label]['mean'] = l_series.mean()
-        hyp_stats[label]['median'] = l_series.median()
-        hyp_stats[label]['std'] = l_series.std()
-        hyp_stats[label]['25ptile'] = l_series.quantile(q=0.25)
-        hyp_stats[label]['75ptile'] = l_series.quantile(q=0.75)
-        hyp_stats[label]['min'] = l_series.min()
-        hyp_stats[label]['max'] = l_series.max()
+    hyp_stats = stats_by_label(hyp_lengths)
 
     if verbose:
         print("="*90)
@@ -131,6 +139,35 @@ def get_hyp_lengths(exs, verbose):
         print("="*90)
 
     return hyp_lengths, hyp_stats
+
+
+def get_overlap(exs, verbose):
+    overlap_by_label = {
+        'entailment': [],
+        'neutral': [],
+        'contradiction': [],
+    }
+    skipped = []
+    error_keys = []
+
+    for i, ex in enumerate(exs):
+        try:
+            prem_toks, hyp_toks = get_ex_tokens(ex, separate=True)
+            overlap_by_label[ex['label']].append(
+                len(set(prem_toks).intersection(set(hyp_toks)))/len(set.union(set(prem_toks), set(hyp_toks)))
+            )
+        except KeyError as ke:
+            skipped.append(i + 1)
+            error_keys.append(ke)
+
+    overlap_stats = stats_by_label(overlap_by_label)
+
+    if verbose:
+        print("="*90)
+        print(f'Overlaps\nSkipped {len(skipped)} examples\n{skipped}\n{error_keys}')
+        print("="*90)
+
+    return overlap_by_label, overlap_stats
 
 
 def get_stats(args):
@@ -149,15 +186,18 @@ def get_stats(args):
 
     pmis = get_pmi(ex, args.smooth, args.alpha, args.weight, verbose=args.verbose)
     hyp_lengths, hyp_stats = get_hyp_lengths(ex, verbose=args.verbose)
+    overlap_lists, overlap_stats = get_overlap(ex, verbose=args.verbose)
 
     pd.DataFrame(hyp_stats).to_csv(os.path.join(args.out_dir, 'hyp_length_stats.csv'))
+    pd.DataFrame(overlap_stats).to_csv(os.path.join(args.out_dir, 'overlap_stats.csv'))
 
-    for (label, pmi), hyp_length in zip(pmis.items(), hyp_lengths.values()):
+    for (label, pmi), hyp_length, overlap_list in zip(pmis.items(), hyp_lengths.values(), overlap_lists.values()):
         if args.topn == -1:
             pmi.to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
         else:
             pmi.iloc[:args.topn, :].to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
         pd.Series(hyp_length).to_csv(os.path.join(args.out_dir, f'hyp_lengths_{label}.csv'))
+        pd.Series(overlap_list).to_csv(os.path.join(args.out_dir, f'overlap_{label}.csv'))
 
     print("="*45 + f' Complete: {args.out_dir} ' + "="*45)
 
