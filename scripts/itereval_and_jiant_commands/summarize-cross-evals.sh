@@ -7,7 +7,7 @@ cd ..
 REPO=$PWD
 echo ${REPO}
 
-CROSS_BASE=${REPO}/experiments/cross_evals
+CROSS_BASE=${REPO}/experiments/${model}/cross_evals
 
 
 cd ${SCRIPT_DIR}

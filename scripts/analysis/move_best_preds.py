@@ -18,7 +18,7 @@ def move_best(args):
         best_configs_fname = os.path.join(pred_dir, 'best_configs', 'best_configs.csv')
     else:
         best_configs_fname = args.best_runs
-    exp_dir = os.path.join(repo, 'experiments') if args.exp_dir == '' else args.exp_dir
+    exp_dir = os.path.join(repo, 'experiments', args.model) if args.exp_dir == '' else args.exp_dir
 
     best_configs = pd.read_csv(best_configs_fname, index_col=False, names=['run', 'hyperparams', 'acc'])
 

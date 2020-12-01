@@ -1,6 +1,8 @@
 round=$1
 model=$2
-training_stats=$3
+move_best=$3
+training_stats=$4
+summarize_tables=$5
 
 cd ..
 SCRIPT_DIR=$PWD/analysis
@@ -20,7 +22,10 @@ inputs=( 'full' 'hyp' )
 
 cd ${SCRIPT_DIR}
 
-python ${SCRIPT_DIR}/move_best_preds.py --model ${model}
+if [ "$move_best" == "true" ]
+then
+	python ${SCRIPT_DIR}/move_best_preds.py --model ${model}
+fi
 
 for treatment in "${treatments[@]}"
 do
@@ -42,7 +47,7 @@ do
 			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
 	fi
 
-	predictions
+	# predictions
 	if [ $treatment == 'baseline' ]
 	then
 		valname=val_round${round}_base
@@ -74,5 +79,8 @@ do
 	done
 done
 
-python ${SCRIPT_DIR}/get_plots_tables.py --model ${model}
-python ${SCRIPT_DIR}/get_plots_tables.py --model ${model} --combined
+if [ "$summarize_tables" == "true" ]
+then
+	python ${SCRIPT_DIR}/get_plots_tables.py --model ${model}
+	python ${SCRIPT_DIR}/get_plots_tables.py --model ${model} --combined
+fi

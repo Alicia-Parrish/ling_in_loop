@@ -160,6 +160,8 @@ def get_overlap(exs, verbose):
         except KeyError as ke:
             skipped.append(i + 1)
             error_keys.append(ke)
+        except ZeroDivisionError as zde:
+            print(f'{i + 1} has no hypothesis')
 
     overlap_stats = stats_by_label(overlap_by_label)
 
