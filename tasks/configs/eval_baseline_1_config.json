@@ -1,8 +1,8 @@
 {
   "task": "mnli",
   "paths": {
-    "train": "/scratch/wh629/research/litl/tasks/data/baseline_1/train_round1_baseline.jsonl",
-    "val": "/scratch/wh629/research/litl/tasks/data/iterative_eval/val_itercombined.jsonl"
+    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/baseline_1/train_round1_baseline.jsonl",
+    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/iterative_eval/val_itercombined.jsonl"
   },
   "name": "mnli"
 }
