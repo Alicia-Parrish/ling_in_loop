@@ -8,7 +8,7 @@ cd ..
 
 BASE_DIR=$PWD
 NLI_DATA=${BASE_DIR}/NLI_data
-PRED_DATA=${BASE_DIR}/predictions
+PRED_DATA=${BASE_DIR}/predictions/${model}
 
 ITEREVAL=${NLI_DATA}/4_iterevals/val_itercombined.jsonl
 
@@ -35,18 +35,14 @@ do
 			--round ${round} \
 			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}.jsonl
 
-		if [ $round != '1' ]
-		then
-			echo $round
-			python ${SCRIPT_DIR}/corpus_stats.py \
-				--verbose \
-				--pushstats \
-				--round ${round} \
-				--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
-		fi
+		python ${SCRIPT_DIR}/corpus_stats.py \
+			--verbose \
+			--pushstats \
+			--round ${round} \
+			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
 	fi
 
-	# predictions
+	predictions
 	if [ $treatment == 'baseline' ]
 	then
 		valname=val_round${round}_base
@@ -68,13 +64,13 @@ do
 		do
 			python ${SCRIPT_DIR}/summarize_evals.py \
 				${NLI_DATA}/${treat_dir}/${valfile} \
-				${PRED_DATA}/${model}/${treat_dir}/r${round}/${combined}/${input}/val_preds.p
+				${PRED_DATA}/${treat_dir}/r${round}/${combined}/${input}/val_preds.p
 		done
 
 		# iterative evaluations
 		python ${SCRIPT_DIR}/summarize_evals.py \
 			${ITEREVAL} \
-			${PRED_DATA}/${model}/4_iterevals/${treat_dir}/r${round}/${combined}/val_preds.p
+			${PRED_DATA}/4_iterevals/${treat_dir}/r${round}/${combined}/val_preds.p
 	done
 done
 

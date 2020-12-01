@@ -9,13 +9,13 @@ sh eval-models.sh <test> <lr> <bs> roberta-large
 # ================= all sequence =================  #
 
 sh create-task-configs-all.sh <round>
-sh tokenization-and-cache-all.sh <round> roberta-large
-sh train-models-all.sh <round> roberta-large 3000
-sh get-best-all.sh <round>
-sh eval-models.sh <run_name> <lr> <bs> roberta-large
-sh cross-eval-models.sh <train_name> <val_name> <lr> <bs> roberta-large
-sh summarize-cross-evals.sh roberta-large
-sh summarize-evals-all.sh <round> roberta-large
+sh tokenization-and-cache-all.sh <round> <model>
+sh train-models-all.sh <round> <model> <iteration size>
+sh get-best-all.sh <round> <model>
+sh eval-models.sh <run_name> <lr> <bs> <model>
+sh cross-eval-models.sh <train_name> <val_name> <lr> <bs> <model>
+sh summarize-cross-evals.sh <model>
+sh summarize-evals-all.sh <round> <model> <corpus stats bool>
 
 # ================= individual python commands =================  #
 
