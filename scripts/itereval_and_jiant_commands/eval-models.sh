@@ -30,6 +30,7 @@ else
     CACHE_MODEL=${MODEL_TYPE}
 fi
 
+echo $TASK_NAME
 echo CACHE MODEL: $CACHE_MODEL
 
 # Generate run configs

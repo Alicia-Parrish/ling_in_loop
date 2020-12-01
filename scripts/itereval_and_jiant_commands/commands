@@ -4,7 +4,8 @@ sh tokenization-and-cache.sh <test> roberta-large true
 sh train-models.sh <test> roberta-large <3000> true
 sh get-best.sh <test>
 sh tokenization-and-cache.sh eval_<test> roberta-large
-sh eval-models.sh <test> <lr> <bs> roberta-large
+sh eval-models.sh <run_name> <lr> <bs> <model>
+sh cross-eval-models.sh <train_name> <val_name> <lr> <bs> <model>
 
 # ================= all sequence =================  #
 
@@ -12,8 +13,8 @@ sh create-task-configs-all.sh <round>
 sh tokenization-and-cache-all.sh <round> <model>
 sh train-models-all.sh <round> <model> <iteration size>
 sh get-best-all.sh <round> <model>
-sh eval-models.sh <run_name> <lr> <bs> <model>
-sh cross-eval-models.sh <train_name> <val_name> <lr> <bs> <model>
+sh get_best_runscripts.sh <model>
+sh <model>_run.sh
 sh summarize-cross-evals.sh <model>
 sh summarize-evals-all.sh <round> <model> <corpus stats bool>
 

@@ -1,3 +1,5 @@
+model=$1
+
 cd ..
 SCRIPT_DIR=$PWD/analysis
 cd ..
@@ -9,4 +11,4 @@ CROSS_BASE=${REPO}/experiments/cross_evals
 
 
 cd ${SCRIPT_DIR}
-python summarize_cross_preds.py ${CROSS_BASE}
+python summarize_cross_preds.py ${CROSS_BASE} --model ${model}
