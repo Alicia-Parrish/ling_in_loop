@@ -213,5 +213,9 @@ all_for_bar = rbind(base_bar,LotS_bar,LitL_bar)
     geom_bar(stat="identity")+
     ylab("Accuracy")+
     facet_grid(~group)+
-    ggtitle("Hypothesis only bias after Round 5 (combined)")
+    ggtitle("Hypothesis only bias after Round 5 (combined)")+
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 )
+
+ggsave(paste0("figures/HypOnlyBarplot_",round,"_combinedRuns.png"), plot=plt6, width = 4, height = 3)
+

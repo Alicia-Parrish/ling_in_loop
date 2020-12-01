@@ -13,6 +13,7 @@ rounds <- c("r1","r2","r3","r4","r5")
 labels <- c("entailment","neutral","contradiction")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
 group_nums <- c("1","2","3")
+round = "round5"
 
 all_data<-NULL
 
@@ -48,9 +49,18 @@ all_data$group = factor(all_data$group, levels = c("Baseline","Ling_on_side","Li
     scale_fill_manual(values=c(cols[2],cols[5],cols[3]))
     )
 
+ggsave(paste0("figures/CorpusStats/OverlapRate",round,"_combined.png"), plot=plt, width = 10, height = 4)
+
+
 (plt2 = ggplot(all_data,aes(x=X0,col=label))+
-    geom_freqpoly(binwidth = 0.04)+
-    scale_y_continuous(trans = 'log10')+
-    facet_grid(round~group)
-    #facet_grid(~group)
+    scale_color_manual(values=c(cols[2],cols[5],cols[3]))+
+    geom_freqpoly(binwidth = 0.1,size=1.2)+
+    #scale_y_continuous(trans = 'log10')+
+    facet_grid(round~group)+
+    xlab("overlap rate")+
+    ggtitle("Overlap rates in each protocol")+
+    theme(plot.title = element_text(hjust = 0.5))
     )
+
+ggsave(paste0("figures/CorpusStats/OverlapRate",round,"_byRound.png"), plot=plt2, width = 8, height = 8)
+
