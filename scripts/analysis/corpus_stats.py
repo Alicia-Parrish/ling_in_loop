@@ -154,7 +154,8 @@ def get_overlap(exs, verbose):
         try:
             prem_toks, hyp_toks = get_ex_tokens(ex, separate=True)
             overlap_by_label[ex['label']].append(
-                len(set(prem_toks).intersection(set(hyp_toks)))/len(set.union(set(prem_toks), set(hyp_toks)))
+                len(set(prem_toks).intersection(set(hyp_toks))) / len(set(hyp_toks))
+                # len(set(prem_toks).intersection(set(hyp_toks)))/len(set.union(set(prem_toks), set(hyp_toks)))
             )
         except KeyError as ke:
             skipped.append(i + 1)

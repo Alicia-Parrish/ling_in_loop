@@ -35,18 +35,14 @@ do
 			--round ${round} \
 			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}.jsonl
 
-		if [ $round != '1' ]
-		then
-			echo $round
-			python ${SCRIPT_DIR}/corpus_stats.py \
-				--verbose \
-				--pushstats \
-				--round ${round} \
-				--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
-		fi
+		python ${SCRIPT_DIR}/corpus_stats.py \
+			--verbose \
+			--pushstats \
+			--round ${round} \
+			--fname ${NLI_DATA}/${treat_dir}/train_round${round}_${treatment}_combined.jsonl
 	fi
 
-	# predictions
+	predictions
 	if [ $treatment == 'baseline' ]
 	then
 		valname=val_round${round}_base
