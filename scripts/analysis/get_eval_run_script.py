@@ -40,7 +40,7 @@ def write_eval_run_script(args):
                         f'sh {args.cross_shell} {run["name"]} {val_treat}_{run["round"]} {run["lr"]} {run["bs"]} {args.model}\n'
                     )
 
-    with open(os.path.join(args.out_dir, f'{args.model}_run.sh'), 'w') as f:
+    with open(os.path.join(args.out_dir, f'{args.model}{args.mod}_run.sh'), 'w') as f:
         f.write(''.join(write_runs))
 
     print('='*90+'Complete'+'='*90)
@@ -59,6 +59,7 @@ if __name__ == '__main__':
     parser.add_argument('--eval_shell', help='name of eval shell script', default='eval-models.sh')
     parser.add_argument('--cross_shell', help='name of cross eval script', default='cross-eval-models.sh')
     parser.add_argument('--no_cross', help='whether not to do cross eval', action='store_true')
+    parser.add_argument('--mod', default='')
 
     args = parser.parse_args()
 

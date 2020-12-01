@@ -16,7 +16,12 @@ sh get-best-all.sh <round> <model>
 sh get_best_runscripts.sh <model>
 sh <model>_run.sh
 sh summarize-cross-evals.sh <model>
-sh summarize-evals-all.sh <round> <model> <corpus stats bool>
+sh summarize-evals-all.sh <round> <model> <move bool> <corpus stats bool> <tables bool>
+
+# ================= anli sequence =================  #
+sh get_anli_runscripts.sh <model>
+sh <model>_anli_run.sh
+sh summarize-anli-evals.sh <model>
 
 # ================= individual python commands =================  #
 
