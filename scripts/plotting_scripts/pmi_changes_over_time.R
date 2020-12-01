@@ -7,10 +7,10 @@ set.seed(42)
 
 ################## BY ROUND ###################
 
-rounds <- c("r1","r2","r3","r4")
+rounds <- c("r1","r2","r3","r4","r5")
 labels <- c("entailment","neutral","contradiction")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
-group_nums <- c("1","2","3","4")
+group_nums <- c("1","2","3")
 
 all_data<-NULL
 
@@ -28,16 +28,16 @@ for(g in 1:length(groups)){
 
 (plt<-ggplot(data=all_data,aes(x=round,y=pmi,col=label,label=X))+
     geom_text(position=position_jitter(width=0.32,height=0),
-              check_overlap = T)+
+              check_overlap = T,size=2)+
     theme(legend.position = "none")+
-    ggtitle("Round 4 PMI changes")+
+    ggtitle("Round 5 PMI changes")+
     facet_wrap(~group*label))
 
-ggsave("figures/pmis_round4_byRound.png", plot=plt, width = 18, height = 18)
+ggsave("figures/pmis_round5_byRound.png", plot=plt, width = 18, height = 18)
 
 ################## COMBINED ###################
 
-round <- "r4"
+round <- "r5"
 labels <- c("entailment","neutral","contradiction")
 groups <- c("Baseline", "Ling_on_side", "Ling_in_loop")
 group_nums <- c("1","2","3")
@@ -55,26 +55,26 @@ for(g in 1:length(groups)){
 
 (plt2<-ggplot(data=combined_data,aes(x=label,y=pmi,col=label,label=X))+
     geom_text(position=position_jitter(width=0.39,height=0),
-              check_overlap = T)+
+              check_overlap = T,size=2)+
     theme(legend.position = "none")+
-    ggtitle("Round 4 combined PMI")+
+    ggtitle("Round 5 combined PMI")+
     facet_wrap(~group))
 
-ggsave("figures/pmis_round4_combined.png", plot=plt2, width = 18, height = 18)
+ggsave("figures/pmis_round5_combined.png", plot=plt2, width = 18, height = 18)
 
 ############################################
 # Without words
 
 (plt3<-ggplot(data=all_data,aes(x=round,y=pmi,col=label))+
    geom_point(position=position_jitter(width=0.32,height=0),alpha=0.5)+
-   ggtitle("Round 4 PMI changes")+
+   ggtitle("Round 5 PMI changes")+
    facet_wrap(~group))
 
-ggsave("figures/pmis_round4_byRound_noText.png", plot=plt3, width = 6, height = 5)
+ggsave("figures/pmis_round5_byRound_noText.png", plot=plt3, width = 6, height = 5)
 
 (plt4<-ggplot(data=combined_data,aes(x=label,y=pmi,col=label))+
     geom_point(position=position_jitter(width=0.5,height=0),alpha=0.5)+
-    ggtitle("Round 4 combined PMI")+
+    ggtitle("Round 5 combined PMI")+
     facet_wrap(~group))
 
-ggsave("figures/pmis_round4_combined_noText.png", plot=plt4, width = 8.5, height = 4.5)
+ggsave("figures/pmis_round5_combined_noText.png", plot=plt4, width = 8.5, height = 4.5)
