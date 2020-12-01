@@ -7,6 +7,7 @@ BASE_DIR=$PWD
 
 DATA_DIR=${BASE_DIR}/tasks/data/${TASK_NAME}
 ITEREVAL=${BASE_DIR}/tasks/data/iterative_eval/val_itercombined.jsonl
+ANLIEVAL=${BASE_DIR}/tasks/data/anli_combined/val_anli.jsonl
 MODELS_DIR=${BASE_DIR}/models
 
 export PYTHONPATH=${BASE_DIR}/jiant:$PYTHONPATH
@@ -19,7 +20,8 @@ then
 
     python jiant/jiant/scripts/preproc/litl/make_task_config.py \
     --data_path ${DATA_DIR} \
-    --itereval_path ${ITEREVAL}
+    --itereval_path ${ITEREVAL} \
+    --anlieval_path ${ANLIEVAL}
 
 elif [ "$HYP" == "true" ] 
 then
@@ -28,5 +30,6 @@ then
     python jiant/jiant/scripts/preproc/litl/make_task_config.py \
     --data_path ${DATA_DIR} \
     --itereval_path ${ITEREVAL} \
+    --anlieval_path ${ANLIEVAL} \
     --hypothesis
 fi
