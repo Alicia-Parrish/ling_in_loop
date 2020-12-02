@@ -1,8 +1,0 @@
-{
-  "task": "mnli_hyp",
-  "paths": {
-    "train": "/scratch/wh629/research/litl/tasks/data/test/train_mnli3000.jsonl",
-    "val": "/scratch/wh629/research/litl/tasks/data/test/val_mnli.jsonl"
-  },
-  "name": "mnli_hyp"
-}

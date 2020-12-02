@@ -48,7 +48,7 @@ def move_best(args):
 
         target_dir = os.path.join(pred_dir, treat2dir[treat], f'r{iteration}', comb, input_type)
 
-        if os.path.isdir(target_dir):
+        if os.path.exists(target_dir):
             continue
 
         os.makedirs(target_dir, exist_ok=True)
