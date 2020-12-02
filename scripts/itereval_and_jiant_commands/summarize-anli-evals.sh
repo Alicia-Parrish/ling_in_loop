@@ -10,4 +10,4 @@ ANLI_FILE=${BASE_DIR}/tasks/data/anli_combined/val_anli.jsonl
 echo $ANLI_FILE
 
 cd ${SH_SCRIPT_DIR}
-python ${SCRIPT_DIR}/get_eval_run_script.py ${ANLI_FILE} --model ${model}
+python ${SCRIPT_DIR}/summarize_anli.py ${ANLI_FILE} --model ${model}

@@ -109,7 +109,7 @@ def sum_anli(args):
     os.makedirs(args.eval_out, exist_ok=True)
     with open(os.path.join(args.eval_out, 'eval_summaries.jsonl'), 'w') as f:
         for row in summaries:
-            f.write(f'{json.dump(row)}\n')
+            f.write(f'{json.dumps(row)}\n')
 
     print('='*90+'Complete'+'='*90)
     print(f'Summarized accs saved to {os.path.join(args.eval_out, "eval_summaries.jsonl")}')
