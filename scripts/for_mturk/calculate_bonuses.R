@@ -247,7 +247,7 @@ LitL_heur_by_worker <- calculate_checkbox_accuracy(LitL_val_final, by_heur=T)
 
 ######### calculate slack participation bonus #########
 # LING IN LOOP
-slack<-read.csv("../slack_data/slack-11-17-to-27.csv",stringsAsFactors = F)
+slack<-read.csv("../slack_data/slack-11-28-to-12-3.csv",stringsAsFactors = F)
 slack<-rename(slack,"AnonId"=anon_id)
 slack_names<-read.csv("../../SECRET/ling_in_loop_SECRET/anon_slack_names.csv")
 slacks=merge(slack,slack_names,by="AnonId",all=T)
