@@ -147,6 +147,13 @@ def get_overlap(exs, verbose):
         'neutral': [],
         'contradiction': [],
     }
+
+    overlap_stat_lists = {
+        'entailment': [],
+        'neutral': [],
+        'contradiction': [],
+    }
+
     skipped = []
     error_keys = []
 
@@ -160,13 +167,17 @@ def get_overlap(exs, verbose):
                 # len(set(prem_toks).intersection(set(hyp_toks)))/len(set.union(set(prem_toks), set(hyp_toks)))
                 }
             )
+
+            overlap_stat_lists[ex['label']].append(
+                len(set(prem_toks).intersection(set(hyp_toks))) / len(set(hyp_toks))
+            )
         except KeyError as ke:
             skipped.append(i + 1)
             error_keys.append(ke)
         except ZeroDivisionError as zde:
             print(f'{i + 1} has no hypothesis')
 
-    overlap_stats = stats_by_label(overlap_by_label)
+    overlap_stats = stats_by_label(overlap_stat_lists)
 
     if verbose:
         print("="*90)
