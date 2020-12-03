@@ -51,7 +51,7 @@ all_acc4<-all_acc3 %>%
     theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
     ylab("Accuracy difference from mean")+
     facet_grid(heuristic_gold_label ~ group*round ,scales="free_x")
-  )
+)
 
 ggsave(paste0("figures/accuracyHeuristic_",round,"_combined.png"), plot=plt, width = 12, height = 6)
 
