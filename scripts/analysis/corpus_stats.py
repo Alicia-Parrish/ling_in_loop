@@ -154,8 +154,11 @@ def get_overlap(exs, verbose):
         try:
             prem_toks, hyp_toks = get_ex_tokens(ex, separate=True)
             overlap_by_label[ex['label']].append(
-                len(set(prem_toks).intersection(set(hyp_toks))) / len(set(hyp_toks))
+                {
+                    'pairID': ex['pairID'],
+                    'overlap': len(set(prem_toks).intersection(set(hyp_toks))) / len(set(hyp_toks)),
                 # len(set(prem_toks).intersection(set(hyp_toks)))/len(set.union(set(prem_toks), set(hyp_toks)))
+                }
             )
         except KeyError as ke:
             skipped.append(i + 1)
@@ -200,7 +203,7 @@ def get_stats(args):
         else:
             pmi.iloc[:args.topn, :].to_csv(os.path.join(args.out_dir, f'pmi_{label}.csv'))
         pd.Series(hyp_length).to_csv(os.path.join(args.out_dir, f'hyp_lengths_{label}.csv'))
-        pd.Series(overlap_list).to_csv(os.path.join(args.out_dir, f'overlap_{label}.csv'))
+        pd.DataFrame(overlap_list).to_csv(os.path.join(args.out_dir, f'overlap_{label}.csv'))
 
     print("="*45 + f' Complete: {args.out_dir} ' + "="*45)
 
