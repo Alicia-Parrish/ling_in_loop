@@ -118,14 +118,14 @@ ggsave(paste0("figures/CorpusStats/Accuracy_in_overlapRateBins_linePlot.png"), p
 
 # correlation of accuracy and bias
 (plt_corr<-ggplot(data=all_data,aes(x=bias_score,y=accuracy))+
-   geom_point(aes(col=label))+
-   geom_smooth(method = lm, se = FALSE, colour="gray", alpha = 0.2)+
-   geom_smooth(aes(col=label),method = lm, se = FALSE)+
-   scale_color_manual(values=c(cols[2],cols[5],cols[3]))+
-   facet_wrap(~group)+
-   ggtitle("Accuracy - bias score correlation")+
-   theme(plot.title = element_text(hjust = 0.5))
-  )
+    geom_point(aes(col=label))+
+    geom_smooth(method = lm, se = FALSE, colour="gray", alpha = 0.2)+
+    geom_smooth(aes(col=label),method = lm, se = FALSE)+
+    scale_color_manual(values=c(cols[2],cols[5],cols[3]))+
+    facet_wrap(~group)+
+    ggtitle("Accuracy - bias score correlation")+
+    theme(plot.title = element_text(hjust = 0.5))
+)
 ggsave(paste0("figures/CorpusStats/Accuracy_by_overlapBiasScore.png"), plot=plt_corr, width = 8, height = 4)
 
 
