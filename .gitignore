@@ -130,8 +130,11 @@ dmypy.json
 # Results folders
 stats/*
 eval_summary/*/plots
+
+# R data
 scripts/.RData
 scripts/.Rhistory
+scripts/for_mturk/scratch.R
 
 # jiant folders
 experiments/*
