@@ -2,7 +2,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=2
-#SBATCH --gres=gpu:p40:1
+#SBATCH --gres=gpu:1
+#SBATCH --partition=v100_sxm2_4,p40_4,p100_4,v100_pci_2
 #SBATCH --time=72:00:00
 #SBATCH --mem=40GB
 #SBATCH --mail-type=ALL
@@ -34,7 +35,7 @@ $venv_path/bin/python \
        --force_overwrite \
        --do_train \
        --do_val \
-       --do_save \
+       --do_save_best \
        --eval_every_steps $VAL_INTERVAL \
        --no_improvements_for_n_evals $NO_IMP \
        --save_checkpoint_every_steps $VAL_INTERVAL \
