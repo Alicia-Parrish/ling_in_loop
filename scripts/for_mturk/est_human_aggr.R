@@ -60,7 +60,7 @@ checks_full2<-checks_full%>%
                         original_label!=validated_label ~0))%>%
   filter(!is.na(original_label))%>%
   filter(validated_label!="no_winner")
-  
+
 mean(checks_full2$same[checks_full2$group=="group1"],na.rm=T)
 mean(checks_full2$same[checks_full2$group=="group2"],na.rm=T)
 mean(checks_full2$same[checks_full2$group=="group3"],na.rm=T)
@@ -92,12 +92,12 @@ model_human_diff$label = factor(model_human_diff$label, levels = c("entailment",
 model_human_diff$group = factor(model_human_diff$group, levels = c("Baseline","Ling_on_side","Ling_in_loop"))
 
 (plt <- ggplot(model_human_diff, aes(x=round,y=diff,fill=group))+
-   geom_bar(stat='identity',position=position_dodge())+
-   scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
-   theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))+
-   facet_wrap(~label)+
-   ylab("Model - human gap")
-  )
+    geom_bar(stat='identity',position=position_dodge())+
+    scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
+    theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))+
+    facet_wrap(~label)+
+    ylab("Model - human gap")
+)
 
 model_human_diff2 <- model_human_vals %>%
   group_by(round,group)%>%

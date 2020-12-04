@@ -89,3 +89,13 @@ all_dat_transformed = all_dat%>%
 
 to_push = all_dat_transformed %>% select(-WorkerId)
 write.csv(to_push,"files/worker_data/final_total_HITs_completed_allWorkers.csv")
+
+# for bonus
+ass_ids<-read.csv("../../SECRET/ling_in_loop_SECRET/assignment_ids.csv")
+bonus_with_ass_ids<-merge(all_dat_transformed,ass_ids[2:3],by="WorkerId",all=T)
+
+final_bonuses <- bonus_with_ass_ids %>%
+  select(AnonId,WorkerId,group,final_bonus,AssignmentId)%>%
+  filter(final_bonus!=0,!is.na(final_bonus))
+
+write.csv(final_bonuses,"../../SECRET/ling_in_loop_SECRET/final_bonus_allRoundsCompleted.csv")
