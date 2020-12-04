@@ -11,6 +11,7 @@ do
 	do
 		fdir=${treatment}_${round}
 		echo $fdir
+		echo ${sample}/${split}
 
 		sh $PWD/single/tokenization-and-cache-sampled.sh ${fdir} ${sample}/${split} ${model}
 		sh $PWD/single/tokenization-and-cache-sampled.sh ${fdir}_separate ${sample}/${split} ${model}
@@ -18,7 +19,7 @@ do
 		sh $PWD/single/tokenization-and-cache-sampled.sh ${fdir}_separate ${sample}/${split} ${model} true
 		sh $PWD/single/tokenization-and-cache-sampled.sh eval_${fdir} ${sample}/${split} ${model}
 		sh $PWD/single/tokenization-and-cache-sampled.sh eval_${fdir}_separate ${sample}/${split} ${model}
-		sh $PWD/single/tokenization-and-cache-sampled.sh anlieval_${fdir} ${sample}/${split} ${model}
-		sh $PWD/single/tokenization-and-cache-sampled.sh anlieval_${fdir}_separate ${sample}/${split} ${model}
+		sh $PWD/single/tokenization-and-cache-sampled.sh mnlieval_${fdir} ${sample}/${split} ${model}
+		sh $PWD/single/tokenization-and-cache-sampled.sh mnlieval_${fdir}_separate ${sample}/${split} ${model}
 	done
 done

@@ -31,13 +31,14 @@ def write_sampled_train_script(args):
                 command = f'sh {args.train_shell} {run["name"]} {args.model} {args.size} {args.sample}/{split} {run["lr"]} {run["bs"]}'
 
                 write_runs.append(f'{command}\n')
-                write_runs.append(f'{command} true\n')
+                # write_runs.append(f'{command} true\n')
 
-    with open(os.path.join(args.out_dir, f'{args.model}_sampled_{args.sample}_{args.round}_run.sh'), 'w') as f:
+    out_name = os.path.join(args.out_dir, f'{args.model}_sampled_{args.sample}_{args.round}_run.sh')
+    with open(out_name, 'w') as f:
         f.write(''.join(write_runs))
 
     print('='*90+'Complete'+'='*90)
-    print(f"Written to\n{os.path.join(args.out_dir, f'{args.model}_run.sh')}")
+    print(f"Written to\n{out_name}")
 
 
 if __name__ == '__main__':

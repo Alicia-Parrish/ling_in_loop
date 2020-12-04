@@ -18,10 +18,14 @@ sh <model>_run.sh
 sh summarize-cross-evals.sh <model>
 sh summarize-evals-all.sh <round> <model> <move bool> <corpus stats bool> <tables bool>
 
-# ================= anli sequence =================  #
-sh get_anli_runscripts.sh <model>
-sh <model>_anli_run.sh
-sh summarize-anli-evals.sh <model>
+# ================= mnli sequence =================  #
+sh get_mnli_runscripts.sh <model>
+sh <model>_mnli_run.sh
+sh summarize-mnli-evals.sh <model>
+
+# ================= sampled cross_eval sequence =================  #
+sh get-sampled-configs-all.sh <round> <sample>
+sh tokenization-and-cache-all-cross_eval.sh <round> <model>
 
 # ================= individual python commands =================  #
 

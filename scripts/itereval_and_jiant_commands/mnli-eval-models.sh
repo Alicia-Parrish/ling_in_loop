@@ -21,7 +21,7 @@ echo LR: $LR, BATCH: $TRAIN_BATCH
 
 OUTPUT_DIR=${BASE_DIR}/experiments/${MODEL_TYPE}/anli_evals/${TASK_NAME}
 MODEL_PATH=${BASE_DIR}/experiments/${MODEL_TYPE}/${TASK_NAME}/${LR}_${TRAIN_BATCH}/best_model.p
-RUN_CONFIG=${RUN_CONFIG_DIR}/${MODEL_TYPE}/anlieval_${TASK_NAME}_${LR}_${TRAIN_BATCH}.json
+RUN_CONFIG=${RUN_CONFIG_DIR}/${MODEL_TYPE}/mnlieval_${TASK_NAME}_${LR}_${TRAIN_BATCH}.json
 
 if [[ "${MODEL_TYPE}" == *"roberta-large"* ]]
 then
