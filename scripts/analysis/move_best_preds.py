@@ -4,7 +4,17 @@ import os
 from shutil import copyfile
 
 
-def move_best(args):
+def move_single_pred(source_dir, target_dir, post=None, fname='val_preds.p'):
+
+    if post is None:
+        source_post, target_post = source_dir, target_dir
+    else:
+        source_post = os.path.join(source_dir, post)
+        target_post = os.path.join(target_dir, post)
+
+    copyfile(os.path.join(source_post, fname), os.path.join(target_post, fname))
+
+def move_best(args, iteration_only=-1, post=None, return_preds=False):
     treat2dir = {
         'baseline': '1_Baseline_protocol',
         'LotS': '2_Ling_on_side_protocol',
@@ -23,11 +33,19 @@ def move_best(args):
     best_configs = pd.read_csv(best_configs_fname, index_col=False, names=['run', 'hyperparams', 'acc'])
 
     target_dirs = []
+    itereval_dirs = []
+    run_names = []
     for idx, row in best_configs.iterrows():
         run_list = row['run'].split('_')
 
         treat = run_list[0]
         iteration = run_list[1]
+
+        if iteration_only > 0 and iteration != iteration_only:
+            continue
+
+        run_names.append(row['run'])
+
         if len(run_list) == 2:
             comb = 'combined'
             input_type = 'full'
@@ -48,12 +66,13 @@ def move_best(args):
 
         target_dir = os.path.join(pred_dir, treat2dir[treat], f'r{iteration}', comb, input_type)
 
-        if os.path.exists(target_dir):
+        check_dir = os.path.join(target_dir, post) if not post is None else target_dir
+        if os.path.exists(check_dir):
             continue
 
         os.makedirs(target_dir, exist_ok=True)
         source_dir = os.path.join(exp_dir, row['run'], row['hyperparams'])
-        copyfile(os.path.join(source_dir, 'val_preds.p'), os.path.join(target_dir, 'val_preds.p'))
+        move_single_pred(source_dir, target_dir, post=post)
         target_dirs.append(target_dir)
 
         # for iterative evals
@@ -61,13 +80,17 @@ def move_best(args):
             target_dir = os.path.join(pred_dir, '4_iterevals', treat2dir[treat], f'r{iteration}', comb)
             os.makedirs(target_dir, exist_ok=True)
             source_dir = os.path.join(exp_dir, 'iterative_evals', row['run'])
-            copyfile(os.path.join(source_dir, 'val_preds.p'), os.path.join(target_dir, 'val_preds.p'))
+            move_single_pred(source_dir, target_dir, post=post)
             target_dirs.append(target_dir)
+            itereval_dirs.append(target_dir)
 
     print(f'Complete\nCopied {len(target_dirs)} files')
     print('='*90)
     for target_dir in target_dirs:
         print(target_dir)
+
+    if return_preds:
+        return target_dirs, itereval_dirs, run_names
 
 
 if __name__ == '__main__':

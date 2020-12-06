@@ -22,7 +22,13 @@ def load_data_preds(args):
     return ex, preds_list
 
 
-def summarize_itereval(args):
+def summarize_itereval(args, data=None, preds=None, with_return=False):
+    if not data is None:
+        args.data = data
+
+    if not preds is None:
+        args.preds = preds
+
     exs, preds = load_data_preds(args)
 
     # preprocessed hans non-entailment -> contradiction
@@ -53,6 +59,8 @@ def summarize_itereval(args):
         'glue': set([]),
         'hans': set([]),
     }
+
+    accs_dict = {}
 
     for ex, pred in zip(exs, preds):
         dataset = ex['dataset']
@@ -229,6 +237,10 @@ def summarize_itereval(args):
             )
         )
 
+        accs_dict.append(pd.DataFrame(accs))
+
+    if with_return:
+        return accs_dict
 
 
 def summarize_val(args, data=None, preds=None, with_return=False):

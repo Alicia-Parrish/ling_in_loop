@@ -5,6 +5,8 @@ import json
 from shutil import copyfile
 import torch
 
+from move_best_preds import move_single_pred
+
 
 def split_run_name(run_name, split_by='_'):
     name_list = run_name.split(split_by)
@@ -16,7 +18,7 @@ def split_run_name(run_name, split_by='_'):
     return name_list[0], name_list[1], comb
 
 
-def move_preds(current_base, target_base, fname, treat2dir):
+def move_preds(current_base, target_base, fname, treat2dir, iteration_only=-1, post=None):
     current_subdirs = next(os.walk(current_base))[1]
     print(current_subdirs)
 
@@ -24,6 +26,9 @@ def move_preds(current_base, target_base, fname, treat2dir):
     target_dirs = []
     for run_name in current_subdirs:
         treat, iteration, comb = split_run_name(run_name)
+
+        if iteration_only > 0 and iteration != iteration_only:
+            continue
 
         target_dir = os.path.join(
             target_base,
@@ -33,11 +38,13 @@ def move_preds(current_base, target_base, fname, treat2dir):
         )
 
         target_dirs.append({'name': run_name, 'target_dir': target_dir})
-        if os.path.isdir(target_dir):
+
+        check_dir = os.path.join(target_dir, post) if not post is None else target_dir
+        if os.path.exists(check_dir):
             continue
 
         os.makedirs(target_dir, exist_ok=True)
-        copyfile(os.path.join(current_base, run_name, fname), os.path.join(target_dir, fname))
+        move_single_pred(os.path.join(current_base, run_name), target_dir, post=post, fname=fname)
         moved.append(run_name)
 
     print('='*90+'Move Complete'+'='*90)
@@ -45,7 +52,7 @@ def move_preds(current_base, target_base, fname, treat2dir):
     return target_dirs
 
 
-def summarize_preds_and_tables(targets, gold, preds_fname, breakdown_tag=None):
+def summarize_preds_and_tables(targets, gold, preds_fname, breakdown_tag=None, post=None):
     pred2label={
         0: "contradiction",
         1: "entailment",
@@ -59,6 +66,9 @@ def summarize_preds_and_tables(targets, gold, preds_fname, breakdown_tag=None):
     for target_dict in targets:
         run_name, target_dir = target_dict['name'], target_dict['target_dir']
         treat, iteration, comb = split_run_name(run_name)
+
+        if not post is None:
+            target_dir = os.path.join(target_dir, post)
 
         with open(os.path.join(target_dir, preds_fname), 'rb') as f:
             preds = torch.load(f)['mnli']['preds']
