@@ -23,7 +23,7 @@ echo LR: $LR, BATCH: $TRAIN_BATCH
 
 if [ "${EVAL_PRE}" == "eval" ]
 then
-	EVAL_DIR=iterativel_evals
+	EVAL_DIR=iterative_evals
 elif [ "${EVAL_PRE}" == "mnlieval" ]
 then
 	EVAL_DIR=mnli_evals
