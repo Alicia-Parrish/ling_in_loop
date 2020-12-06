@@ -28,7 +28,7 @@ def write_sampled_train_script(args):
     for treat, runs in added_runs.items():
         for run in runs:
             for split in args.splits.split(','):
-                command = f'sh {args.train_shell} {run["name"]} {args.model} {args.size} {args.sample}/{split} {run["lr"]} {run["bs"]}'
+                command = f'sh {args.train_shell} {run["name"]} {args.model} {args.round*int(args.size)} {args.sample}/{split} {run["lr"]} {run["bs"]}'
 
                 write_runs.append(f'{command}\n')
                 # write_runs.append(f'{command} true\n')

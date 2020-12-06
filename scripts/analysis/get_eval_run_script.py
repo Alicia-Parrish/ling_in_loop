@@ -27,18 +27,29 @@ def write_eval_run_script(args):
 
     for treat, runs in added_runs.items():
         for run in runs:
-            write_runs.append(
-                f'sh {args.eval_shell} {run["name"]} {run["lr"]} {run["bs"]} {args.model}\n'
-            )
 
-            if not args.no_cross:
-                for val_treat in added_runs.keys():
-                    if treat == val_treat:
-                        continue
+            if args.sampled:
+                for partition in args.partitions.split(','):
+                    for eval_pre in args.eval_pres.split(','):
+                        write_runs.append(
+                            f'sh {args.sample_shell} {run["name"]} {run["lr"]} {run["bs"]} {args.model} {args.sample_name}/{partition} {eval_pre}\n'
+                        )
+            else:
+                write_runs.append(
+                    f'sh {args.eval_shell} {run["name"]} {run["lr"]} {run["bs"]} {args.model}\n'
+                )
 
-                    write_runs.append(
-                        f'sh {args.cross_shell} {run["name"]} {val_treat}_{run["round"]} {run["lr"]} {run["bs"]} {args.model}\n'
-                    )
+                if not args.no_cross:
+                    for val_treat in added_runs.keys():
+                        if treat == val_treat:
+                            continue
+
+                        write_runs.append(
+                            f'sh {args.cross_shell} {run["name"]} {val_treat}_{run["round"]} {run["lr"]} {run["bs"]} {args.model}\n'
+                        )
+
+    if args.sampled:
+        args.mod = f'_{args.sample_name}'
 
     with open(os.path.join(args.out_dir, f'{args.model}{args.mod}_run.sh'), 'w') as f:
         f.write(''.join(write_runs))
@@ -61,6 +72,14 @@ if __name__ == '__main__':
     parser.add_argument('--no_cross', help='whether not to do cross eval', action='store_true')
     parser.add_argument('--mod', default='')
 
+    # For sampled
+    parser.add_argument('--sampled', action='store_true')
+    parser.add_argument('--sample_name', default='cross_eval')
+    parser.add_argument('--partitions', default='0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0')
+    parser.add_argument('--eval_pres', default='eval,mnlieval')
+    parser.add_argument('--sample_shell', default='eval-models-sampled.sh')
+
     args = parser.parse_args()
 
     write_eval_run_script(args)
+    
