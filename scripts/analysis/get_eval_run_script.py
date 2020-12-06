@@ -15,7 +15,9 @@ def write_eval_run_script(args):
         treat, iteration = run_name.split('_')[0], int(run_name.split('_')[1])
         lr, bs = params.split('_')
 
-        if iteration > args.round_lim or run_name.split('_')[-1] == 'hyp':
+        if args.round_only > 0 and iteration != args.round_only:
+            continue
+        elif iteration > args.round_lim or run_name.split('_')[-1] == 'hyp':
             continue
 
         run_dict = {'name': run_name, 'lr': lr, 'bs': bs, 'round': iteration}
@@ -78,8 +80,8 @@ if __name__ == '__main__':
     parser.add_argument('--partitions', default='0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0')
     parser.add_argument('--eval_pres', default='eval,mnlieval')
     parser.add_argument('--sample_shell', default='eval-models-sampled.sh')
+    parser.add_argument('--round_only', default=-1, type=int)
 
     args = parser.parse_args()
 
     write_eval_run_script(args)
-    
