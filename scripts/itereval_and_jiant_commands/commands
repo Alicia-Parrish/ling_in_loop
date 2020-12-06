@@ -26,6 +26,10 @@ sh summarize-mnli-evals.sh <model>
 # ================= sampled cross_eval sequence =================  #
 sh get-sampled-configs-all.sh <round> <sample>
 sh tokenization-and-cache-all-cross_eval.sh <round> <model>
+sh get_sampled_runscripts.sh <model> <round> <sample>
+sh <model>_sampled_<sample name>_<round>_run.sh
+sh get_best_runscripts-sampled.sh <model> <round> <sample name>
+
 
 # ================= individual python commands =================  #
 

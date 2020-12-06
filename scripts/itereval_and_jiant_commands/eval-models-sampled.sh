@@ -21,7 +21,15 @@ EVAL_BATCH_MULT=2
 
 echo LR: $LR, BATCH: $TRAIN_BATCH
 
-OUTPUT_DIR=${BASE_DIR}/experiments/${MODEL_TYPE}/iterative_evals/${TASK_NAME}/${SAMPLE}
+if [ "${EVAL_PRE}" == "eval" ]
+then
+	EVAL_DIR=iterativel_evals
+elif [ "${EVAL_PRE}" == "mnlieval" ]
+then
+	EVAL_DIR=mnli_evals
+fi
+
+OUTPUT_DIR=${BASE_DIR}/experiments/${MODEL_TYPE}/${EVAL_DIR}/${TASK_NAME}/${SAMPLE}
 MODEL_PATH=${BASE_DIR}/experiments/${MODEL_TYPE}/${TASK_NAME}/${SAMPLE}/${LR}_${TRAIN_BATCH}/best_model.p
 RUN_CONFIG=${RUN_CONFIG_DIR}/${MODEL_TYPE}/${SAMPLE}/${EVAL_PRE}_${TASK_NAME}_${LR}_${TRAIN_BATCH}.json
 
@@ -33,6 +41,7 @@ else
 fi
 
 echo $TASK_NAME
+echo $OUTPUT_DIR
 echo CACHE MODEL: $CACHE_MODEL
 
 # Generate run configs
