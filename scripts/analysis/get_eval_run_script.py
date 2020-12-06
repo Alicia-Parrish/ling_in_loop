@@ -51,13 +51,17 @@ def write_eval_run_script(args):
                         )
 
     if args.sampled:
-        args.mod = f'_{args.sample_name}'
+        args.mod = f'_sampled_{args.sample_name}'
 
-    with open(os.path.join(args.out_dir, f'{args.model}{args.mod}_run.sh'), 'w') as f:
+    if args.round_only > 0:
+        args.mod += f'_{args.round_only}'
+
+    out_name = os.path.join(args.out_dir, f'{args.model}{args.mod}_run.sh')
+    with open(out_name, 'w') as f:
         f.write(''.join(write_runs))
 
     print('='*90+'Complete'+'='*90)
-    print(f"Written to\n{os.path.join(args.out_dir, f'{args.model}_run.sh')}")
+    print(f"Written to\n{out_name}")
 
 
 if __name__ == '__main__':

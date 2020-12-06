@@ -33,7 +33,7 @@ def write_sampled_train_script(args):
                 write_runs.append(f'{command}\n')
                 # write_runs.append(f'{command} true\n')
 
-    out_name = os.path.join(args.out_dir, f'{args.model}_sampled_{args.sample}_{args.round}_run.sh')
+    out_name = os.path.join(args.out_dir, f'{args.model}_train_sampled_{args.sample}_{args.round}_run.sh')
     with open(out_name, 'w') as f:
         f.write(''.join(write_runs))
 
