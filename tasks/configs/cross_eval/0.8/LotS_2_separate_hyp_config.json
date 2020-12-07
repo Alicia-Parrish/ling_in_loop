@@ -1,0 +1,8 @@
+{
+  "task": "mnli_hyp",
+  "paths": {
+    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_2_separate/cross_eval/0.8/train_round2_LotS.jsonl",
+    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_2_separate/val_round2_LotS.jsonl"
+  },
+  "name": "mnli_hyp"
+}

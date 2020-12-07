@@ -1,0 +1,277 @@
+,case,subcase,label,acc
+0,combined,combined,combined,0.6648550724637681
+1,combined,combined,contradiction,0.6705426356589147
+2,combined,combined,entailment,0.85
+3,combined,combined,neutral,0.44041450777202074
+4,Lexical Semantics,combined,combined,0.6657608695652174
+5,Lexical Semantics,combined,contradiction,0.8
+6,Lexical Semantics,combined,entailment,0.8506493506493507
+7,Lexical Semantics,combined,neutral,0.2982456140350877
+8,Logic,combined,combined,0.6153846153846154
+9,Logic,combined,contradiction,0.6836734693877551
+10,Logic,combined,entailment,0.7674418604651163
+11,Logic,combined,neutral,0.4233576642335766
+12,Predicate-Argument Structure,combined,combined,0.6933962264150944
+13,Predicate-Argument Structure,combined,contradiction,0.5172413793103449
+14,Predicate-Argument Structure,combined,entailment,0.9043062200956937
+15,Predicate-Argument Structure,combined,neutral,0.47770700636942676
+16,Knowledge,combined,combined,0.6408450704225352
+17,Knowledge,combined,contradiction,0.6222222222222222
+18,Knowledge,combined,entailment,0.7647058823529411
+19,Knowledge,combined,neutral,0.4666666666666667
+20,Logic,Upward monotone,combined,0.7333333333333333
+21,Logic,Upward monotone,contradiction,-1.0
+22,Logic,Upward monotone,entailment,0.9230769230769231
+23,Logic,Upward monotone,neutral,0.5882352941176471
+24,Logic,Downward monotone;Existential;Negation,combined,0.0
+25,Logic,Downward monotone;Existential;Negation,contradiction,-1.0
+26,Logic,Downward monotone;Existential;Negation,entailment,0.0
+27,Logic,Downward monotone;Existential;Negation,neutral,0.0
+28,Knowledge,Common sense,combined,0.6866666666666666
+29,Knowledge,Common sense,contradiction,0.7241379310344828
+30,Knowledge,Common sense,entailment,0.7321428571428571
+31,Knowledge,Common sense,neutral,0.5555555555555556
+32,Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases,combined,1.0
+33,Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases,contradiction,1.0
+34,Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases,entailment,1.0
+35,Predicate-Argument Structure,Anaphora/Coreference;Prepositional phrases,neutral,-1.0
+36,Logic,Conditionals,combined,0.6363636363636364
+37,Logic,Conditionals,contradiction,1.0
+38,Logic,Conditionals,entailment,0.7857142857142857
+39,Logic,Conditionals,neutral,0.16666666666666666
+40,Predicate-Argument Structure,Datives,combined,0.85
+41,Predicate-Argument Structure,Datives,contradiction,1.0
+42,Predicate-Argument Structure,Datives,entailment,1.0
+43,Predicate-Argument Structure,Datives,neutral,0.25
+44,Logic,Conjunction;Negation,combined,0.6666666666666666
+45,Logic,Conjunction;Negation,contradiction,0.5
+46,Logic,Conjunction;Negation,entailment,-1.0
+47,Logic,Conjunction;Negation,neutral,1.0
+48,Logic,Disjunction;Conjunction,combined,0.5
+49,Logic,Disjunction;Conjunction,contradiction,0.0
+50,Logic,Disjunction;Conjunction,entailment,1.0
+51,Logic,Disjunction;Conjunction,neutral,-1.0
+52,Logic,Downward monotone,combined,0.23076923076923078
+53,Logic,Downward monotone,contradiction,-1.0
+54,Logic,Downward monotone,entailment,0.36363636363636365
+55,Logic,Downward monotone,neutral,0.13333333333333333
+56,Predicate-Argument Structure,Ellipsis/Implicits,combined,0.7142857142857143
+57,Predicate-Argument Structure,Ellipsis/Implicits,contradiction,0.4
+58,Predicate-Argument Structure,Ellipsis/Implicits,entailment,1.0
+59,Predicate-Argument Structure,Ellipsis/Implicits,neutral,0.5
+60,Logic,Intervals/Numbers;Non-monotone,combined,1.0
+61,Logic,Intervals/Numbers;Non-monotone,contradiction,1.0
+62,Logic,Intervals/Numbers;Non-monotone,entailment,1.0
+63,Logic,Intervals/Numbers;Non-monotone,neutral,-1.0
+64,Lexical Semantics,Morphological negation,combined,0.9230769230769231
+65,Lexical Semantics,Morphological negation,contradiction,1.0
+66,Lexical Semantics,Morphological negation,entailment,1.0
+67,Lexical Semantics,Morphological negation,neutral,0.0
+68,Predicate-Argument Structure,Genitives/Partitives,combined,0.8888888888888888
+69,Predicate-Argument Structure,Genitives/Partitives,contradiction,1.0
+70,Predicate-Argument Structure,Genitives/Partitives,entailment,1.0
+71,Predicate-Argument Structure,Genitives/Partitives,neutral,0.0
+72,Predicate-Argument Structure,Active/Passive,combined,0.59375
+73,Predicate-Argument Structure,Active/Passive,contradiction,1.0
+74,Predicate-Argument Structure,Active/Passive,entailment,1.0
+75,Predicate-Argument Structure,Active/Passive,neutral,0.1875
+76,Logic,Universal,combined,0.9285714285714286
+77,Logic,Universal,contradiction,1.0
+78,Logic,Universal,entailment,0.8
+79,Logic,Universal,neutral,1.0
+80,Logic,Existential;Upward monotone,combined,1.0
+81,Logic,Existential;Upward monotone,contradiction,-1.0
+82,Logic,Existential;Upward monotone,entailment,1.0
+83,Logic,Existential;Upward monotone,neutral,1.0
+84,Logic,Intervals/Numbers,combined,0.5333333333333333
+85,Logic,Intervals/Numbers,contradiction,0.5714285714285714
+86,Logic,Intervals/Numbers,entailment,0.42857142857142855
+87,Logic,Intervals/Numbers,neutral,0.5555555555555556
+88,Lexical Semantics,Lexical entailment;Factivity,combined,0.5
+89,Lexical Semantics,Lexical entailment;Factivity,contradiction,-1.0
+90,Lexical Semantics,Lexical entailment;Factivity,entailment,1.0
+91,Lexical Semantics,Lexical entailment;Factivity,neutral,0.0
+92,Predicate-Argument Structure,Intersectivity,combined,0.5909090909090909
+93,Predicate-Argument Structure,Intersectivity,contradiction,-1.0
+94,Predicate-Argument Structure,Intersectivity,entailment,0.6842105263157895
+95,Predicate-Argument Structure,Intersectivity,neutral,0.52
+96,Predicate-Argument Structure,Nominalization,combined,0.8461538461538461
+97,Predicate-Argument Structure,Nominalization,contradiction,1.0
+98,Predicate-Argument Structure,Nominalization,entailment,1.0
+99,Predicate-Argument Structure,Nominalization,neutral,0.0
+100,Predicate-Argument Structure,Core args;Anaphora/Coreference,combined,1.0
+101,Predicate-Argument Structure,Core args;Anaphora/Coreference,contradiction,1.0
+102,Predicate-Argument Structure,Core args;Anaphora/Coreference,entailment,1.0
+103,Predicate-Argument Structure,Core args;Anaphora/Coreference,neutral,1.0
+104,Knowledge,World knowledge,combined,0.5895522388059702
+105,Knowledge,World knowledge,contradiction,0.4375
+106,Knowledge,World knowledge,entailment,0.7936507936507936
+107,Knowledge,World knowledge,neutral,0.38461538461538464
+108,Lexical Semantics,Factivity,combined,0.453125
+109,Lexical Semantics,Factivity,contradiction,0.4166666666666667
+110,Lexical Semantics,Factivity,entailment,0.6875
+111,Lexical Semantics,Factivity,neutral,0.3611111111111111
+112,Logic,Negation,combined,0.6111111111111112
+113,Logic,Negation,contradiction,0.7368421052631579
+114,Logic,Negation,entailment,0.6666666666666666
+115,Logic,Negation,neutral,0.23076923076923078
+116,Predicate-Argument Structure,Active/Passive;Prepositional phrases,combined,1.0
+117,Predicate-Argument Structure,Active/Passive;Prepositional phrases,contradiction,-1.0
+118,Predicate-Argument Structure,Active/Passive;Prepositional phrases,entailment,1.0
+119,Predicate-Argument Structure,Active/Passive;Prepositional phrases,neutral,1.0
+120,Lexical Semantics,Factivity;Quantifiers,combined,1.0
+121,Lexical Semantics,Factivity;Quantifiers,contradiction,1.0
+122,Lexical Semantics,Factivity;Quantifiers,entailment,-1.0
+123,Lexical Semantics,Factivity;Quantifiers,neutral,-1.0
+124,Logic,Temporal;Intervals/Numbers,combined,0.5
+125,Logic,Temporal;Intervals/Numbers,contradiction,-1.0
+126,Logic,Temporal;Intervals/Numbers,entailment,-1.0
+127,Logic,Temporal;Intervals/Numbers,neutral,0.5
+128,Logic,Conjunction,combined,0.875
+129,Logic,Conjunction,contradiction,0.0
+130,Logic,Conjunction,entailment,1.0
+131,Logic,Conjunction,neutral,0.9166666666666666
+132,Predicate-Argument Structure,Prepositional phrases,combined,0.8214285714285714
+133,Predicate-Argument Structure,Prepositional phrases,contradiction,-1.0
+134,Predicate-Argument Structure,Prepositional phrases,entailment,0.9285714285714286
+135,Predicate-Argument Structure,Prepositional phrases,neutral,0.7142857142857143
+136,Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference,combined,0.25
+137,Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference,contradiction,0.0
+138,Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference,entailment,0.5
+139,Predicate-Argument Structure,Ellipsis/Implicits;Anaphora/Coreference,neutral,-1.0
+140,Logic,Disjunction;Non-monotone,combined,0.0
+141,Logic,Disjunction;Non-monotone,contradiction,0.0
+142,Logic,Disjunction;Non-monotone,entailment,-1.0
+143,Logic,Disjunction;Non-monotone,neutral,-1.0
+144,Predicate-Argument Structure,Relative clauses;Restrictivity,combined,0.75
+145,Predicate-Argument Structure,Relative clauses;Restrictivity,contradiction,-1.0
+146,Predicate-Argument Structure,Relative clauses;Restrictivity,entailment,1.0
+147,Predicate-Argument Structure,Relative clauses;Restrictivity,neutral,0.5
+148,Logic,Universal;Negation,combined,1.0
+149,Logic,Universal;Negation,contradiction,1.0
+150,Logic,Universal;Negation,entailment,-1.0
+151,Logic,Universal;Negation,neutral,-1.0
+152,Predicate-Argument Structure,Relative clauses;Anaphora/Coreference,combined,1.0
+153,Predicate-Argument Structure,Relative clauses;Anaphora/Coreference,contradiction,-1.0
+154,Predicate-Argument Structure,Relative clauses;Anaphora/Coreference,entailment,1.0
+155,Predicate-Argument Structure,Relative clauses;Anaphora/Coreference,neutral,1.0
+156,Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits,combined,1.0
+157,Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits,contradiction,1.0
+158,Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits,entailment,-1.0
+159,Predicate-Argument Structure,Intersectivity;Ellipsis/Implicits,neutral,-1.0
+160,Predicate-Argument Structure,Anaphora/Coreference,combined,0.5476190476190477
+161,Predicate-Argument Structure,Anaphora/Coreference,contradiction,0.3333333333333333
+162,Predicate-Argument Structure,Anaphora/Coreference,entailment,0.875
+163,Predicate-Argument Structure,Anaphora/Coreference,neutral,0.35
+164,Logic,Existential;Negation,combined,1.0
+165,Logic,Existential;Negation,contradiction,1.0
+166,Logic,Existential;Negation,entailment,-1.0
+167,Logic,Existential;Negation,neutral,-1.0
+168,Lexical Semantics,Redundancy,combined,0.7692307692307693
+169,Lexical Semantics,Redundancy,contradiction,-1.0
+170,Lexical Semantics,Redundancy,entailment,0.8333333333333334
+171,Lexical Semantics,Redundancy,neutral,0.0
+172,Lexical Semantics,Symmetry/Collectivity,combined,0.7142857142857143
+173,Lexical Semantics,Symmetry/Collectivity,contradiction,-1.0
+174,Lexical Semantics,Symmetry/Collectivity,entailment,0.9
+175,Lexical Semantics,Symmetry/Collectivity,neutral,0.25
+176,Logic,Disjunction;Conditionals;Negation,combined,0.5
+177,Logic,Disjunction;Conditionals;Negation,contradiction,-1.0
+178,Logic,Disjunction;Conditionals;Negation,entailment,0.6666666666666666
+179,Logic,Disjunction;Conditionals;Negation,neutral,0.0
+180,Predicate-Argument Structure,Coordination scope;Prepositional phrases,combined,0.6666666666666666
+181,Predicate-Argument Structure,Coordination scope;Prepositional phrases,contradiction,-1.0
+182,Predicate-Argument Structure,Coordination scope;Prepositional phrases,entailment,0.6666666666666666
+183,Predicate-Argument Structure,Coordination scope;Prepositional phrases,neutral,0.6666666666666666
+184,Predicate-Argument Structure,Coordination scope,combined,0.5882352941176471
+185,Predicate-Argument Structure,Coordination scope,contradiction,0.0
+186,Predicate-Argument Structure,Coordination scope,entailment,1.0
+187,Predicate-Argument Structure,Coordination scope,neutral,0.6923076923076923
+188,Logic,Disjunction,combined,0.3181818181818182
+189,Logic,Disjunction,contradiction,1.0
+190,Logic,Disjunction,entailment,0.3333333333333333
+191,Logic,Disjunction,neutral,0.18181818181818182
+192,Logic,Non-monotone,combined,0.45454545454545453
+193,Logic,Non-monotone,contradiction,-1.0
+194,Logic,Non-monotone,entailment,1.0
+195,Logic,Non-monotone,neutral,0.29411764705882354
+196,Logic,Conjunction;Upward monotone,combined,1.0
+197,Logic,Conjunction;Upward monotone,contradiction,-1.0
+198,Logic,Conjunction;Upward monotone,entailment,1.0
+199,Logic,Conjunction;Upward monotone,neutral,1.0
+200,Logic,Universal;Conjunction,combined,0.5
+201,Logic,Universal;Conjunction,contradiction,-1.0
+202,Logic,Universal;Conjunction,entailment,0.5
+203,Logic,Universal;Conjunction,neutral,-1.0
+204,Predicate-Argument Structure,Core args,combined,0.7291666666666666
+205,Predicate-Argument Structure,Core args,contradiction,0.625
+206,Predicate-Argument Structure,Core args,entailment,0.9230769230769231
+207,Predicate-Argument Structure,Core args,neutral,0.42857142857142855
+208,Lexical Semantics,Named entities,combined,0.6388888888888888
+209,Lexical Semantics,Named entities,contradiction,0.5
+210,Lexical Semantics,Named entities,entailment,1.0
+211,Lexical Semantics,Named entities,neutral,0.16666666666666666
+212,Logic,Downward monotone;Conditionals,combined,0.0
+213,Logic,Downward monotone;Conditionals,contradiction,-1.0
+214,Logic,Downward monotone;Conditionals,entailment,0.0
+215,Logic,Downward monotone;Conditionals,neutral,0.0
+216,Logic,Double negation,combined,0.9230769230769231
+217,Logic,Double negation,contradiction,1.0
+218,Logic,Double negation,entailment,1.0
+219,Logic,Double negation,neutral,0.0
+220,Logic,Temporal;Conjunction,combined,0.0
+221,Logic,Temporal;Conjunction,contradiction,0.0
+222,Logic,Temporal;Conjunction,entailment,-1.0
+223,Logic,Temporal;Conjunction,neutral,-1.0
+224,Predicate-Argument Structure,Restrictivity;Anaphora/Coreference,combined,1.0
+225,Predicate-Argument Structure,Restrictivity;Anaphora/Coreference,contradiction,-1.0
+226,Predicate-Argument Structure,Restrictivity;Anaphora/Coreference,entailment,1.0
+227,Predicate-Argument Structure,Restrictivity;Anaphora/Coreference,neutral,-1.0
+228,Predicate-Argument Structure,Restrictivity;Relative clauses,combined,0.0
+229,Predicate-Argument Structure,Restrictivity;Relative clauses,contradiction,-1.0
+230,Predicate-Argument Structure,Restrictivity;Relative clauses,entailment,0.0
+231,Predicate-Argument Structure,Restrictivity;Relative clauses,neutral,0.0
+232,Predicate-Argument Structure,Restrictivity,combined,0.5
+233,Predicate-Argument Structure,Restrictivity,contradiction,-1.0
+234,Predicate-Argument Structure,Restrictivity,entailment,0.6666666666666666
+235,Predicate-Argument Structure,Restrictivity,neutral,0.16666666666666666
+236,Logic,Temporal,combined,0.5714285714285714
+237,Logic,Temporal,contradiction,0.375
+238,Logic,Temporal,entailment,0.9090909090909091
+239,Logic,Temporal,neutral,0.3333333333333333
+240,Lexical Semantics,Quantifiers,combined,0.782608695652174
+241,Lexical Semantics,Quantifiers,contradiction,0.875
+242,Lexical Semantics,Quantifiers,entailment,0.8461538461538461
+243,Lexical Semantics,Quantifiers,neutral,0.6470588235294118
+244,Lexical Semantics,Lexical entailment;Quantifiers,combined,1.0
+245,Lexical Semantics,Lexical entailment;Quantifiers,contradiction,1.0
+246,Lexical Semantics,Lexical entailment;Quantifiers,entailment,1.0
+247,Lexical Semantics,Lexical entailment;Quantifiers,neutral,1.0
+248,Logic,Double negation;Negation,combined,1.0
+249,Logic,Double negation;Negation,contradiction,1.0
+250,Logic,Double negation;Negation,entailment,-1.0
+251,Logic,Double negation;Negation,neutral,-1.0
+252,Logic,Existential,combined,0.6428571428571429
+253,Logic,Existential,contradiction,1.0
+254,Logic,Existential,entailment,0.8
+255,Logic,Existential,neutral,0.42857142857142855
+256,Predicate-Argument Structure,Nominalization;Genitives/Partitives,combined,1.0
+257,Predicate-Argument Structure,Nominalization;Genitives/Partitives,contradiction,-1.0
+258,Predicate-Argument Structure,Nominalization;Genitives/Partitives,entailment,1.0
+259,Predicate-Argument Structure,Nominalization;Genitives/Partitives,neutral,-1.0
+260,Logic,Negation;Conditionals,combined,1.0
+261,Logic,Negation;Conditionals,contradiction,1.0
+262,Logic,Negation;Conditionals,entailment,-1.0
+263,Logic,Negation;Conditionals,neutral,-1.0
+264,Predicate-Argument Structure,Relative clauses,combined,0.625
+265,Predicate-Argument Structure,Relative clauses,contradiction,0.25
+266,Predicate-Argument Structure,Relative clauses,entailment,0.875
+267,Predicate-Argument Structure,Relative clauses,neutral,0.5833333333333334
+268,Logic,Disjunction;Negation,combined,0.5
+269,Logic,Disjunction;Negation,contradiction,-1.0
+270,Logic,Disjunction;Negation,entailment,0.0
+271,Logic,Disjunction;Negation,neutral,0.6
+272,Lexical Semantics,Lexical entailment,combined,0.6417910447761194
+273,Lexical Semantics,Lexical entailment,contradiction,0.8461538461538461
+274,Lexical Semantics,Lexical entailment,entailment,0.7872340425531915
+275,Lexical Semantics,Lexical entailment,neutral,0.14285714285714285
