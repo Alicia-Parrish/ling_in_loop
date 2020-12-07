@@ -4,17 +4,24 @@ import os
 from shutil import copyfile
 
 
-def move_single_pred(source_dir, target_dir, post=None, fname='val_preds.p'):
+def move_single_pred(source_dir, target_dir, post=None, fname='val_preds.p', source_post=None, target_post=None):
+    source_name, target_name = source_dir, target_dir
 
-    if post is None:
-        source_post, target_post = source_dir, target_dir
-    else:
-        source_post = os.path.join(source_dir, post)
-        target_post = os.path.join(target_dir, post)
+    if not post is None:
+        source_name = os.path.join(source_dir, post)
+        target_name = os.path.join(target_dir, post)
 
-    copyfile(os.path.join(source_post, fname), os.path.join(target_post, fname))
+    if not source_post is None:
+        source_name = os.path.join(source_dir, source_post)
 
-def move_best(args, iteration_only=-1, post=None, return_preds=False):
+    if not target_post is None:
+        target_name = os.path.join(target_dir, target_post)
+
+
+    os.makedirs(target_name, exist_ok=True)
+    copyfile(os.path.join(source_name, fname), os.path.join(target_name, fname))
+
+def move_best(args, iteration_only=-1, post=None, return_preds=False, sample=False):
     treat2dir = {
         'baseline': '1_Baseline_protocol',
         'LotS': '2_Ling_on_side_protocol',
@@ -41,10 +48,8 @@ def move_best(args, iteration_only=-1, post=None, return_preds=False):
         treat = run_list[0]
         iteration = run_list[1]
 
-        if iteration_only > 0 and iteration != iteration_only:
+        if iteration_only > 0 and int(iteration) != iteration_only:
             continue
-
-        run_names.append(row['run'])
 
         if len(run_list) == 2:
             comb = 'combined'
@@ -65,14 +70,18 @@ def move_best(args, iteration_only=-1, post=None, return_preds=False):
             raise KeyError(f'Run list has length {len(run_list)}')
 
         target_dir = os.path.join(pred_dir, treat2dir[treat], f'r{iteration}', comb, input_type)
-
         check_dir = os.path.join(target_dir, post) if not post is None else target_dir
-        if os.path.exists(check_dir):
+
+        print(os.path.join(check_dir, 'val_preds.p'))
+        if os.path.exists(os.path.join(check_dir, 'val_preds.p')):
             continue
 
         os.makedirs(target_dir, exist_ok=True)
-        source_dir = os.path.join(exp_dir, row['run'], row['hyperparams'])
-        move_single_pred(source_dir, target_dir, post=post)
+        if sample:
+            source_dir = os.path.join(exp_dir, row['run'], post, row['hyperparams'])
+        else:
+            source_dir = os.path.join(exp_dir, row['run'], row['hyperparams'])
+        move_single_pred(source_dir, target_dir, target_post=post)
         target_dirs.append(target_dir)
 
         # for iterative evals
@@ -82,7 +91,9 @@ def move_best(args, iteration_only=-1, post=None, return_preds=False):
             source_dir = os.path.join(exp_dir, 'iterative_evals', row['run'])
             move_single_pred(source_dir, target_dir, post=post)
             target_dirs.append(target_dir)
+
             itereval_dirs.append(target_dir)
+            run_names.append(row['run'])
 
     print(f'Complete\nCopied {len(target_dirs)} files')
     print('='*90)

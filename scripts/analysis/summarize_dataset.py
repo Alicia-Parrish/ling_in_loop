@@ -27,7 +27,7 @@ def move_preds(current_base, target_base, fname, treat2dir, iteration_only=-1, p
     for run_name in current_subdirs:
         treat, iteration, comb = split_run_name(run_name)
 
-        if iteration_only > 0 and iteration != iteration_only:
+        if iteration_only > 0 and int(iteration) != iteration_only:
             continue
 
         target_dir = os.path.join(
@@ -40,7 +40,7 @@ def move_preds(current_base, target_base, fname, treat2dir, iteration_only=-1, p
         target_dirs.append({'name': run_name, 'target_dir': target_dir})
 
         check_dir = os.path.join(target_dir, post) if not post is None else target_dir
-        if os.path.exists(check_dir):
+        if os.path.exists(os.path.join(check_dir, fname)):
             continue
 
         os.makedirs(target_dir, exist_ok=True)

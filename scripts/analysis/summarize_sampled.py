@@ -1,12 +1,15 @@
 import argparse
 import os
 import re
+import json
 
 import pandas as pd
 import numpy as np
 from move_best_preds import move_best as val_and_itereval_move
 from summarize_evals import summarize_itereval
-from summarize_dataset import move_preds, summarize_preds_and_tables, split_run_name as mnli_move, mnli_summarize, split_run_name
+from summarize_dataset import move_preds as mnli_move
+from summarize_dataset import summarize_preds_and_tables as mnli_summarize
+from summarize_dataset import split_run_name
 
 '''
 move_best(args, iteration_only=-1, post=None, return_preds=False)
@@ -42,80 +45,116 @@ def summarize_sampled(args):
     if args.target_base == '':
         args.target_base = os.path.join(repo, 'predictions', args.model, f'{args.dataset_name}_evals')
 
-    iterevals = []
-    mnli_evals = []
-    for partition in args.partitions.split(','):
-        post = f'{os.path.join(args.sample_name, partition)}'
+    pred_dir = os.path.join(repo, 'predictions', args.model)
+    if args.best_runs == '':
+        best_configs_fname = os.path.join(pred_dir, 'best_configs', 'best_configs.csv')
+    else:
+        best_configs_fname = args.best_runs
 
-        # Move all val and itereval preds for given round and partition
-        _, itereval_dirs, itereval_names = val_and_itereval_move(
-            args,
-            iteration_only=args.round,
-            post=post,
-            return_preds=True
-        )
+    best_configs = pd.read_csv(best_configs_fname, index_col=False, names=['run', 'hyperparams', 'acc'])
 
-        assert len(itereval_dirs) == len(itereval_names)
+    collected_evals = []
+    for idx, row in best_configs.iterrows():
+        treat, iteration, comb = split_run_name(row['run'])
+        if int(iteration) != args.round:
+            continue
 
-        # Get summary tables for moved iterevals
-        itereval_accs = []
-        for itereval_dir, itereval_name in zip(itereval_dirs, itereval_names):
-            itereval_acc_dict = summarize_itereval(
+        best_base = os.path.join(repo, 'experiments', args.model, row['run'], args.sample_name)
+        for partition in args.partitions.split(','):
+
+            single_acc = {
+                'run': row['run'],
+                'hyperparams': row['hyperparams'],
+                'sample_type': args.sample_name,
+                'sample_partition': partition,
+            }
+            best_dir = os.path.join(best_base, partition, row['hyperparams'])
+            with open(os.path.join(best_dir, args.metrics_fname), 'r') as f:
+                single_acc['acc'] = json.load(f)[args.metrics_key]
+            collected_evals.append(single_acc)
+
+    if not args.no_heldout:
+        iterevals = []
+        mnli_evals = []
+        for partition in args.partitions.split(','):
+            post = f'{os.path.join(args.sample_name, partition)}'
+
+            # Move all val and itereval preds for given round and partition
+            _, itereval_dirs, itereval_names = val_and_itereval_move(
                 args,
-                data=args.itereval_data,
-                preds=os.path.join(itereval_dir, post, args.fname),
-                with_return=True
+                iteration_only=args.round,
+                post=post,
+                return_preds=True,
+                sample=True,
             )
-            treat, iteration, comb = split_run_name(itereval_name)
 
-            accs_list = []
-            for dataset, itereval_acc in itereval_acc_dict.items():
-                itereval_acc['dataset'] = dataset
-                itereval_acc['treat'] = treat
-                itereval_acc['iter'] = iteration
-                itereval_acc['comb'] = comb
-                itereval_acc['sample_type'] = args.sample_name
-                itereval_acc['sample_partition'] = partition
-                accs_list.append(itereval_acc)
+            assert len(itereval_dirs) == len(itereval_names), f'Names: {itereval_names}\nDirs: {itereval_dirs}'
 
-            itereval_accs.append(pd.concat(accs_list, ignore_index=True))
-        iterevals.append(pd.concat(itereval_accs, ignore_index=True))
+            # Get summary tables for moved iterevals
+            itereval_accs = []
+            for itereval_dir, itereval_name in zip(itereval_dirs, itereval_names):
+                itereval_acc_dict = summarize_itereval(
+                    args,
+                    data=args.itereval_data,
+                    preds=os.path.join(itereval_dir, post, args.fname),
+                    out_dir=os.path.join(itereval_dir, post),
+                    with_return=True,
+                )
+                treat, iteration, comb = split_run_name(itereval_name)
+
+                accs_list = []
+                for dataset, itereval_acc in itereval_acc_dict.items():
+                    itereval_acc['dataset'] = dataset
+                    itereval_acc['treat'] = treat
+                    itereval_acc['iter'] = iteration
+                    itereval_acc['comb'] = comb
+                    itereval_acc['sample_type'] = args.sample_name
+                    itereval_acc['sample_partition'] = partition
+                    accs_list.append(itereval_acc)
+
+                itereval_accs.append(pd.concat(accs_list, ignore_index=True))
+            iterevals.append(pd.concat(itereval_accs, ignore_index=True))
 
 
-        # Move all mnli predictions for given round and partition
-        mnli_pred_dicts = mnli_move(
-            args.experiment_base, args.target_base, args.fname,
-            treat2dir,
-            iteration_only=args.round,
-            post=post,
-        )
+            # Move all mnli predictions for given round and partition
+            mnli_pred_dicts = mnli_move(
+                args.experiment_base, args.target_base, args.fname,
+                treat2dir,
+                iteration_only=args.round,
+                post=post,
+            )
 
-        # Get mnli summaries for each run
-        mnli_summaries = mnli_summarize(
-            mnli_pred_dicts,
-            args.dataset_data,
-            args.fname,
-            args.breakdown,
-            post=post,
-        )
+            # Get mnli summaries for each run
+            mnli_summaries = mnli_summarize(
+                mnli_pred_dicts,
+                args.dataset_data,
+                args.fname,
+                args.breakdown,
+                post=post,
+            )
 
-        mnli_summaries_df = pd.DataFrame(mnli_summaries)
-        mnli_summaries_df['sample_type'] = args.sample_name
-        mnli_summaries_df['sample_partition'] = partition
-        mnli_evals.append(mnli_summaries_df)
+            mnli_summaries_df = pd.DataFrame(mnli_summaries)
+            mnli_summaries_df['sample_type'] = args.sample_name
+            mnli_summaries_df['sample_partition'] = partition
+            mnli_evals.append(mnli_summaries_df)
 
     if args.sample_out == '':
         args.sample_out = os.path.join(repo, 'eval_summary', args.model, 'sample', args.sample_name)
     os.makedirs(args.sample_out, exist_ok=True)
 
-    itereval_out = os.path.join(args.sample_out, 'itereval.csv')
-    mnli_out = os.path.join(args.sample_out, 'mnli.csv')
+    collected_out = os.path.join(args.sample_out, 'collected.csv')
+    pd.DataFrame(collected_evals).to_csv(collected_out)
+    print(f'Write out collected_out to\n{collected_out}')
 
-    pd.concat(iterevals, ignore_index=True).to_csv(itereval_out)
-    print(f'Write out itereval to\n{itereval_out}')
-    pd.concat(mnli_evals, ignore_index=True).to_csv(mnli_out)
-    print(f'Write out mnlieval to\n{mnlieval_out}')
-    print('='*90+'Complete'+'='*90)
+    if not args.no_heldout:
+        itereval_out = os.path.join(args.sample_out, 'itereval.csv')
+        mnli_out = os.path.join(args.sample_out, 'mnli.csv')
+
+        pd.concat(iterevals, ignore_index=True).to_csv(itereval_out)
+        print(f'Write out itereval to\n{itereval_out}')
+        pd.concat(mnli_evals, ignore_index=True).to_csv(mnli_out)
+        print(f'Write out mnlieval to\n{mnli_out}')
+        print('='*90+'Complete'+'='*90)
 
 
 if __name__ == '__main__':
@@ -131,6 +170,7 @@ if __name__ == '__main__':
     parser.add_argument('--sample_name', default='cross_eval')
     parser.add_argument('--partitions', default='0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0')
     parser.add_argument('--sample_out', default='')
+    parser.add_argument('--no_heldout', action='store_true')
 
     # Optional arguments
     parser.add_argument('--dataset_name', default='mnli')
@@ -147,4 +187,10 @@ if __name__ == '__main__':
     parser.add_argument('--fname', default='val_preds.p')
     parser.add_argument('--breakdown', default='')
 
+    # For collected data
+    parser.add_argument('--metrics_fname', help='file name of metrics', default='val_metrics.json')
+    parser.add_argument('--metrics_key', help='key to get metric', default='aggregated')
+
     args = parser.parse_args()
+
+    summarize_sampled(args)

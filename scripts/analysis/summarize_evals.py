@@ -22,12 +22,15 @@ def load_data_preds(args):
     return ex, preds_list
 
 
-def summarize_itereval(args, data=None, preds=None, with_return=False):
+def summarize_itereval(args, data=None, preds=None, out_dir=None, with_return=False):
     if not data is None:
         args.data = data
 
     if not preds is None:
         args.preds = preds
+
+    if not out_dir is None:
+        args.out_dir = out_dir
 
     exs, preds = load_data_preds(args)
 
@@ -237,7 +240,7 @@ def summarize_itereval(args, data=None, preds=None, with_return=False):
             )
         )
 
-        accs_dict.append(pd.DataFrame(accs))
+        accs_dict[dataset] = pd.DataFrame(accs)
 
     if with_return:
         return accs_dict
