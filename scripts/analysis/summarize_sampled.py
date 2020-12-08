@@ -139,7 +139,7 @@ def summarize_sampled(args):
             mnli_evals.append(mnli_summaries_df)
 
     if args.sample_out == '':
-        args.sample_out = os.path.join(repo, 'eval_summary', args.model, 'sample', args.sample_name)
+        args.sample_out = os.path.join(repo, 'eval_summary', args.model, 'sample', args.sample_name, f'r{args.round}')
     os.makedirs(args.sample_out, exist_ok=True)
 
     collected_out = os.path.join(args.sample_out, 'collected.csv')
