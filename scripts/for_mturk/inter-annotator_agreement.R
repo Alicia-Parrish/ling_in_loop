@@ -54,28 +54,32 @@ bt1 <- boot(dat1, function(x, idx) {kappam.fleiss(x[idx,])$value}, R=5000)
 ci1<-boot.ci(bt1)
 ci1_hi<-as.list(strsplit(as.character(unlist(ci1[4])), '\\s+')[[2]])
 ci1_lo<-as.list(strsplit(as.character(unlist(ci1[4])), '\\s+')[[3]])
-p1<-hist(bt1$t, freq = FALSE, breaks = 100)
+p1<-hist(bt1$t, freq = FALSE, breaks = 150)
 
 bt2 <- boot(dat2, function(x, idx) {kappam.fleiss(x[idx,])$value}, R=5000)
 ci2<-boot.ci(bt2)
 ci2_hi<-as.list(strsplit(as.character(unlist(ci2[4])), '\\s+')[[2]])
 ci2_lo<-as.list(strsplit(as.character(unlist(ci2[4])), '\\s+')[[3]])
-p2<-hist(bt2$t, freq = FALSE, breaks = 100)
+p2<-hist(bt2$t, freq = FALSE, breaks = 150)
 
 bt3 <- boot(dat3, function(x, idx) {kappam.fleiss(x[idx,])$value}, R=5000)
 ci3<-boot.ci(bt3)
 ci3_hi<-as.list(strsplit(as.character(unlist(ci3[4])), '\\s+')[[2]])
 ci3_lo<-as.list(strsplit(as.character(unlist(ci3[4])), '\\s+')[[3]])
-p3<-hist(bt3$t, freq = FALSE, breaks = 100)
+p3<-hist(bt3$t, freq = FALSE, breaks = 150)
 
 par(mfrow = c(3, 1))
 cols<-brewer.pal(12, "Set3")
 
-plt1<-plot(p1, col = cols[1], xlim = c(0.61, .73), ylim = c(0,150),main="Baseline", xlab="kappa", ylab="count")
+base_col = brewer.pal(9,"Greys")[3]
+LotS_col = brewer.pal(9,"Purples")[5]
+LitL_col = brewer.pal(9,"Greens")[4]
+
+plt1<-plot(p1, col = base_col, xlim = c(0.61, .73), ylim = c(0,150),main="Baseline", xlab="kappa", ylab="count")
 abline(v = c(ci1_lo,ci1_hi,as.character(bt1[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
-plt2<-plot(p2, col = cols[4], xlim = c(0.61, .73), ylim = c(0,150),main="Linguist on the side", xlab="kappa", ylab="count")
+plt2<-plot(p2, col = LotS_col, xlim = c(0.61, .73), ylim = c(0,150),main="Linguist on the side", xlab="kappa", ylab="count")
 abline(v = c(ci2_lo,ci2_hi,as.character(bt2[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
-plt3<-plot(p3, col = cols[8], xlim = c(0.61, .73), ylim = c(0,150),main="Linguist in the loop", xlab="kappa", ylab="count")
+plt3<-plot(p3, col = LitL_col, xlim = c(0.61, .73), ylim = c(0,150),main="Linguist in the loop", xlab="kappa", ylab="count")
 abline(v = c(ci3_lo,ci3_hi,as.character(bt3[1])), col=c("red","red","blue"), lwd=c(3,3,5), lty=c(2,2,1))
 
 par(mfrow = c(1, 1))
@@ -84,6 +88,9 @@ par(mfrow = c(1, 1))
 #save(boots, file="Rdata/boots_combined.RData")
 
 #load("Rdata/boots_combined.RData")
+bt1 = boots[[1]]
+bt2 = boots[[2]]
+bt3 = boots[[3]]
 
 ############### BY HEURISTIC RESULTS #################
 n_heuristics = 4

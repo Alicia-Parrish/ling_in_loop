@@ -78,3 +78,20 @@ ggsave("figures/pmis_round5_byRound_noText.png", plot=plt3, width = 6, height = 
     facet_wrap(~group))
 
 ggsave("figures/pmis_round5_combined_noText.png", plot=plt4, width = 8.5, height = 4.5)
+
+all_data$label = factor(all_data$label, levels = c("entailment","contradiction","neutral"))
+all_data$group = factor(all_data$group, levels = c("Baseline","Ling_on_side","Ling_in_loop"))
+
+base_col = brewer.pal(9,"Greys")[5]
+LotS_col = brewer.pal(9,"Purples")[5]
+LitL_col = brewer.pal(9,"Greens")[4]
+
+(plt5<-ggplot(data=combined_data,aes(x=group,y=pmi,col=group))+
+    geom_point(position=position_jitter(width=0.32,height=0),alpha=0.5)+
+    geom_boxplot(alpha=0)+
+    ggtitle("Final PMI changes")+
+    scale_color_manual(values = c(cols[9],cols[4],cols[3]))+
+    theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))+
+    facet_wrap(~label))
+
+ggsave("figures/CorpusStats/pmis_round5_facetLabel.png", plot=plt5, width = 6, height = 5)

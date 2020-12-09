@@ -99,3 +99,10 @@ final_bonuses <- bonus_with_ass_ids %>%
   filter(final_bonus!=0,!is.na(final_bonus))
 
 write.csv(final_bonuses,"../../SECRET/ling_in_loop_SECRET/final_bonus_allRoundsCompleted.csv")
+
+##########################
+all_dat_transformed <-all_dat %>%
+  group_by(AnonId,group,round)%>%
+  summarise(sums = sum(count))%>%
+  group_by(group,round)%>%
+  summarise(count=n())

@@ -90,6 +90,33 @@ ggsave(paste0("figures/CorpusStats/OverlapRate",round,"_byRound.png"), plot=plt2
     theme(plot.title = element_text(hjust = 0.5))
 )
 
+base_col = brewer.pal(9,"Greys")[5]
+LotS_col = brewer.pal(9,"Purples")[5]
+LitL_col = brewer.pal(9,"Greens")[4]
+
+(plt3_flip = ggplot(all_data,aes(x=X0,col=group))+
+    scale_color_manual(values = c(cols[9],cols[4],cols[3]))+
+    geom_freqpoly(binwidth = 0.1,size=1.2)+
+    #scale_y_continuous(trans = 'log10')+
+    facet_grid(~label)+
+    xlab("overlap rate")+
+    ggtitle("Overlap rates in each protocol")+
+    theme(plot.title = element_text(hjust = 0.5))
+)
+
+ggsave(paste0("figures/CorpusStats/OverlapRateCombined_linePlot.png"), plot=plt3_flip, width = 6, height = 4)
+
+(plt_flip_4 = ggplot(all_data,aes(x=X0,col=label))+
+    geom_freqpoly(binwidth = 0.1,size=1.2)+
+    scale_color_manual(values=c(cols[2],cols[5],cols[3]))+
+    facet_grid(~group)+
+    xlab("overlap rate")+
+    ggtitle("Overlap rates in each protocol - all rounds combined")+
+    theme(plot.title = element_text(hjust = 0.5))
+)
+
+ggsave(paste0("figures/CorpusStats/OverlapRateCombined_linePlot2.png"), plot=plt_flip_4, width = 6, height = 4)
+
 ################################
 # calculate bias scores
 
