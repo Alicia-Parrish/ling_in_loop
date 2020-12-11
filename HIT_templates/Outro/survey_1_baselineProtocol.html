@@ -1,0 +1,139 @@
+
+
+<style type="text/css">
+	label, input[type=radio], input[type=button] { cursor: pointer; }
+	.blue { color: blue; }
+	.red { color: red; }
+	.trial { padding: 15px 10px; }
+	.trial p, .trial table { padding-left: 20px; margin: 3px; }
+	.trial table { width: 400px; }
+	.trial tr td { text-align: center; }
+	.trial_number { font-size:1.2em; font-weight: bold; }
+	.tab { margin-left: 40px; }
+	td{padding:0 15px; }
+	
+	
+</style>
+	
+	<h2>Introduction:</h2>
+	
+	<p>
+		We are looking for feedback about a recent series of HITs that you completed. 
+		We are asking about the recent HITs series that we released between the weeks of 10/26 and 11/23.
+		In these HITs, you were asked to provide three sentences that were (i) definitely correct, (ii) maybe correct, and (iii) definitely incorrect.
+	</p>
+	<p>
+		Your answers do not affect your elibility on any future HITs that we release.
+		If you do not feel comfortable answering a certain question, you can leave it blank.
+	</p>
+	
+	<br />
+	
+	<hr noshade="noshade" />
+	
+	<table class="trial"><tbody>
+		<p><strong>1. </strong>How does this study compare to recent Mechanical Turk studies you have participated in?</p>       
+	
+		<tr>
+			<td><label for="less_enjoyable">Less enjoyable</label></td>
+			<td><label for="about_the_same">About the same</label></td>
+			<td><label for="more_enjoyable">More enjoyable</label></td>
+		</tr>
+		<tr>
+			<td><input type="radio" id="less_enjoyable" name="enjoyableness" value="less_enjoyable" /></td>
+			<td><input type="radio" id="about_the_same" name="enjoyableness" value="about_the_same" /></td>
+			<td><input type="radio" id="more_enjoyable" name="enjoyableness" value="more_enjoyable" /></td>
+		</tr>
+	</tbody></table>
+	
+	<table class="trial"><tbody>
+		<p><strong>2. </strong>How useful was the FAQ document for completing the tasks? (1 = not at all useful. 5 = very useful.)</p>       
+	
+		<tr>
+			<td><label for="usefulFAQ_1">1</label></td>
+			<td><label for="usefulFAQ_2">2</label></td>
+			<td><label for="usefulFAQ_3">3</label></td>
+			<td><label for="usefulFAQ_4">4</label></td>
+			<td><label for="usefulFAQ_5">5</label></td>
+			<td><label for="usefulFAQ_NA">NA. I did not use the FAQ document</label></td>
+		</tr>
+		<tr>
+			<td><input type="radio" id="usefulFAQ_1" name="usefulnessFAQ" value="1" /></td>
+			<td><input type="radio" id="usefulFAQ_2" name="usefulnessFAQ" value="2" /></td>
+			<td><input type="radio" id="usefulFAQ_3" name="usefulnessFAQ" value="3" /></td>
+			<td><input type="radio" id="usefulFAQ_4" name="usefulnessFAQ" value="4" /></td>
+			<td><input type="radio" id="usefulFAQ_5" name="usefulnessFAQ" value="5" /></td>
+			<td><input type="radio" id="usefulFAQ_6" name="usefulnessFAQ" value="NA" /></td>
+		</tr>
+	</tbody></table>
+	
+	<table class="trial"><tbody>
+		<p><strong>3. </strong>How would you rate the level of difficulty of the writing task (1 = too easy. 3 = just right. 5 = too difficult.)</p>       
+	
+		<tr>
+			<td><label for="writingDifficulty_1">1</label></td>
+			<td><label for="writingDifficulty_2">2</label></td>
+			<td><label for="writingDifficulty_3">3</label></td>
+			<td><label for="writingDifficulty_4">4</label></td>
+			<td><label for="writingDifficulty_5">5</label></td>
+		</tr>
+		<tr>
+			<td><input type="radio" id="writingDifficulty_1" name="writingDifficulty" value="1" /></td>
+			<td><input type="radio" id="writingDifficulty_2" name="writingDifficulty" value="2" /></td>
+			<td><input type="radio" id="writingDifficulty_3" name="writingDifficulty" value="3" /></td>
+			<td><input type="radio" id="writingDifficulty_4" name="writingDifficulty" value="4" /></td>
+			<td><input type="radio" id="writingDifficulty_5" name="writingDifficulty" value="5" /></td>
+		</tr>
+	</tbody></table>
+	
+	<table class="trial"><tbody>
+		<p><strong>4. </strong>How would you rate the level of difficulty of the validation task (1 = too easy. 3 = just right. 5 = too difficult.)</p>       
+	
+		<tr>
+			<td><label for="valDifficulty_1">1</label></td>
+			<td><label for="valDifficulty_2">2</label></td>
+			<td><label for="valDifficulty_3">3</label></td>
+			<td><label for="valDifficulty_4">4</label></td>
+			<td><label for="valDifficulty_5">5</label></td>
+		</tr>
+		<tr>
+			<td><input type="radio" id="valDifficulty_1" name="valDifficulty" value="1" /></td>
+			<td><input type="radio" id="valDifficulty_2" name="valDifficulty" value="2" /></td>
+			<td><input type="radio" id="valDifficulty_3" name="valDifficulty" value="3" /></td>
+			<td><input type="radio" id="valDifficulty_4" name="valDifficulty" value="4" /></td>
+			<td><input type="radio" id="valDifficulty_5" name="valDifficulty" value="5" /></td>
+		</tr>
+	</tbody></table>
+	
+	<br />
+	<div>
+		<p><strong>5. </strong>Do you have any suggestions or feedback for us, in case we were to run a similar study? </p>
+		<input type="text" id="feedback" name="feedback" size="100" /></span>
+	</div>
+	
+	<br />
+	<div>
+		<p><strong>6. </strong>In your own words, what did you think the goal or point of the task was as you were doing it? </p>
+		<input type="text" id="point" name="point" size="100" /></span>
+	</div>
+	
+	<br />
+	<hr noshade="noshade" />
+	
+	<p>Thank you for the feedback!</p>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type='text/javascript'>
+
+        $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+            }
+        });
+        });
+	</script>
+	
+	
+	
