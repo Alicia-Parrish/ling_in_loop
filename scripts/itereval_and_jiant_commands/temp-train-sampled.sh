@@ -1,0 +1,8 @@
+sh roberta-large_train_sampled_cross_eval_2_run.sh
+sh roberta-large_train_sampled_cross_eval_3_run.sh
+sh roberta-large_train_sampled_cross_eval_4_run.sh
+
+sh roberta-large-mnli_train_sampled_cross_eval_1_run.sh
+sh roberta-large-mnli_train_sampled_cross_eval_2_run.sh
+sh roberta-large-mnli_train_sampled_cross_eval_3_run.sh
+sh roberta-large-mnli_train_sampled_cross_eval_4_run.sh
