@@ -39,7 +39,7 @@ do
 			# Generate run configs
 			${BASE_DIR}/env/bin/python ${BASE_DIR}/jiant/jiant/proj/main/scripts/configurator.py \
 			    SimpleAPIMultiTaskConfigurator ${RUN_CONFIG} \
-			    --task_config_base_path ${DATA_DIR}/configs \
+			    --task_config_base_path ${DATA_DIR}/raw_data/${TASK_NAME}/configs \
 			    --task_cache_base_path ${CACHE_DIR}/${MODEL_TYPE} \
 			    --train_task_name_list ${TASK_NAME} \
 			    --val_task_name_list ${TASK_NAME} \
@@ -47,7 +47,7 @@ do
 			    --eval_batch_multiplier ${EVAL_BATCH_MULT} \
 			    --epochs ${EPOCHS}
 
-			sbatch --export=MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE,VAL_INTERVAL=$VAL_INTERVAL,LR=$LR,$NO_IMP=NO_IMP ${SCRIPT_DIR}/litl.sbatch
+			sbatch --export=MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE,VAL_INTERVAL=$VAL_INTERVAL,LR=$LR,NO_IMP=$NO_IMP ${SCRIPT_DIR}/litl.sbatch
 
 		done
 	done
