@@ -1,6 +1,6 @@
 TASK=mnli
 MODEL=roberta-large
-SIZE=550152
+SIZE=392702
 
 sh download-data.sh ${TASK}
 sh tokenization-and-cache.sh ${TASK} ${MODEL}

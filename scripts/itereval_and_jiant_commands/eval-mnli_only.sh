@@ -10,10 +10,10 @@ RUN_CONFIG_DIR=${BASE_DIR}/run_configs
 
 export PYTHONPATH=${BASE_DIR}/jiant:$PYTHONPATH
 
-# tasks=( 'baseline_5' 'LitL_5' 'LotS_5' 'eval_baseline_1' 'anlieval_baseline_1' 'mnlieval_baseline_1' )
-tasks=( 'mnlieval_baseline_1' )
+tasks=( 'baseline_5' 'LitL_5' 'LotS_5' 'eval_baseline_1' 'anlieval_baseline_1' 'mnlieval_baseline_1' )
+# tasks=( 'mnlieval_baseline_1' )
 
-MODEL_PATH=${MODELS_DIR}/roberta-large-mnli_only-custom/best_model.p
+MODEL_PATH=${MODELS_DIR}/roberta-large-mnli_only-custom/0.00001_32/best_model.p
 
 MODEL_TYPE=roberta-large-mnli
 EVAL_BATCH_MULT=2
