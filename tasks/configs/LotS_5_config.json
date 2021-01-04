@@ -1,8 +1,8 @@
 {
   "task": "mnli",
   "paths": {
-    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_5/val_round5_LotS_combined.jsonl",
-    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_5/train_round5_LotS_combined.jsonl"
+    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_5/train_round5_LotS_combined.jsonl",
+    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_5/val_round5_LotS_combined.jsonl"
   },
   "name": "mnli"
 }

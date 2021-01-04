@@ -1,0 +1,8 @@
+{
+  "task": "mnli",
+  "paths": {
+    "train": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/LotS_2/cross_eval/0.9/train_round2_LotS_combined.jsonl",
+    "val": "/scratch/wh629/research/litl/ling_in_loop/tasks/data/anli_combined/val_anli.jsonl"
+  },
+  "name": "mnli"
+}
