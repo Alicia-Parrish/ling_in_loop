@@ -58,5 +58,6 @@ for(i in 1:nrow(all_qs)){
           axis.text = element_text(size=6),
           axis.title = element_text(size=8))+
     facet_wrap(~group)
+  if(all_qs$Question[i]=="enjoyableness"){plt=plt+theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))}
   ggsave(paste0("figures/SurveyResults/",all_qs$Question[i],".png"),plot=plt,width=3.5,height=3)
 }
