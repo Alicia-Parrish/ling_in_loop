@@ -130,6 +130,7 @@ dmypy.json
 # Results folders
 stats/*
 eval_summary/*/plots
+eval_summary/plot_data
 
 # R data
 scripts/.RData
