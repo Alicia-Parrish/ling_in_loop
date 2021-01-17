@@ -107,9 +107,11 @@ for(i in 1:nrow(LotS_val)){
   LotS_val_2$group[i] = LotS_val$group[i]
   if(length(LotS_val$heuristic_labels[i]) > 0){
     LotS_val_2$heuristic_labels[i] = unlist(LotS_val$heuristic_labels[i])[1]
+    LotS_val_2$heuristic[i] = LotS_val$heuristic[i]
   }
   else{
     LotS_val_2$heuristic_labels[i] = NA
+    LotS_val_2$heuristic[i] = NA
   }
 }
 
@@ -120,6 +122,7 @@ for(i in 1:nrow(LotS_train)){
   LotS_train_2$round[i] = LotS_train$round[i]
   LotS_train_2$group[i] = LotS_train$group[i]
   LotS_train_2$heuristic_labels[i] = LotS_train$heuristic_checked[i]
+  LotS_train_2$heuristic[i] = LotS_train$heuristic[i]
 }
 
 LotS = rbind(LotS_train_2,LotS_val_2)
@@ -135,9 +138,11 @@ for(i in 1:nrow(LitL_val)){
   LitL_val_2$group[i] = LitL_val$group[i]
   if(length(LitL_val$heuristic_labels[i]) > 0){
     LitL_val_2$heuristic_labels[i] = unlist(LitL_val$heuristic_labels[i])[1]
+    LitL_val_2$heuristic[i] = LitL_val$heuristic[i]
   }
   else{
     LitL_val_2$heuristic_labels[i] = NA
+    LitL_val_2$heuristic[i] = NA
   }
 }
 
@@ -148,6 +153,7 @@ for(i in 1:nrow(LitL_train)){
   LitL_train_2$round[i] = LitL_train$round[i]
   LitL_train_2$group[i] = LitL_train$group[i]
   LitL_train_2$heuristic_labels[i] = LitL_train$heuristic_checked[i]
+  LitL_train_2$heuristic[i] = LitL_train$heuristic[i]
 }
 
 LitL = rbind(LitL_train_2,LitL_val_2)
@@ -155,8 +161,10 @@ LitL = rbind(LitL_train_2,LitL_val_2)
 all_dat = rbind(LotS,LitL)
 
 all_dat2 <- all_dat %>%
-  group_by(round,group,heuristic_labels)%>%
+  group_by(round,group,heuristic,heuristic_labels)%>%
   #group_by(group,heuristic_labels)%>%
   summarise(count=n())%>%
   spread(heuristic_labels,count)%>%
   mutate(mean_yes = Yes / (No + Yes))
+
+write.csv(file="files/worker_data/heuristic_attempt_pct.csv",all_dat2)
