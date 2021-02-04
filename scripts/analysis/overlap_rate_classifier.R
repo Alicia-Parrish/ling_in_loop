@@ -109,3 +109,29 @@ for(i in 1:length(all_group)){
   results$result[i] = paste("Final Accuracy for",all_group[i],"=",100*result)
 }
 
+#####################################
+# simpler: just make linear model 
+
+dat<-overlap_data %>% filter(group==all_group[3])
+
+train = dat %>% filter(split=='train')
+test_X = dat %>% filter(split=='test') %>% select(overlap)
+test_y = dat %>% filter(split=='test') %>% select(label)
+
+#model <- glm(label ~ overlap, family=multinom, data=train)  
+#summary(model)
+#pred <- predict(model, test_X, type="class", interval="confidence")  
+#table(pred,test_y)
+
+model <- multinom(label ~ overlap, data=train)
+summary(model)
+pred <- predict(model, test_X, type="class", interval="confidence") 
+preds = cbind(test_y,pred)
+preds2 <- preds %>%
+  mutate(corr = case_when(label==pred ~ 1,
+                          label!=pred ~ 0))
+mean(preds2$corr)
+
+43.74496-34.22 # baseline
+42.54457-34.48 # lots
+43.13402-36.25 # litl

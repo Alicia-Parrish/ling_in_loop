@@ -95,3 +95,48 @@ LitL_col = brewer.pal(9,"Greens")[4]
     facet_wrap(~label))
 
 ggsave("figures/CorpusStats/pmis_round5_facetLabel.png", plot=plt5, width = 6, height = 5)
+
+########### COMPARE NUMBERS #############
+
+library(ez)
+
+for(label in unique(combined_data$label)){
+  print(label)
+  print(mean(combined_data$pmi[combined_data$group=="Baseline" & combined_data$label==label]))
+  print(mean(combined_data$pmi[combined_data$group=="Ling_on_side" & combined_data$label==label]))
+  print(mean(combined_data$pmi[combined_data$group=="Ling_in_loop" & combined_data$label==label]))
+  dat.aov <- aov(pmi ~ group, data = combined_data[combined_data$label==label,])
+  print(summary(dat.aov))
+  print("")
+}
+
+t.test(combined_data$pmi[combined_data$group=="Baseline"],
+       combined_data$pmi[combined_data$group=="Ling_on_side"],
+       paired=F)
+
+t.test(combined_data$pmi[combined_data$group=="Baseline"],
+       combined_data$pmi[combined_data$group=="Ling_in_loop"],
+       paired=F)
+
+rounds_1_5 <- all_data %>%
+  filter(round=="r1"|round=="r5")
+
+lots.aov = aov(pmi ~ group*round, data = rounds_1_5[rounds_1_5$group!="Ling_in_loop",])
+summary(lots.aov)
+mean(rounds_1_5$pmi[rounds_1_5$group=="Baseline" & rounds_1_5$round=="r1"])
+mean(rounds_1_5$pmi[rounds_1_5$group=="Baseline" & rounds_1_5$round=="r5"])
+mean(rounds_1_5$pmi[rounds_1_5$group=="Ling_on_side" & rounds_1_5$round=="r1"])
+mean(rounds_1_5$pmi[rounds_1_5$group=="Ling_on_side" & rounds_1_5$round=="r5"])
+
+litl.aov = aov(pmi ~ group*round, data = rounds_1_5[rounds_1_5$group!="Ling_on_side",])
+summary(litl.aov)
+mean(rounds_1_5$pmi[rounds_1_5$group=="Ling_in_loop" & rounds_1_5$round=="r1"])
+mean(rounds_1_5$pmi[rounds_1_5$group=="Ling_in_loop" & rounds_1_5$round=="r5"])
+
+all.aov = aov(pmi ~ group*round, data = rounds_1_5)
+summary(all.aov)
+
+(plt = ggplot(data=all_data, aes(x=round,y=pmi,col=group,group=group))+
+  stat_summary(fun=mean, geom="line"))
+
+  

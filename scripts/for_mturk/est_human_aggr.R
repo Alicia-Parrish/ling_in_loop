@@ -93,7 +93,7 @@ model_human_diff$group = factor(model_human_diff$group, levels = c("Baseline","L
 
 (plt <- ggplot(model_human_diff, aes(x=round,y=diff,fill=group))+
     geom_bar(stat='identity',position=position_dodge())+
-    scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
+    #scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))+
     facet_wrap(~label)+
     ylab("Model - human gap")
@@ -107,7 +107,7 @@ model_human_diff2 <- model_human_vals %>%
 
 (plt2 <- ggplot(model_human_diff2, aes(x=round,y=diff,fill=group))+
     geom_bar(stat='identity',position=position_dodge())+
-    scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
+    #scale_fill_manual(values=c(cols[3],cols[4],cols[9]))+
     theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))+
     ylab("Model - human gap")
 )

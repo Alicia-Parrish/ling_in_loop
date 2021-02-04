@@ -168,3 +168,15 @@ all_dat2 <- all_dat %>%
   mutate(mean_yes = Yes / (No + Yes))
 
 write.csv(file="files/worker_data/heuristic_attempt_pct.csv",all_dat2)
+
+
+####### CHECK HEURISTICS IN VALIDATED DATA #######
+
+vals <- rbind(LotS_val,LitL_val)
+
+vals2 <- vals %>%
+  filter(heuristic_gold_label == "Yes")%>%
+  filter(nchar(premise) <= 80)%>%
+  filter(nchar(hypothesis) <= 80)
+
+  
