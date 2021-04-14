@@ -35,7 +35,10 @@ git checkout litl
 ```
 
 Use the following command to set up the virtual environment in `ling_in_loop`.
-```conda env create -p ./env -f env.yml```
+
+```
+conda env create -p ./env -f env.yml
+```
 
 ### Produce Figures
 
