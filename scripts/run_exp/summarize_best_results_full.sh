@@ -18,7 +18,5 @@ do
 	sh summarize-cross-evals.sh ${model}
 	sh summarize-anli-evals.sh ${model}
 	sh summarize-mnli-evals.sh ${model}
-
-	python ${analysis_dir}/anli_breakdown.py --model ${model} --repo ${repo}
 done
 
