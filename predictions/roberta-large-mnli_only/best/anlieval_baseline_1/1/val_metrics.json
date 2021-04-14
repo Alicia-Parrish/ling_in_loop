@@ -1,0 +1,12 @@
+{
+  "aggregated": 0.35,
+  "mnli": {
+    "loss": 1.826583709716797,
+    "metrics": {
+      "major": 0.35,
+      "minor": {
+        "acc": 0.35
+      }
+    }
+  }
+}
