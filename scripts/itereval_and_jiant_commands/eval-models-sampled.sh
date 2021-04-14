@@ -54,4 +54,4 @@ python jiant/jiant/proj/main/scripts/configurator.py \
     --eval_batch_multiplier ${EVAL_BATCH_MULT} \
     --do_val
 
-sbatch --export=MODEL_PATH=$MODEL_PATH,MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE ${SCRIPT_DIR}/litl_eval.sbatch
+sbatch --export=MODEL_PATH=$MODEL_PATH,MODELS_DIR=$MODELS_DIR,RUN_CONFIG=$RUN_CONFIG,OUTPUT_DIR=$OUTPUT_DIR,TASK_NAME=$TASK_NAME,MODEL_TYPE=$MODEL_TYPE,BASE_DIR=$BASE_DIR ${SCRIPT_DIR}/litl_eval.sbatch

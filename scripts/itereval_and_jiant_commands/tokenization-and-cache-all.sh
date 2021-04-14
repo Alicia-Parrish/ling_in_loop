@@ -16,6 +16,8 @@ do
 	sh $PWD/single/tokenization-and-cache.sh eval_${fdir}_separate ${model}
 	sh $PWD/single/tokenization-and-cache.sh mnlieval_${fdir} ${model}
 	sh $PWD/single/tokenization-and-cache.sh mnlieval_${fdir}_separate ${model}
+	sh $PWD/single/tokenization-and-cache.sh anlieval_${fdir} ${model}
+	sh $PWD/single/tokenization-and-cache.sh anlieval_${fdir}_separate ${model}
 
 	for target in "${treatments[@]}"
 	do
