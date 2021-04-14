@@ -2,7 +2,11 @@ rounds=('1' '2' '3' '4' '5')
 models=('roberta-large' 'roberta-large-mnli')
 
 cd ..
-cd itereval_and_jiant_commands
+analysis_dir=$PWD/analysis
+cd ..
+repo=$PWD
+cd scripts/itereval_and_jiant_commands
+
 
 for model in "${models[@]}"
 do
@@ -11,4 +15,5 @@ do
 		echo ${model}, round ${round}
 		sh summarize-evals-sampled.sh ${model} cross_eval ${round}
 	done
+	python ${analysis_dir}/anli_breakdown.py --model ${model} --repo ${repo}
 done

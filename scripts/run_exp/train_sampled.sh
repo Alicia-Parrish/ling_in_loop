@@ -9,7 +9,7 @@ do
 	for round in "${rounds[@]}"
 	do
 		echo ${model}, round ${round}
-		sh get_sampled_runscripts.sh ${round} ${model} cross_eval
+		sh get_sampled_runscripts.sh ${model} ${round} cross_eval
 		sh ${model}_train_sampled_cross_eval_${round}_run.sh
 	done
 done

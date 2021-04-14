@@ -83,7 +83,6 @@ def boostrap_training_data(args):
                 pd.DataFrame(read_examples(os.path.join(treat_dir, file))),
                 leave_p=leave_p,
                 sort_by=sort_by,
-                iteration=iteration
             )
 
             for idx, sample in enumerate(samples):

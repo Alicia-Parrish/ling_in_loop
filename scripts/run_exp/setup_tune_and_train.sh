@@ -1,9 +1,8 @@
 rounds=('1' '2' '3' '4' '5')
 models=('roberta-large' 'roberta-large-mnli')
 
-analysis_dir=$PWD/analysis
-
 cd ..
+analysis_dir=$PWD/analysis
 cd ..
 repo=$PWD
 echo ${repo}

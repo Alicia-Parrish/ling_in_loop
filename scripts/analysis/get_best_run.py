@@ -8,7 +8,9 @@ import csv
 def get_best(args):
     dirs = []
     for (dirpath, dirnames, filenames) in os.walk(args.exp_dir):
-        dirs.extend(dirnames)
+        dirs.extend(
+            [dirname for dirname in dirnames if dirname != 'cross_eval']
+        )
         break
 
     metrics = {}
