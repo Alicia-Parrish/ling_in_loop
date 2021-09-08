@@ -5,15 +5,15 @@ setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
 
 set.seed(42)
 
-anon_codes = read.csv("../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
+anon_codes = read.csv("../../../SECRET/ling_in_loop_SECRET/anonymized_id_links.csv")
 
 round = "round5" # change this value each round
 
 LotS<-NULL
 LitL<-NULL
 
-LotS_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group2_ling_on_side/",round,"_writing"),full.names=T, pattern = "*.csv")
-LitL_files = list.files(paste0("../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group3_ling_in_loop/",round,"_writing"),full.names=T, pattern = "*.csv")
+LotS_files = list.files(paste0("../../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group2_ling_on_side/",round,"_writing"),full.names=T, pattern = "*.csv")
+LitL_files = list.files(paste0("../../../SECRET/ling_in_loop_SECRET/raw_mturk_files/Group3_ling_in_loop/",round,"_writing"),full.names=T, pattern = "*.csv")
 
 for(i in 1:length(LotS_files)){
   temp = read.csv(LotS_files[i])
@@ -70,7 +70,7 @@ LitLanon2$group="LitL"
 
 for_plt <-  rbind(LotSanon2,LitLanon2)
 
-heur_paymnt <- read.csv(paste0("for_mturk/heuristic_payment_",round,".csv"))
+heur_paymnt <- read.csv(paste0("../for_mturk/heuristic_payment_",round,".csv"))
 
 for_plt2<-merge(for_plt,heur_paymnt)
 
@@ -96,8 +96,8 @@ read_json_lines <- function(file){
   jsonlite::stream_in(con, verbose = FALSE)
 }
 
-LotS_val = read_json_lines("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/NLI_data/2_Ling_on_side_protocol/val_round5_LotS_combined.jsonl")
-LotS_train = read_json_lines("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/NLI_data/2_Ling_on_side_protocol/train_round5_LotS_combined.jsonl")
+LotS_val = read_json_lines("C:/Users/alici/Documents/GitHub/ling_in_loop/NLI_data/2_Ling_on_side_protocol/val_round5_LotS_combined.jsonl")
+LotS_train = read_json_lines("C:/Users/alici/Documents/GitHub/ling_in_loop/NLI_data/2_Ling_on_side_protocol/train_round5_LotS_combined.jsonl")
 
 LotS_val_2 = data.frame(matrix(ncol = 4, nrow = nrow(LotS_val)))
 colnames(LotS_val_2)<-c("pairID","heuristic_labels","round","group")
@@ -127,8 +127,8 @@ for(i in 1:nrow(LotS_train)){
 
 LotS = rbind(LotS_train_2,LotS_val_2)
 
-LitL_val = read_json_lines("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/NLI_data/3_Ling_in_loop_protocol/val_round5_LitL_combined.jsonl")
-LitL_train = read_json_lines("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/NLI_data/3_Ling_in_loop_protocol/train_round5_LitL_combined.jsonl")
+LitL_val = read_json_lines("C:/Users/alici/Documents/GitHub/ling_in_loop/NLI_data/3_Ling_in_loop_protocol/val_round5_LitL_combined.jsonl")
+LitL_train = read_json_lines("C:/Users/alici/Documents/GitHub/ling_in_loop/NLI_data/3_Ling_in_loop_protocol/train_round5_LitL_combined.jsonl")
 
 LitL_val_2 = data.frame(matrix(ncol = 4, nrow = nrow(LitL_val)))
 colnames(LitL_val_2)<-c("pairID","heuristic_labels","round","group")

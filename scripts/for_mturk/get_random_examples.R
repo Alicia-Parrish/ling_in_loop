@@ -1,11 +1,20 @@
 library(tidyverse)
 
-setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
+#setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
+this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
+setwd(this.dir)
+
+# function for reading in .jsonl files
+read_json_lines <- function(file){
+  con <- file(file, open = "r")
+  on.exit(close(con))
+  jsonlite::stream_in(con, verbose = FALSE)
+}
 
 round = "round5"
-base_val_combined<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/val_",round,"_base_combined.jsonl"))
-LotS_val_combined<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS_combined.jsonl"))
-LitL_val_combined<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL_combined.jsonl"))
+base_val_combined<-read_json_lines(paste0("../../NLI_data/1_Baseline_protocol/val_",round,"_base_combined.jsonl"))
+LotS_val_combined<-read_json_lines(paste0("../../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS_combined.jsonl"))
+LitL_val_combined<-read_json_lines(paste0("../../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL_combined.jsonl"))
 
 vals = rbind(base_val_combined %>% filter(round=="round5") %>% select(premise,hypothesis,label,pairID,promptID,group),
              LotS_val_combined %>% filter(round=="round5") %>% select(premise,hypothesis,label,pairID,promptID,group),

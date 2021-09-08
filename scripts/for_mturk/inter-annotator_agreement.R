@@ -7,7 +7,10 @@ library(RColorBrewer)
 library(gridExtra)
 library(grid)
 
-setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
+#setwd("C:/Users/NYUCM Loaner Access/Documents/GitHub/ling_in_loop/scripts")
+this.dir <- dirname(rstudioapi::getSourceEditorContext()$path)
+setwd(this.dir)
+
 
 set.seed(42)
 round="round5"
@@ -20,33 +23,82 @@ read_json_lines <- function(file){
 }
 
 ######### get all the data 
-base_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_base_alldata.jsonl"))
-LotS_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LotS_alldata.jsonl"))
-LitL_val<-read_json_lines(paste0("../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LitL_alldata.jsonl"))
+base_val<-read_json_lines(paste0("../../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_base_alldata.jsonl"))
+LotS_val<-read_json_lines(paste0("../../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LotS_alldata.jsonl"))
+LitL_val<-read_json_lines(paste0("../../../SECRET/ling_in_loop_SECRET/full_validation_files/val_",round,"_LitL_alldata.jsonl"))
 
-base_val_final<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/val_",round,"_base.jsonl"))
-LotS_val_final<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS.jsonl"))
-LitL_val_final<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL.jsonl"))
+base_val_final<-read_json_lines(paste0("../../NLI_data/1_Baseline_protocol/val_",round,"_base.jsonl"))
+LotS_val_final<-read_json_lines(paste0("../../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS.jsonl"))
+LitL_val_final<-read_json_lines(paste0("../../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL.jsonl"))
 
-base_val_combined<-read_json_lines(paste0("../NLI_data/1_Baseline_protocol/val_",round,"_base_combined.jsonl"))
-LotS_val_combined<-read_json_lines(paste0("../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS_combined.jsonl"))
-LitL_val_combined<-read_json_lines(paste0("../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL_combined.jsonl"))
+base_val_combined<-read_json_lines(paste0("../../NLI_data/1_Baseline_protocol/val_",round,"_base_combined.jsonl"))
+LotS_val_combined<-read_json_lines(paste0("../../NLI_data/2_Ling_on_side_protocol/val_",round,"_LotS_combined.jsonl"))
+LitL_val_combined<-read_json_lines(paste0("../../NLI_data/3_Ling_in_loop_protocol/val_",round,"_LitL_combined.jsonl"))
 
 
 ## BASELINE
 base_val<-filter(base_val_combined,label!="no_winner")
 dat1 <- do.call(rbind, base_val$annotator_labels) # transform data
 kappam.fleiss(dat1,detail = TRUE) # calculate fleiss's kappa
+kripp.alpha(t(dat1),method="nominal")
 
 ## LING ON SIDE
 LotS_val<-filter(LotS_val_combined,label!="no_winner")
 dat2 <- do.call(rbind, LotS_val$annotator_labels) # transform data
 kappam.fleiss(dat2,detail = TRUE) # calculate fleiss's kappa
+kripp.alpha(t(dat2),method="nominal")
 
 ## LING IN LOOP
 LitL_val<-filter(LitL_val_combined,label!="no_winner")
 dat3 <- do.call(rbind, LitL_val$annotator_labels) # transform data
 kappam.fleiss(dat3,detail = TRUE) # calculate fleiss's kappa
+kripp.alpha(t(dat3),method="nominal")
+
+dat1 <- NULL
+for(i in c(1:nrow(base_val))){
+  for(j in c(1:5)){
+    a = base_val$annotator_ids[[i]][j]
+    b = base_val$annotator_labels[[i]][j]
+    temp = data.frame("anonid" = a, "label" = b, "pairID" = base_val$pairID[i])
+    dat1 = rbind(dat1,temp)
+  }
+}
+dat1.1 <- dat1 %>%
+  distinct(pairID,anonid,.keep_all=T)%>%
+  spread(pairID, label)%>%
+  select(-anonid)
+kripp.alpha(as.matrix(dat1.1),method="nominal")
+
+dat2 <- NULL
+for(i in c(1:nrow(LotS_val))){
+  for(j in c(1:5)){
+    a = LotS_val$annotator_ids[[i]][j]
+    b = LotS_val$annotator_labels[[i]][j]
+    temp = data.frame("anonid" = a, "label" = b, "pairID" = LotS_val$pairID[i])
+    dat2 = rbind(dat2,temp)
+  }
+}
+dat2.1 <- dat2 %>%
+  distinct(pairID,anonid,.keep_all=T)%>%
+  spread(pairID, label)%>%
+  select(-anonid)
+kripp.alpha(as.matrix(dat2.1),method="nominal")
+
+dat3 <- NULL
+for(i in c(1:nrow(LitL_val))){
+  for(j in c(1:5)){
+    a = LitL_val$annotator_ids[[i]][j]
+    b = LitL_val$annotator_labels[[i]][j]
+    temp = data.frame("anonid" = a, "label" = b, "pairID" = LitL_val$pairID[i])
+    dat3 = rbind(dat3,temp)
+  }
+}
+dat3.1 <- dat3 %>%
+  distinct(pairID,anonid,.keep_all=T)%>%
+  spread(pairID, label)%>%
+  select(-anonid)
+kripp.alpha(as.matrix(dat3.1),method="nominal")
+
 
 
 # compare differences in distribution using bootstrapping
